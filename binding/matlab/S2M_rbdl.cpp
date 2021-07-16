@@ -7,7 +7,8 @@
 void mexFunction( int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray*prhs[] )
 {
-    mexWarnMsgIdAndTxt("MATLAB:Obsolete", "S2M_rbdl is obsolete, you should change it to biorbd");
+    mexWarnMsgIdAndTxt("MATLAB:Obsolete",
+                       "S2M_rbdl is obsolete, you should change it to biorbd");
     functionHub(nlhs, plhs, nrhs, prhs);
 }
 

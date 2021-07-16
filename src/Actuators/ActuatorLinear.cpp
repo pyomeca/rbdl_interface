@@ -13,7 +13,7 @@ biorbd::actuator::ActuatorLinear::ActuatorLinear() :
 }
 
 biorbd::actuator::ActuatorLinear::ActuatorLinear(
-        const biorbd::actuator::ActuatorLinear &other) :
+    const biorbd::actuator::ActuatorLinear &other) :
     Actuator(other),
     m_m(other.m_m),
     m_b(other.m_b)
@@ -22,10 +22,10 @@ biorbd::actuator::ActuatorLinear::ActuatorLinear(
 }
 
 biorbd::actuator::ActuatorLinear::ActuatorLinear(
-        int direction,
-        const biorbd::utils::Scalar& T0,
-        const biorbd::utils::Scalar& slope,
-        unsigned int dofIdx) :
+    int direction,
+    const biorbd::utils::Scalar& T0,
+    const biorbd::utils::Scalar& slope,
+    unsigned int dofIdx) :
     Actuator(direction, dofIdx),
     m_m(std::make_shared<biorbd::utils::Scalar>(slope)),
     m_b(std::make_shared<biorbd::utils::Scalar>(T0))
@@ -34,11 +34,11 @@ biorbd::actuator::ActuatorLinear::ActuatorLinear(
 }
 
 biorbd::actuator::ActuatorLinear::ActuatorLinear(
-        int direction,
-        const biorbd::utils::Scalar& T0,
-        const biorbd::utils::Scalar& slope,
-        unsigned int dofIdx,
-        const biorbd::utils::String &jointName) :
+    int direction,
+    const biorbd::utils::Scalar& T0,
+    const biorbd::utils::Scalar& slope,
+    unsigned int dofIdx,
+    const biorbd::utils::String &jointName) :
     Actuator(direction, dofIdx, jointName),
     m_m(std::make_shared<biorbd::utils::Scalar>(slope)),
     m_b(std::make_shared<biorbd::utils::Scalar>(T0))
@@ -51,14 +51,16 @@ biorbd::actuator::ActuatorLinear::~ActuatorLinear()
 
 }
 
-biorbd::actuator::ActuatorLinear biorbd::actuator::ActuatorLinear::DeepCopy() const
+biorbd::actuator::ActuatorLinear biorbd::actuator::ActuatorLinear::DeepCopy()
+const
 {
     biorbd::actuator::ActuatorLinear copy;
     copy.DeepCopy(*this);
     return copy;
 }
 
-void biorbd::actuator::ActuatorLinear::DeepCopy(const biorbd::actuator::ActuatorLinear &other)
+void biorbd::actuator::ActuatorLinear::DeepCopy(const
+        biorbd::actuator::ActuatorLinear &other)
 {
     biorbd::actuator::Actuator::DeepCopy(other);
     *m_m = *other.m_m;
@@ -72,7 +74,8 @@ biorbd::utils::Scalar biorbd::actuator::ActuatorLinear::torqueMax()
 
 
 biorbd::utils::Scalar biorbd::actuator::ActuatorLinear::torqueMax(
-        const biorbd::rigidbody::GeneralizedCoordinates &Q) const {
+    const biorbd::rigidbody::GeneralizedCoordinates &Q) const
+{
     return (Q[*m_dofIdx]*180/M_PI) * *m_m + *m_b;
 }
 

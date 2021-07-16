@@ -11,9 +11,9 @@ biorbd::utils::RotoTransNode::RotoTransNode() :
 }
 
 biorbd::utils::RotoTransNode::RotoTransNode(
-        const RotoTrans &rt,
-        const biorbd::utils::String &name,
-        const biorbd::utils::String &parentName) :
+    const RotoTrans &rt,
+    const biorbd::utils::String &name,
+    const biorbd::utils::String &parentName) :
     biorbd::utils::RotoTrans(rt),
     biorbd::utils::Node(name, parentName)
 {
@@ -39,23 +39,23 @@ void biorbd::utils::RotoTransNode::setType()
 }
 
 void biorbd::utils::RotoTransNode::operator=(
-        const biorbd::utils::RotoTrans &other)
+    const biorbd::utils::RotoTrans &other)
 {
     *this = RotoTransNode(other, "", "");
 }
 
 biorbd::utils::RotoTrans biorbd::utils::RotoTransNode::operator*(
-                    const biorbd::utils::RotoTransNode& other) const
+    const biorbd::utils::RotoTransNode& other) const
 {
     return this->biorbd::utils::RotoTrans::operator*(other);
 }
 
 biorbd::utils::RotoTransNode biorbd::utils::operator*(
-        const biorbd::utils::RotoTrans &other,
-        const biorbd::utils::RotoTransNode &me)
+    const biorbd::utils::RotoTrans &other,
+    const biorbd::utils::RotoTransNode &me)
 {
     return biorbd::utils::RotoTransNode(
-                other.operator*(me),
-                me.biorbd::utils::Node::name(),
-                me.parent());
+               other.operator*(me),
+               me.biorbd::utils::Node::name(),
+               me.parent());
 }

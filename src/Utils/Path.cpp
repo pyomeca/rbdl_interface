@@ -27,7 +27,7 @@ biorbd::utils::Path::Path() :
 }
 
 biorbd::utils::Path::Path(
-        const char *path) :
+    const char *path) :
     m_originalPath(std::make_shared<biorbd::utils::String>(path)),
     m_folder(std::make_shared<biorbd::utils::String>()),
     m_isFolderAbsolute(std::make_shared<bool>()),
@@ -39,7 +39,7 @@ biorbd::utils::Path::Path(
 }
 
 biorbd::utils::Path::Path(
-        const biorbd::utils::String &path) :
+    const biorbd::utils::String &path) :
     m_originalPath(std::make_shared<biorbd::utils::String>(path)),
     m_folder(std::make_shared<biorbd::utils::String>()),
     m_isFolderAbsolute(std::make_shared<bool>()),
@@ -51,7 +51,7 @@ biorbd::utils::Path::Path(
 }
 
 biorbd::utils::Path::Path(
-        const std::basic_string<char> &path) :
+    const std::basic_string<char> &path) :
     m_originalPath(std::make_shared<biorbd::utils::String>(path)),
     m_folder(std::make_shared<biorbd::utils::String>()),
     m_isFolderAbsolute(std::make_shared<bool>()),
@@ -70,7 +70,7 @@ biorbd::utils::Path biorbd::utils::Path::DeepCopy() const
 }
 
 void biorbd::utils::Path::DeepCopy(
-        const Path &other)
+    const Path &other)
 {
     *m_originalPath = *other.m_originalPath;
     *m_folder = *other.m_folder;
@@ -84,20 +84,20 @@ bool biorbd::utils::Path::isFileExist() const
     return isFileExist(absolutePath());
 }
 bool biorbd::utils::Path::isFileExist(
-        const Path& path)
+    const Path& path)
 {
     return isFileExist(path.absolutePath());
 }
 bool biorbd::utils::Path::isFileExist(
-        const biorbd::utils::String& path)
+    const biorbd::utils::String& path)
 {
     if (FILE *file = fopen(
-            #ifdef _WIN32
-                toWindowsFormat(path).c_str(),
-            #else
-                path.c_str(),
-            #endif
-                "r")) {
+#ifdef _WIN32
+                         toWindowsFormat(path).c_str(),
+#else
+                         path.c_str(),
+#endif
+                         "r")) {
         fclose(file);
         return true;
     } else {
@@ -108,12 +108,12 @@ bool biorbd::utils::Path::isFileExist(
 bool biorbd::utils::Path::isFileReadable() const
 {
     std::ifstream fichier(
-            #ifdef _WIN32
-                toWindowsFormat(absolutePath()).c_str()
-            #else
-                absolutePath().c_str()
-            #endif
-                );
+#ifdef _WIN32
+        toWindowsFormat(absolutePath()).c_str()
+#else
+        absolutePath().c_str()
+#endif
+    );
     bool isOpen(fichier.is_open());
     fichier.close();
     return isOpen;
@@ -125,25 +125,26 @@ bool biorbd::utils::Path::isFolderExist() const
 }
 
 bool biorbd::utils::Path::isFolderExist(
-        const Path &path)
+    const Path &path)
 {
     return isFolderExist(path.folder());
 }
 
 bool biorbd::utils::Path::isFolderExist(
-        const biorbd::utils::String & path)
+    const biorbd::utils::String & path)
 {
 #ifdef _WIN32
     if (GetFileAttributesA(toWindowsFormat(path).c_str())
-            == INVALID_FILE_ATTRIBUTES)
-        return false; // Le path est invalide
-    else
+            == INVALID_FILE_ATTRIBUTES) {
+        return false;    // Le path est invalide
+    } else
         // Si on est ici, c'est que quelque chose existe,
         // s'assurer que ça ne soit pas un fichier
-        if (isFileExist(path))
+        if (isFileExist(path)) {
             return false;
-        else
+        } else {
             return true;
+        }
 #else
     struct stat statbuf;
     if (stat(path.c_str(), &statbuf) != -1) {
@@ -156,10 +157,10 @@ bool biorbd::utils::Path::isFolderExist(
 }
 
 void biorbd::utils::Path::parseFileName(
-        const biorbd::utils::String &path,
-        biorbd::utils::String &folder,
-        biorbd::utils::String &filename,
-        biorbd::utils::String &extension)
+    const biorbd::utils::String &path,
+    biorbd::utils::String &folder,
+    biorbd::utils::String &filename,
+    biorbd::utils::String &extension)
 {
     biorbd::utils::String pathSep(toUnixFormat(path));
 
@@ -169,37 +170,42 @@ void biorbd::utils::Path::parseFileName(
     if (sepPos == std::string::npos)
         // If no separator is found, then there is no separator
         // and therefore the path is ./
+    {
         folder = "";
-    else
+    } else {
         folder = pathSep.substr(0, sepPos) + "/";
+    }
 
-    if (folder.find("./") == 0) // Remove the leading ./ if necessary
+    if (folder.find("./") == 0) { // Remove the leading ./ if necessary
         folder = folder.substr(2);
+    }
 
     // Stocker l'extension
     size_t ext(pathSep.rfind("."));
-    if (ext != SIZE_MAX)
+    if (ext != SIZE_MAX) {
         extension = pathSep.substr(ext+1);
-    else
+    } else {
         extension = "";
+    }
 
     // Stocker le nom de fichier
     filename = pathSep.substr(sepPos+1, ext- sepPos-1);
 }
 
-biorbd::utils::String biorbd::utils::Path::relativePath()  const{
+biorbd::utils::String biorbd::utils::Path::relativePath()  const
+{
     return relativePath(*this, currentDir());
 }
 
 biorbd::utils::String biorbd::utils::Path::relativePath(
-        const biorbd::utils::String& relativeTo) const
+    const biorbd::utils::String& relativeTo) const
 {
     return relativePath(*this, relativeTo);
 }
 
 biorbd::utils::String biorbd::utils::Path::relativePath(
-        const biorbd::utils::Path &path,
-        const biorbd::utils::String &relativeTo)
+    const biorbd::utils::Path &path,
+    const biorbd::utils::String &relativeTo)
 {
     biorbd::utils::String me(path.absolutePath());
     biorbd::utils::String currentDir(relativeTo);
@@ -234,21 +240,22 @@ biorbd::utils::String biorbd::utils::Path::relativePath(
         sepCurrentDir = currentDir.find("/");
 
         // Séparer la première et la dernière partie
-        if (sepCurrentDir != std::string::npos){
+        if (sepCurrentDir != std::string::npos) {
             // -1 Si on est au dernier dossier
             // et que celui-ci ne se termine pas par "/"
             currentDirFirstPart = currentDir.substr(0, sepCurrentDir);
             currentDir = currentDir.substr(sepCurrentDir+1);
-        }
-        else
+        } else {
             currentDir = "";
+        }
 
         outPath += "../";
         // Tant que les premières parties sont égales,
         // continuer à avancer dans le path
     };
-    if (!outPath.compare("") && me.find("../") != 0)
+    if (!outPath.compare("") && me.find("../") != 0) {
         outPath += "./";
+    }
 
     outPath += me;
 
@@ -256,7 +263,7 @@ biorbd::utils::String biorbd::utils::Path::relativePath(
 }
 
 biorbd::utils::String biorbd::utils::Path::absoluteFolder(
-        const biorbd::utils::Path &path)
+    const biorbd::utils::Path &path)
 {
     if (*path.m_isFolderAbsolute) {
         return path.folder();
@@ -269,37 +276,39 @@ biorbd::utils::String biorbd::utils::Path::absoluteFolder(
 
     if (std::regex_search(current, matches, std::regex("^([A-Z]):[\\/].*$"))) {
         base = matches[1].str() + ":/";
-    }
-    else {
+    } else {
         biorbd::utils::Error::raise("I could not find the current drive to estimate the path");
     }
 #else
     base = "/";
 #endif
-	return base + relativePath(path, base);
+    return base + relativePath(path, base);
 }
 
 biorbd::utils::String biorbd::utils::Path::absoluteFolder() const
 {
-    if (*m_isFolderAbsolute)
+    if (*m_isFolderAbsolute) {
         return *m_folder;
-    else
+    } else {
         return currentDir() + *m_folder;
+    }
 }
 
 biorbd::utils::String biorbd::utils::Path::absolutePath() const
 {
-    if (m_filename->compare("")){
-        if (m_extension->compare(""))
+    if (m_filename->compare("")) {
+        if (m_extension->compare("")) {
             return absoluteFolder() + *m_filename + "." + *m_extension;
-        else
+        } else {
             return absoluteFolder() + *m_filename;
-    } else
+        }
+    } else {
         return absoluteFolder();
+    }
 }
 
 biorbd::utils::String biorbd::utils::Path::toUnixFormat(
-        const biorbd::utils::String& path)
+    const biorbd::utils::String& path)
 {
     biorbd::utils::String pathOut(path);
 
@@ -311,7 +320,7 @@ biorbd::utils::String biorbd::utils::Path::toUnixFormat(
         pos = pathOut.rfind("\\\\");
     }
 
-    // However, this next hunk can create false positive each time a 
+    // However, this next hunk can create false positive each time a
     // legitimate escape character is used (should not happen in a path?)
     pos = pathOut.rfind("\\");
     while (pos != std::string::npos) {
@@ -322,7 +331,7 @@ biorbd::utils::String biorbd::utils::Path::toUnixFormat(
 }
 
 biorbd::utils::String biorbd::utils::Path::toWindowsFormat(
-        const biorbd::utils::String &path)
+    const biorbd::utils::String &path)
 {
     biorbd::utils::String pathOut(path);
     size_t pos(pathOut.rfind("/"));
@@ -344,7 +353,7 @@ const biorbd::utils::String &biorbd::utils::Path::folder() const
 }
 
 void biorbd::utils::Path::setFilename(
-        const biorbd::utils::String& name)
+    const biorbd::utils::String& name)
 {
     *m_filename = name;
 }
@@ -355,7 +364,7 @@ const biorbd::utils::String& biorbd::utils::Path::filename() const
 }
 
 void biorbd::utils::Path::setExtension(
-        const biorbd::utils::String &ext)
+    const biorbd::utils::String &ext)
 {
     *m_extension = ext;
 }
@@ -374,17 +383,17 @@ void biorbd::utils::Path::setIsFolderAbsolute()
 
     if (std::regex_search(current, matches, std::regex("^([A-Z]):[\\/].*$"))) {
         *m_isFolderAbsolute = true;
-    }
-    else {
+    } else {
         *m_isFolderAbsolute = false;
     }
 #else
     base = "/";
     size_t pos(m_folder->find(base.c_str()));
-    if (pos == 0)
+    if (pos == 0) {
         *m_isFolderAbsolute = true;
-    else
+    } else {
         *m_isFolderAbsolute = false;
+    }
 #endif
 }
 
@@ -392,8 +401,8 @@ biorbd::utils::String biorbd::utils::Path::currentDir()
 {
     char buff[FILENAME_MAX];
 #ifdef _WIN32
-     biorbd::utils::Error::check(_getcwd(buff, FILENAME_MAX),
-                                 "Could not find the current directory");
+    biorbd::utils::Error::check(_getcwd(buff, FILENAME_MAX),
+                                "Could not find the current directory");
 #else
     biorbd::utils::Error::check(getcwd(buff, FILENAME_MAX),
                                 "Could not find the current directory");
@@ -414,7 +423,7 @@ void biorbd::utils::Path::createFolder() const
 
         // Trouver le prochain séparateur
         sep = tp2.find("/"); // Path are stored in UNIX formalism
-        if (sep != std::string::npos){
+        if (sep != std::string::npos) {
             sepTrack += sep + 1 ;
 
             // Séparer la première et la dernière partie

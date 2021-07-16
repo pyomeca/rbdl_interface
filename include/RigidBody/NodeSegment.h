@@ -5,24 +5,27 @@
 #include "biorbdConfig.h"
 #include "Utils/Vector3d.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 
 ///
 /// \brief A point attached to a segment, generally speaking a skin marker
 ///
 class BIORBD_API NodeSegment : public biorbd::utils::Vector3d
-{ 
+{
 public:
     ///
     /// \brief Construct a segment node
     ///
     NodeSegment();
-    
+
     ///
     /// \brief Construct a segment node
     /// \param x X-Component of the node
@@ -30,17 +33,17 @@ public:
     /// \param z Z-Component of the node
     ///
     NodeSegment(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z);
 
     ///
     /// \brief Construct a segment node from another node
     /// \param other The other node
     ///
     NodeSegment(
-            const biorbd::utils::Vector3d& other);
-    
+        const biorbd::utils::Vector3d& other);
+
     ///
     /// \brief Construct a segment node
     /// \param x X-Component of the node
@@ -54,15 +57,15 @@ public:
     /// \param parentID The index of the parent segment
     ///
     NodeSegment(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z,
-            const biorbd::utils::String& name, 
-            const biorbd::utils::String& parentName, 
-            bool isTechnical, 
-            bool isAnatomical, 
-            const biorbd::utils::String& axesToRemove, 
-            int parentID); 
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z,
+        const biorbd::utils::String& name,
+        const biorbd::utils::String& parentName,
+        bool isTechnical,
+        bool isAnatomical,
+        const biorbd::utils::String& axesToRemove,
+        int parentID);
 
     ///
     /// \brief Construct a segment node
@@ -75,13 +78,13 @@ public:
     /// \param parentID The index of the parent segment
     ///
     NodeSegment(
-            const biorbd::utils::Vector3d& node, 
-            const biorbd::utils::String& name, 
-            const biorbd::utils::String& parentName, 
-            bool isTechnical, 
-            bool isAnatomical, 
-            const biorbd::utils::String& axesToRemove, 
-            int parentID); 
+        const biorbd::utils::Vector3d& node,
+        const biorbd::utils::String& name,
+        const biorbd::utils::String& parentName,
+        bool isTechnical,
+        bool isAnatomical,
+        const biorbd::utils::String& axesToRemove,
+        int parentID);
 
     ///
     /// \brief Deep copy of the segment node
@@ -127,7 +130,7 @@ public:
     ///
     bool isAxisRemoved(unsigned int) const;
 
-    /// 
+    ///
     /// \brief Check if axis is kept
     /// \return If axis is kept or not
     ///
@@ -143,19 +146,19 @@ public:
     /// \brief Add axis to remove
     /// \param axis The name of the axis to remove ("x", "y" or "z")
     ///
-    void addAxesToRemove(const biorbd::utils::String& axis); 
+    void addAxesToRemove(const biorbd::utils::String& axis);
 
     ///
     /// \brief Add multiple axes to remove
     /// \param axes The multiples axes numbers to remove (x = 0, y = 1 and z = 2)
     ///
-    void addAxesToRemove(const std::vector<unsigned int>& axes); 
+    void addAxesToRemove(const std::vector<unsigned int>& axes);
 
     ///
     /// \brief Add multiple axes to remove
     /// \param axes The multiples axes names to remove ("x", "y" or "z")
     ///
-    void addAxesToRemove(const std::vector<biorbd::utils::String>& axes); 
+    void addAxesToRemove(const std::vector<biorbd::utils::String>& axes);
 
     ///
     /// \brief Return the axes to removed
@@ -167,7 +170,7 @@ public:
     /// \brief Return the number of axes to remove
     /// \return The number of axes to remove
     ///
-    int nbAxesToRemove() const; 
+    int nbAxesToRemove() const;
 
 #ifndef SWIG
 #ifdef BIORBD_USE_EIGEN3_MATH
@@ -176,10 +179,12 @@ public:
     /// \param other The other vector
     ///
     template<typename OtherDerived>
-        biorbd::rigidbody::NodeSegment & operator=(const Eigen::MatrixBase <OtherDerived>& other){
-            this->biorbd::utils::Vector3d::operator=(other);
-            return *this;
-        }
+    biorbd::rigidbody::NodeSegment & operator=(const Eigen::MatrixBase
+            <OtherDerived>& other)
+    {
+        this->biorbd::utils::Vector3d::operator=(other);
+        return *this;
+    }
 #endif
 #endif
 
@@ -190,13 +195,15 @@ protected:
     void setType();
 
     std::shared_ptr<std::vector<bool>> m_axesRemoved; ///< The axes to remove
-    std::shared_ptr<int> m_nbAxesToRemove; ///< Removed one of multiple axes (1 axis : project on a plan, 2 axes : project on the 3rd axis, 3 axes : return the position of the parent reference)
+    std::shared_ptr<int>
+    m_nbAxesToRemove; ///< Removed one of multiple axes (1 axis : project on a plan, 2 axes : project on the 3rd axis, 3 axes : return the position of the parent reference)
     std::shared_ptr<bool> m_technical; ///< If a marker is a technical marker
     std::shared_ptr<bool> m_anatomical; ///< It marker is a anatomical marker
     std::shared_ptr<int> m_id; ///< The parent identification
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_RIGIDBODY_NODE_SEGMENT_H

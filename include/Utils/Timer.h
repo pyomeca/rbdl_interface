@@ -5,8 +5,10 @@
 #include <ctime>
 #include "biorbdConfig.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 
 ///
 /// \brief Wrapper around timer function in C++
@@ -19,7 +21,7 @@ public:
     /// \param startNow If the timer should start now
     ///
     Timer(
-            bool startNow = false);
+        bool startNow = false);
 
     ///
     /// \brief Start the timer
@@ -60,7 +62,7 @@ protected:
     ///
     void addPauseTime();
 
-    /// 
+    ///
     /// \brief Get the time spent until start
     /// \param timer The timer to get the time from
     /// \return The time
@@ -75,6 +77,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_TIMER_H

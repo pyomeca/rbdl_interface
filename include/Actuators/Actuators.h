@@ -6,20 +6,24 @@
 #include "biorbdConfig.h"
 #include "Utils/Scalar.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class Vector;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 class GeneralizedVelocity;
 class GeneralizedTorque;
 }
 
-namespace actuator {
+namespace actuator
+{
 class Actuator;
-/// 
+///
 /// \brief Class holder for a set of actuators
 ///
 class BIORBD_API Actuators
@@ -35,7 +39,7 @@ public:
     /// \param other The other actuators
     ///
     Actuators(
-            const biorbd::actuator::Actuators& other);
+        const biorbd::actuator::Actuators& other);
 
     ///
     /// \brief Destroy actuators class properly
@@ -47,18 +51,18 @@ public:
     /// \param other The other actuators
     ///
     void DeepCopy(
-            const biorbd::actuator::Actuators& other);
+        const biorbd::actuator::Actuators& other);
 
-    /// 
+    ///
     /// \brief Add an actuator to the set of actuators
     /// \param a The actuator to add
     ///
     void addActuator(
-            const biorbd::actuator::Actuator &a);
+        const biorbd::actuator::Actuator &a);
 
     ///
     /// \brief Indicate to biorbd to are done adding actuators, sanity checks are performed
-    /// 
+    ///
     void closeActuator();
 
     ///
@@ -67,9 +71,10 @@ public:
     /// \param Qdot The generalized velocities of the actuators
     /// \return Two vectors of maximal torque
     ///
-    std::pair<biorbd::rigidbody::GeneralizedTorque, biorbd::rigidbody::GeneralizedTorque> torqueMax(
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity& Qdot);
+    std::pair<biorbd::rigidbody::GeneralizedTorque, biorbd::rigidbody::GeneralizedTorque>
+    torqueMax(
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity& Qdot);
 
     ///
     /// \brief Return the maximal generalized torque
@@ -79,9 +84,9 @@ public:
     /// \return The maximal generalized torque
     ///
     biorbd::rigidbody::GeneralizedTorque torqueMax(
-            const biorbd::utils::Vector &activation,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity &Qdot);
+        const biorbd::utils::Vector &activation,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity &Qdot);
 
     ///
     /// \brief Return the generalized torque
@@ -91,9 +96,9 @@ public:
     /// \return The maximal generalized torque
     ///
     biorbd::rigidbody::GeneralizedTorque torque(
-            const biorbd::utils::Vector &activation,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity &Qdot);
+        const biorbd::utils::Vector &activation,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity &Qdot);
 
     // Get and set
     ///
@@ -102,8 +107,8 @@ public:
     /// \return The actuator
     ///
     const std::pair<std::shared_ptr<biorbd::actuator::Actuator>, std::shared_ptr<biorbd::actuator::Actuator>>&
-    actuator(unsigned int dof);
-    
+            actuator(unsigned int dof);
+
     ///
     /// \brief Return a specific actuator
     /// \param dof Index of the DoF associated with actuator
@@ -119,7 +124,8 @@ public:
     unsigned int nbActuators() const;
 
 protected:
-    std::shared_ptr<std::vector<std::pair<std::shared_ptr<biorbd::actuator::Actuator>, std::shared_ptr<biorbd::actuator::Actuator>>>> m_all; ///<All the actuators reunited /pair (+ or -)
+    std::shared_ptr<std::vector<std::pair<std::shared_ptr<biorbd::actuator::Actuator>, std::shared_ptr<biorbd::actuator::Actuator>>>>
+    m_all; ///<All the actuators reunited /pair (+ or -)
     std::shared_ptr<std::vector<bool>> m_isDofSet;///< If DoF all dof are set
     std::shared_ptr<bool> m_isClose; ///< If the set is ready
 
@@ -131,12 +137,13 @@ protected:
     /// \return The torque max
     ///
     biorbd::utils::Scalar getTorqueMaxDirection(
-            const std::shared_ptr<Actuator> actuator,
-            const rigidbody::GeneralizedCoordinates &Q,
-            const rigidbody::GeneralizedVelocity &Qdot) const;
+        const std::shared_ptr<Actuator> actuator,
+        const rigidbody::GeneralizedCoordinates &Q,
+        const rigidbody::GeneralizedVelocity &Qdot) const;
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_ACTUATORS_ACTUATORS_H

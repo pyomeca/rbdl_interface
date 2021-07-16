@@ -6,8 +6,10 @@
 #include "Utils/Scalar.h"
 
 #include "biorbdConfig.h"
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class Vector3d;
 class Vector;
 class RotoTrans;
@@ -32,14 +34,14 @@ public:
     /// \param kStabilizer The value of the kstabilizer
     ///
     Quaternion (
-            double kStabilizer = 1);
-    
+        double kStabilizer = 1);
+
     ///
     /// \brief Construct Quaternion from another quaternion
     /// \param other Other quaternion
     ///
     Quaternion(
-            const biorbd::utils::Quaternion &other);
+        const biorbd::utils::Quaternion &other);
 
     ///
     /// \brief Construct Quaternion
@@ -59,12 +61,12 @@ public:
     /// \param kStabilizer The value of the kstabilizer
     ///
     Quaternion (
-            const biorbd::utils::Scalar& w,
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z,
-            double kStabilizer = 1);
-    
+        const biorbd::utils::Scalar& w,
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z,
+        double kStabilizer = 1);
+
     ///
     /// \brief Construct Quaternion
     /// \param w The W-Component of quaternion
@@ -73,7 +75,7 @@ public:
     ///
     Quaternion (
         const biorbd::utils::Scalar& w,
-        const biorbd::utils::Vector3d &vec3, 
+        const biorbd::utils::Vector3d &vec3,
         double kStabilizer = 1);
 
     ///
@@ -107,7 +109,7 @@ public:
     void setKStab(double newKStab);
 
     ///
-    /// \brief Return the k stabilizer 
+    /// \brief Return the k stabilizer
     /// \return The k stabilizer
     ///
     /// The k statilizer value is used during several operation to make the
@@ -125,7 +127,8 @@ public:
     ///
     template<typename OtherDerived>
     biorbd::utils::Quaternion& operator=(
-            const Eigen::MatrixBase <OtherDerived>& other){
+        const Eigen::MatrixBase <OtherDerived>& other)
+    {
         this->Eigen::Vector4d::operator=(other);
         // I don't understand why the next line doesn't SegFault...
         this->m_Kstab = static_cast<biorbd::utils::Quaternion>(other).m_Kstab;
@@ -141,21 +144,21 @@ public:
     /// \param other The other quaternion
     ///
     biorbd::utils::Quaternion operator*(
-            const biorbd::utils::Quaternion& other) const;
+        const biorbd::utils::Quaternion& other) const;
 
     ///
     /// \brief Multiply the quaternion with a scalar
     /// \param scalar The scalar to multiply with
     ///
     biorbd::utils::Quaternion operator*(
-            const biorbd::utils::Scalar& scalar) const;
+        const biorbd::utils::Scalar& scalar) const;
 
     ///
     /// \brief Multiply the quaternion with a scalar
     /// \param scalar The scalar to multiply with
     ///
     biorbd::utils::Quaternion operator*(
-            float scalar) const;
+        float scalar) const;
 
 #ifdef BIORBD_USE_CASADI_MATH
     ///
@@ -163,7 +166,7 @@ public:
     /// \param scalar The scalar to multiply with
     ///
     biorbd::utils::Quaternion operator*(
-            double scalar) const;
+        double scalar) const;
 #endif
 
     ///
@@ -171,14 +174,14 @@ public:
     /// \param other The other quaternion to add
     ///
     biorbd::utils::Quaternion operator+(
-            const biorbd::utils::Quaternion& other) const;
+        const biorbd::utils::Quaternion& other) const;
 
     ///
     /// \brief Subtract the quaternion to another
     /// \param other Other quaternion to substract
     ///
     biorbd::utils::Quaternion operator-(
-            const biorbd::utils::Quaternion& other) const;
+        const biorbd::utils::Quaternion& other) const;
 
     ///
     /// \brief Construct Quaternion from a GL
@@ -189,11 +192,11 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromGLRotate (
-            const biorbd::utils::Scalar& angle,
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z,
-            double kStab = 1);
+        const biorbd::utils::Scalar& angle,
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z,
+        double kStab = 1);
 
     ///
     /// \brief Construct Quaternion from an axis angle
@@ -202,9 +205,9 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromAxisAngle (
-            const biorbd::utils::Scalar& angle,
-            const biorbd::utils::Vector3d &axis,
-            double kStab = 1);
+        const biorbd::utils::Scalar& angle,
+        const biorbd::utils::Vector3d &axis,
+        double kStab = 1);
 
     ///
     /// \brief Construct Quaternion from a RotoTrans matrix
@@ -212,8 +215,8 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromMatrix (
-            const biorbd::utils::RotoTrans& rt,
-            double kStab = 1);
+        const biorbd::utils::RotoTrans& rt,
+        double kStab = 1);
 
     ///
     /// \brief Construct Quaternion from a Rotation matrix
@@ -221,8 +224,8 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromMatrix (
-            const biorbd::utils::Rotation &mat,
-            double kStab = 1);
+        const biorbd::utils::Rotation &mat,
+        double kStab = 1);
 
     ///
     /// \brief Construct Quaternion from Euler angles (sequece ZYX)
@@ -230,8 +233,8 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromZYXAngles (
-            const biorbd::utils::Vector3d &zyx_angles,
-            double kStab = 1);
+        const biorbd::utils::Vector3d &zyx_angles,
+        double kStab = 1);
 
     ///
     /// \brief Construct Quaternion from Euler angles (sequece YXZ)
@@ -239,8 +242,8 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromYXZAngles (
-            const biorbd::utils::Vector3d &yxz_angles,
-            double kStab = 1);
+        const biorbd::utils::Vector3d &yxz_angles,
+        double kStab = 1);
 
     ///
     /// \brief Construct Quaternion from Euler angles (sequece XYZ)
@@ -248,8 +251,8 @@ public:
     /// \param kStab The value of the kstabilizer
     ///
     static biorbd::utils::Quaternion fromXYZAngles (
-            const biorbd::utils::Vector3d &xyz_angles,
-            double kStab = 1);
+        const biorbd::utils::Vector3d &xyz_angles,
+        double kStab = 1);
 
     ///
     /// \brief Convert the quaternion to a RotoTrans
@@ -262,7 +265,7 @@ public:
     /// 1e-10 for the norm-squared
     ///
     biorbd::utils::Rotation toMatrix(
-            bool skipAsserts = false) const;
+        bool skipAsserts = false) const;
 
 #ifndef BIORBD_USE_CASADI_MATH
     ///
@@ -271,11 +274,11 @@ public:
     /// \param quat The quaternion to targe
     ///
     biorbd::utils::Quaternion slerp (
-            double alpha,
-            const Quaternion &quat) const;
+        double alpha,
+        const Quaternion &quat) const;
 #endif
 
-    /// 
+    ///
     /// \brief Return the conjugate of the quaternion
     /// \return The conjugate of the quaternion
     ///
@@ -288,8 +291,8 @@ public:
     /// \return The rotated quaternion
     ///
     biorbd::utils::Quaternion timeStep (
-            const biorbd::utils::Vector3d &omega,
-            double dt);
+        const biorbd::utils::Vector3d &omega,
+        double dt);
 
     ///
     /// \brief Return a rotated vector from the quaternion
@@ -297,7 +300,7 @@ public:
     /// \return The rotated vector
     ///
     biorbd::utils::Vector3d rotate (
-            const biorbd::utils::Vector3d &vec) const;
+        const biorbd::utils::Vector3d &vec) const;
 
     ///
     /// \brief Converts a 3d angular velocity vector
@@ -308,7 +311,7 @@ public:
     /// the components of the quaternion
     ///
     biorbd::utils::Quaternion omegaToQDot(
-            const biorbd::utils::Vector3d& omega) const;
+        const biorbd::utils::Vector3d& omega) const;
 
     ///
     /// \brief Converts a 3d angular velocity vector
@@ -323,20 +326,20 @@ public:
     /// for correct equations.
     ///
     biorbd::utils::Vector3d  eulerDotToOmega(
-            const biorbd::utils::Vector3d &eulerDot, 
-            const biorbd::utils::Vector3d &euler,
-            const biorbd::utils::String& seq);
+        const biorbd::utils::Vector3d &eulerDot,
+        const biorbd::utils::Vector3d &euler,
+        const biorbd::utils::String& seq);
 
     ///
     /// \brief Return the time derivative of the quaterion
     /// \param w The vector of time derivative (output)
     ///
     void derivate(
-            const biorbd::utils::Vector &w);
+        const biorbd::utils::Vector &w);
 
     ///
     /// \brief Force the normalization of the quaternion
-    /// 
+    ///
     void normalize();
 
 protected:
@@ -344,6 +347,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_QUATERNION_H

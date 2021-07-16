@@ -6,8 +6,10 @@
 
 #include "Utils/Scalar.h"
 
-namespace biorbd {
-namespace muscles {
+namespace biorbd
+{
+namespace muscles
+{
 
 ///
 /// \brief Class FatigueParameters that holds the muscle fatigue parameters
@@ -24,10 +26,10 @@ public:
     /// \param recoveryFactor The recovery factor
     ///
     FatigueParameters(
-            const biorbd::utils::Scalar& fatigueRate = 0,
-            const biorbd::utils::Scalar& recoveryRate = 0,
-            const biorbd::utils::Scalar& developFactor = 0,
-            const biorbd::utils::Scalar& recoveryFactor = 0);
+        const biorbd::utils::Scalar& fatigueRate = 0,
+        const biorbd::utils::Scalar& recoveryRate = 0,
+        const biorbd::utils::Scalar& developFactor = 0,
+        const biorbd::utils::Scalar& recoveryFactor = 0);
 
     ///
     /// \brief Deep copy of the fatigue parameters
@@ -40,14 +42,14 @@ public:
     /// \param other The fatigue parameters to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::FatigueParameters& other);
+        const biorbd::muscles::FatigueParameters& other);
 
     ///
     /// \brief Set the fatigue rate
     /// \param fatigueRate The fatigue rate
     ///
     void setFatigueRate(
-            const biorbd::utils::Scalar& fatigueRate);
+        const biorbd::utils::Scalar& fatigueRate);
 
     // Get and Set
     ///
@@ -61,7 +63,7 @@ public:
     /// \param recoveryRate The recovery rate
     ///
     void setRecoveryRate(
-            const biorbd::utils::Scalar& recoveryRate);
+        const biorbd::utils::Scalar& recoveryRate);
 
     ///
     /// \brief Return the recovery rate
@@ -74,7 +76,7 @@ public:
     /// \param developFactor The develop factor
     ///
     void setDevelopFactor(
-            const biorbd::utils::Scalar& developFactor);
+        const biorbd::utils::Scalar& developFactor);
 
     ///
     /// \brief Return the develop factor
@@ -87,7 +89,7 @@ public:
     /// \param recoveryFactor The recovery factor
     ///
     void setRecoveryFactor(
-            const biorbd::utils::Scalar& recoveryFactor);
+        const biorbd::utils::Scalar& recoveryFactor);
 
     ///
     /// \brief Return the recovery factor
@@ -103,6 +105,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_FATIGUE_PARAMETERS_H

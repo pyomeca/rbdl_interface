@@ -4,8 +4,10 @@
 #include "biorbdConfig.h"
 #include "Utils/Vector.h"
 
-namespace biorbd {
-namespace rigidbody {
+namespace biorbd
+{
+namespace rigidbody
+{
 class Joints;
 
 ///
@@ -17,7 +19,7 @@ public:
 
     ///
     /// \brief Construct generalized acceleration vector
-    /// 
+    ///
     GeneralizedAcceleration();
 
     ///
@@ -25,7 +27,7 @@ public:
     /// \param nQddot number of degrees-of-freedom
     ///
     GeneralizedAcceleration(
-            unsigned int nQddot);
+        unsigned int nQddot);
 
     ///
     /// \brief Create generalized acceleration vector from a joint Model
@@ -38,14 +40,14 @@ public:
     /// \param Q State vector of the internal joints
     ///
     GeneralizedAcceleration(
-            const biorbd::rigidbody::GeneralizedAcceleration& Q);
+        const biorbd::rigidbody::GeneralizedAcceleration& Q);
 
     ///
     /// \brief Construct vector from Casadi vector
     /// \param v The vector to copy
     ///
     GeneralizedAcceleration(
-            const RigidBodyDynamics::Math::VectorNd& v);
+        const RigidBodyDynamics::Math::VectorNd& v);
 
 
 #ifdef BIORBD_USE_EIGEN3_MATH
@@ -55,8 +57,8 @@ public:
     /// \param other Eigen matrix
     ///
     template<typename OtherDerived> GeneralizedAcceleration(
-            const Eigen::MatrixBase<OtherDerived>& other) :
-        biorbd::utils::Vector(other){}
+        const Eigen::MatrixBase<OtherDerived>& other) :
+        biorbd::utils::Vector(other) {}
 
 #endif
 
@@ -67,7 +69,7 @@ public:
     /// \param v The vector to copy
     ///
     GeneralizedAcceleration(
-            const casadi::MX& v);
+        const casadi::MX& v);
 
 #endif
 
@@ -87,11 +89,12 @@ public:
     /// \return The current Generalized Coordinate
     ///
     template<typename OtherDerived>
-        biorbd::rigidbody::GeneralizedAcceleration& operator=(
-                const Eigen::MatrixBase <OtherDerived>& other){
-            this->biorbd::utils::Vector::operator=(other);
-            return *this;
-        }
+    biorbd::rigidbody::GeneralizedAcceleration& operator=(
+        const Eigen::MatrixBase <OtherDerived>& other)
+    {
+        this->biorbd::utils::Vector::operator=(other);
+        return *this;
+    }
 
 #endif
 
@@ -100,7 +103,7 @@ public:
     /// \param other The vector to copy
     ///
     void operator=(
-            const biorbd::utils::Vector& other);
+        const biorbd::utils::Vector& other);
 #ifdef BIORBD_USE_CASADI_MATH
 
     ///
@@ -108,19 +111,20 @@ public:
     /// \param The vector to copy
     ///
     void operator=(
-            const RBDLCasadiMath::MX_Xd_SubMatrix& other);
+        const RBDLCasadiMath::MX_Xd_SubMatrix& other);
 
     ///
     /// \brief operator= For casadi
     /// \param The vector to copy
     ///
     void operator=(
-            const casadi::MX& other);
+        const casadi::MX& other);
 #endif
 
 #endif
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_GENERALIZED_ACCELERATION_H

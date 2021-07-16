@@ -35,7 +35,7 @@ int main()
     auto muscleActivationsPerFrame = optim.finalSolution();
 
     // Print them to the console
-    for (auto activations : muscleActivationsPerFrame){
+    for (auto activations : muscleActivationsPerFrame) {
         std::cout << activations.transpose() << std::endl;
     }
 

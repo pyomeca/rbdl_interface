@@ -43,7 +43,8 @@ biorbd::rigidbody::KalmanRecons::~KalmanRecons()
 
 }
 
-void biorbd::rigidbody::KalmanRecons::DeepCopy(const biorbd::rigidbody::KalmanRecons &other)
+void biorbd::rigidbody::KalmanRecons::DeepCopy(const
+        biorbd::rigidbody::KalmanRecons &other)
 {
     *m_params = *other.m_params;
     *m_Te = *other.m_Te;
@@ -57,56 +58,66 @@ void biorbd::rigidbody::KalmanRecons::DeepCopy(const biorbd::rigidbody::KalmanRe
 }
 
 void biorbd::rigidbody::KalmanRecons::iteration(
-        biorbd::utils::Vector measure,
-        const biorbd::utils::Vector &projectedMeasure,
-        const biorbd::utils::Matrix &Hessian,
-        const std::vector<unsigned int> &occlusion){
+    biorbd::utils::Vector measure,
+    const biorbd::utils::Vector &projectedMeasure,
+    const biorbd::utils::Matrix &Hessian,
+    const std::vector<unsigned int> &occlusion)
+{
     // Prediction
     const biorbd::utils::Vector& xkm(*m_A * *m_xp);
     const biorbd::utils::Matrix& Pkm(*m_A * *m_Pp * m_A->transpose() + *m_Q);
 
     // Correction
-    biorbd::utils::Matrix InvTp( (Hessian * Pkm * Hessian.transpose() + *m_R).inverse() );
+    biorbd::utils::Matrix InvTp( (Hessian * Pkm * Hessian.transpose() +
+                                  *m_R).inverse() );
     manageOcclusionDuringIteration(InvTp, measure, occlusion);
     const biorbd::utils::Matrix& K(Pkm*Hessian.transpose() * InvTp); // Gain
 
     *m_xp = xkm+K*(measure-projectedMeasure); // New estimated state
-    const RigidBodyDynamics::Math::MatrixNd& temp(biorbd::utils::Matrix::Identity(3* *m_nbDof, 3* *m_nbDof) - K*Hessian);
+    const RigidBodyDynamics::Math::MatrixNd& temp(biorbd::utils::Matrix::Identity(
+                3* *m_nbDof, 3* *m_nbDof) - K*Hessian);
     *m_Pp =  temp * Pkm * temp.transpose() + K* *m_R*K.transpose();
 
 }
 
 void biorbd::rigidbody::KalmanRecons::manageOcclusionDuringIteration(
-        biorbd::utils::Matrix &InvTp,
-        biorbd::utils::Vector &measure,
-        const std::vector<unsigned int> &occlusion){
+    biorbd::utils::Matrix &InvTp,
+    biorbd::utils::Vector &measure,
+    const std::vector<unsigned int> &occlusion)
+{
     for (unsigned int i = 0; i < occlusion.size(); ++i)
-         for (unsigned int j=occlusion[i]; j< occlusion[i]+1; ++j){
-             InvTp(j,j) = 0; // Artifact due to the fact that m_R has a value at (j:j+2,j:j+2)
-             measure(j) = 0;
-         }
+        for (unsigned int j=occlusion[i]; j< occlusion[i]+1; ++j) {
+            InvTp(j,j) =
+                0; // Artifact due to the fact that m_R has a value at (j:j+2,j:j+2)
+            measure(j) = 0;
+        }
 }
 
 void biorbd::rigidbody::KalmanRecons::getState(
-        biorbd::rigidbody::GeneralizedCoordinates *Q,
-        biorbd::rigidbody::GeneralizedVelocity *Qdot,
-        biorbd::rigidbody::GeneralizedAcceleration *Qddot) {
+    biorbd::rigidbody::GeneralizedCoordinates *Q,
+    biorbd::rigidbody::GeneralizedVelocity *Qdot,
+    biorbd::rigidbody::GeneralizedAcceleration *Qddot)
+{
 
-    if (Q != nullptr)
+    if (Q != nullptr) {
         *Q = m_xp->block(0, 0, *m_nbDof, 1);
+    }
 
-    if (Qdot != nullptr)
+    if (Qdot != nullptr) {
         *Qdot = m_xp->block(*m_nbDof, 0, *m_nbDof, 1);
+    }
 
-    if (Qddot != nullptr)
+    if (Qddot != nullptr) {
         *Qddot = m_xp->block(2* *m_nbDof, 0, *m_nbDof, 1);
+    }
 }
 
 
 biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::evolutionMatrix(
-        const unsigned int nQ,
-        unsigned int n,
-        double Te){
+    const unsigned int nQ,
+    unsigned int n,
+    double Te)
+{
     // m  : number of degrees of freedom
     // n  : order of Taylor development
     // Te : 1 / (acquisition frequency)
@@ -114,22 +125,25 @@ biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::evolutionMatrix(
     n += 1;
     biorbd::utils::Matrix A(biorbd::utils::Matrix::Identity(nQ*n, nQ*n));
     double c = 1;
-    for (unsigned int i=2; i<n+1; ++i){
+    for (unsigned int i=2; i<n+1; ++i) {
 
         unsigned int j=(i-1) * nQ;
         c = c/(i-1);
 
 
-        for (unsigned int cmp=0; cmp<nQ*n-j; ++cmp)
-            A(0+cmp,j+cmp) += c* static_cast<double>(std::pow(Te,(static_cast<double>(i)-1.0)));
+        for (unsigned int cmp=0; cmp<nQ*n-j; ++cmp) {
+            A(0+cmp,j+cmp) += c* static_cast<double>(std::pow(Te,
+                              (static_cast<double>(i)-1.0)));
+        }
     }
 
     return A;
 }
 
 biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::processNoiseMatrix(
-        const unsigned int nbQ,
-        double Te){
+    const unsigned int nbQ,
+    double Te)
+{
 
     // Find the coefficients values
     double c1 = 1.0/20.0 * pow(Te,5);
@@ -141,7 +155,7 @@ biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::processNoiseMatrix(
 
     // Ouput matrix
     biorbd::utils::Matrix Q(biorbd::utils::Matrix::Zero(3*nbQ,3*nbQ));
-    for (unsigned int j=0; j<nbQ; ++j){
+    for (unsigned int j=0; j<nbQ; ++j) {
         Q(     j,      j) = c1;
         Q(     j,   nbQ+j) = c2;
         Q(     j, 2*nbQ+j) = c3;
@@ -157,7 +171,8 @@ biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::processNoiseMatrix(
 }
 
 // Methods during the initialization
-void biorbd::rigidbody::KalmanRecons::initialize(){
+void biorbd::rigidbody::KalmanRecons::initialize()
+{
 
     // Declaration of the evolution matrix
     *m_A = evolutionMatrix(*m_nbDof, 2, *m_Te);
@@ -177,39 +192,50 @@ void biorbd::rigidbody::KalmanRecons::initialize(){
 
 
 biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::measurementNoiseMatrix(
-        const unsigned int nbT,
-        double val){
+    const unsigned int nbT,
+    double val)
+{
     biorbd::utils::Matrix R(biorbd::utils::Matrix::Zero(nbT, nbT));
-    for (unsigned int i=0; i<nbT; ++i)
+    for (unsigned int i=0; i<nbT; ++i) {
         R(i,i) = val;
+    }
     return R;
 }
 
-biorbd::rigidbody::GeneralizedCoordinates biorbd::rigidbody::KalmanRecons::initState(
-        const unsigned int nbQ){
+biorbd::rigidbody::GeneralizedCoordinates
+biorbd::rigidbody::KalmanRecons::initState(
+    const unsigned int nbQ)
+{
     return biorbd::rigidbody::GeneralizedCoordinates::Zero(3*nbQ); // Q, Qdot, Qddot
 }
 
 void biorbd::rigidbody::KalmanRecons::setInitState(
-        const biorbd::rigidbody::GeneralizedCoordinates *Q,
-        const biorbd::rigidbody::GeneralizedVelocity *Qdot,
-        const biorbd::rigidbody::GeneralizedAcceleration *Qddot){
-    if (Q != nullptr)
+    const biorbd::rigidbody::GeneralizedCoordinates *Q,
+    const biorbd::rigidbody::GeneralizedVelocity *Qdot,
+    const biorbd::rigidbody::GeneralizedAcceleration *Qddot)
+{
+    if (Q != nullptr) {
         m_xp->block(0, 0, *m_nbDof, 1) = *Q;
+    }
 
-    if (Qdot != nullptr)
+    if (Qdot != nullptr) {
         m_xp->block(*m_nbDof, 0, *m_nbDof, 1) = *Qdot;
+    }
 
-    if (Qddot != nullptr)
+    if (Qddot != nullptr) {
         m_xp->block(2* *m_nbDof, 0, *m_nbDof, 1) = *Qddot;
+    }
 }
 
 
-biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::initCovariance(const unsigned int nbQ,
-        double val){
+biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::initCovariance(
+    const unsigned int nbQ,
+    double val)
+{
     biorbd::utils::Matrix Pp(biorbd::utils::Matrix::Zero(3*nbQ, 3*nbQ));
-    for (unsigned int i=0; i<3*nbQ; ++i)
+    for (unsigned int i=0; i<3*nbQ; ++i) {
         Pp(i,i) = val;
+    }
     return Pp;
 }
 
@@ -218,14 +244,15 @@ biorbd::utils::Matrix biorbd::rigidbody::KalmanRecons::initCovariance(const unsi
 
 
 biorbd::rigidbody::KalmanParam::KalmanParam(
-        double frequency,
-        double noiseFactor,
-        double errorFactor):
+    double frequency,
+    double noiseFactor,
+    double errorFactor):
     m_acquisitionFrequency(frequency),
     m_noiseFactor(noiseFactor),
-    m_errorFactor(errorFactor){}
+    m_errorFactor(errorFactor) {}
 
-double biorbd::rigidbody::KalmanParam::acquisitionFrequency() const{
+double biorbd::rigidbody::KalmanParam::acquisitionFrequency() const
+{
     return m_acquisitionFrequency;
 }
 

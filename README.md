@@ -40,7 +40,7 @@ The building status for the current BIORBD branches is as follow
 
 | Name | Status |
 | --- | --- |
-| master | [![Build Status](https://travis-ci.org/pyomeca/biorbd.svg?branch=master)](https://travis-ci.org/pyomeca/biorbd) |
+| master | [![Build status](https://ci.appveyor.com/api/projects/status/fegqut6bypvix8ex/branch/master?svg=true)](https://ci.appveyor.com/project/pariterre/biorbd/branch/master) |
 | Code coverage | [![codecov](https://codecov.io/gh/pyomeca/biorbd/branch/master/graph/badge.svg)](https://codecov.io/gh/pyomeca/biorbd) |
 | DOI | [![DOI](https://zenodo.org/badge/124423173.svg)](https://zenodo.org/badge/latestdoi/124423173) |
 

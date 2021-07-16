@@ -6,12 +6,15 @@
 #include "MusclesEnums.h"
 #include "Utils/Scalar.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 }
 
-namespace muscles {
+namespace muscles
+{
 class Muscle;
 class StateDynamics;
 class FatigueState;
@@ -27,40 +30,40 @@ public:
     /// \param dynamicFatigueType The type of fatigue of the muscle
     ///
     FatigueModel(
-            biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType);
+        biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType);
 
     ///
     /// \brief Construct a fatigable muscle model from another muscle
     /// \param other The other fatigue model
     ///
     FatigueModel(
-            const biorbd::muscles::FatigueModel& other);
+        const biorbd::muscles::FatigueModel& other);
 
     ///
     /// \brief Construct a fatigable muscle model from another muscle
     /// \param other The other fatigue model
     ///
     FatigueModel(
-            const std::shared_ptr<biorbd::muscles::FatigueModel> other);
+        const std::shared_ptr<biorbd::muscles::FatigueModel> other);
 
     ///
     /// \brief Destroy class properly
     ///
     virtual ~FatigueModel() = 0;
 
-    /// 
+    ///
     /// \brief Deep copy of the fatigue model
     /// \param other The other fatigue model to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::FatigueModel& other);
+        const biorbd::muscles::FatigueModel& other);
 
     ///
     /// \brief Compute the time derivative state
     /// \param emg EMG data
     ///
     virtual void computeTimeDerivativeState(
-            const biorbd::muscles::StateDynamics& emg);
+        const biorbd::muscles::StateDynamics& emg);
 
 #ifndef BIORBD_USE_CASADI_MATH
     ///
@@ -69,9 +72,9 @@ public:
     /// \param fatigued
     /// \param resting
     virtual void setFatigueState(
-            const biorbd::utils::Scalar& active,
-            const biorbd::utils::Scalar& fatigued,
-            const biorbd::utils::Scalar& resting);
+        const biorbd::utils::Scalar& active,
+        const biorbd::utils::Scalar& fatigued,
+        const biorbd::utils::Scalar& resting);
 #endif
 
     ///
@@ -87,10 +90,12 @@ public:
 
 
 protected:
-    std::shared_ptr<biorbd::muscles::FatigueState> m_fatigueState; ///< The fatigue state
+    std::shared_ptr<biorbd::muscles::FatigueState>
+    m_fatigueState; ///< The fatigue state
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_FATIGUE_MODEL_H

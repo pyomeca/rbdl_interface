@@ -5,8 +5,10 @@
 #include "RigidBody/KalmanRecons.h"
 
 
-namespace biorbd {
-namespace rigidbody {
+namespace biorbd
+{
+namespace rigidbody
+{
 class Markers;
 class NodeSegment;
 
@@ -19,27 +21,27 @@ public:
 
     // Constructor
 
-    /// 
+    ///
     /// \brief Initialize the Kalman filter and Kalman reconstruction for Markers data
     ///
     KalmanReconsMarkers();
 
-    /// 
+    ///
     /// \brief Initialize the Kalman filter and Kalman reconstruction for Markers data
     /// \param model The joint model
     /// \param params The Kalman filter parameters
     ///
     KalmanReconsMarkers(
-            biorbd::Model& model,
-            biorbd::rigidbody::KalmanParam params = biorbd::rigidbody::KalmanParam());
+        biorbd::Model& model,
+        biorbd::rigidbody::KalmanParam params = biorbd::rigidbody::KalmanParam());
 
-    /// 
+    ///
     /// \brief Deep copy of the Kalman reconstruction
     /// \return Copy of the Kalman reconstruction
     ///
     biorbd::rigidbody::KalmanReconsMarkers DeepCopy() const;
 
-    /// 
+    ///
     /// \brief Deep copy of the Kalman reconstruction
     /// \param other The Kalman reconstruction to copy
     ///
@@ -55,12 +57,12 @@ public:
     /// \param removeAxes If the algo should ignore or not the removeAxis defined in the bioMod file
     ///
     virtual void reconstructFrame(
-            biorbd::Model &model,
-            const biorbd::rigidbody::Markers &Tobs,
-            biorbd::rigidbody::GeneralizedCoordinates *Q,
-            biorbd::rigidbody::GeneralizedVelocity *Qdot,
-            biorbd::rigidbody::GeneralizedAcceleration *Qddot,
-            bool removeAxes=true);
+        biorbd::Model &model,
+        const biorbd::rigidbody::Markers &Tobs,
+        biorbd::rigidbody::GeneralizedCoordinates *Q,
+        biorbd::rigidbody::GeneralizedVelocity *Qdot,
+        biorbd::rigidbody::GeneralizedAcceleration *Qddot,
+        bool removeAxes=true);
 
     ///
     /// \brief Reconstruct the kinematics from markers data
@@ -72,12 +74,12 @@ public:
     /// \param removeAxes If the algo should ignore or not the removeAxis defined in the bioMod file
     ///
     virtual void reconstructFrame(
-            biorbd::Model &model,
-            const std::vector<biorbd::rigidbody::NodeSegment> &Tobs,
-            biorbd::rigidbody::GeneralizedCoordinates *Q,
-            biorbd::rigidbody::GeneralizedVelocity *Qdot,
-            biorbd::rigidbody::GeneralizedAcceleration *Qddot,
-            bool removeAxes=true);
+        biorbd::Model &model,
+        const std::vector<biorbd::rigidbody::NodeSegment> &Tobs,
+        biorbd::rigidbody::GeneralizedCoordinates *Q,
+        biorbd::rigidbody::GeneralizedVelocity *Qdot,
+        biorbd::rigidbody::GeneralizedAcceleration *Qddot,
+        bool removeAxes=true);
 
     ///
     /// \brief Reconstruct the kinematics from markers data
@@ -89,14 +91,14 @@ public:
     /// \param removeAxes If the algo should ignore or not the removeAxis defined in the bioMod file
     ///
     virtual void reconstructFrame(
-            biorbd::Model &model,
-            const biorbd::utils::Vector &Tobs,
-            biorbd::rigidbody::GeneralizedCoordinates *Q = nullptr,
-            biorbd::rigidbody::GeneralizedVelocity *Qdot = nullptr,
-            biorbd::rigidbody::GeneralizedAcceleration *Qddot = nullptr,
-            bool removeAxes=true);
+        biorbd::Model &model,
+        const biorbd::utils::Vector &Tobs,
+        biorbd::rigidbody::GeneralizedCoordinates *Q = nullptr,
+        biorbd::rigidbody::GeneralizedVelocity *Qdot = nullptr,
+        biorbd::rigidbody::GeneralizedAcceleration *Qddot = nullptr,
+        bool removeAxes=true);
 
-    /// 
+    ///
     /// \brief This function cannot be used to reconstruct frames
     ///
     virtual void reconstructFrame();
@@ -120,14 +122,16 @@ protected:
     /// \param occlusion The vector where occlusions occurs
     ///
     virtual void manageOcclusionDuringIteration(
-            biorbd::utils::Matrix& InvTp,
-            biorbd::utils::Vector &measure,
-            const std::vector<unsigned int> &occlusion);
+        biorbd::utils::Matrix& InvTp,
+        biorbd::utils::Vector &measure,
+        const std::vector<unsigned int> &occlusion);
 
-    std::shared_ptr<biorbd::utils::Matrix> m_PpInitial; ///< Initial covariance matrix
+    std::shared_ptr<biorbd::utils::Matrix>
+    m_PpInitial; ///< Initial covariance matrix
     std::shared_ptr<bool> m_firstIteration; ///< If first iteration was done
 };
 
-}}
+}
+}
 
 #endif // BIORBD_RIGIDBODY_KALMAN_RECONS_MARKERS_HPP

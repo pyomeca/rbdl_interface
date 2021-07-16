@@ -8,7 +8,8 @@
 #include "RigidBody/NodeSegment.h"
 #include "Utils/String.h"
 
-biorbd::utils::String getVersion(){
+biorbd::utils::String getVersion()
+{
     return BIORBD_VERSION;
 }
 

@@ -10,10 +10,24 @@
 template<class base> class class_handle
 {
 public:
-    class_handle(base *ptr) : ptr_m(ptr), name_m(typeid(base).name()) { signature_m = CLASS_HANDLE_SIGNATURE; }
-    ~class_handle() { signature_m = 0; delete ptr_m; }
-    bool isValid() { return ((signature_m == CLASS_HANDLE_SIGNATURE) && !strcmp(name_m.c_str(), typeid(base).name())); }
-    base *ptr() { return ptr_m; }
+    class_handle(base *ptr) : ptr_m(ptr), name_m(typeid(base).name())
+    {
+        signature_m = CLASS_HANDLE_SIGNATURE;
+    }
+    ~class_handle()
+    {
+        signature_m = 0;
+        delete ptr_m;
+    }
+    bool isValid()
+    {
+        return ((signature_m == CLASS_HANDLE_SIGNATURE)
+                && !strcmp(name_m.c_str(), typeid(base).name()));
+    }
+    base *ptr()
+    {
+        return ptr_m;
+    }
 
 protected:
     uint32_t signature_m;
@@ -25,17 +39,23 @@ template<class base> inline mxArray *convertPtr2Mat(base *ptr)
 {
     mexLock();
     mxArray *out = mxCreateNumericMatrix(1, 1, mxUINT64_CLASS, mxREAL);
-    *(static_cast<uint64_t *>(mxGetData(out))) = reinterpret_cast<uint64_t>(new class_handle<base>(ptr));
+    *(static_cast<uint64_t *>(mxGetData(out))) = reinterpret_cast<uint64_t>
+            (new class_handle<base>(ptr));
     return out;
 }
 
-template<class base> inline class_handle<base> *convertMat2HandlePtr(const mxArray *in)
+template<class base> inline class_handle<base> *convertMat2HandlePtr(
+    const mxArray *in)
 {
-    if (mxGetNumberOfElements(in) != 1 || mxGetClassID(in) != mxUINT64_CLASS || mxIsComplex(in))
+    if (mxGetNumberOfElements(in) != 1 || mxGetClassID(in) != mxUINT64_CLASS
+            || mxIsComplex(in)) {
         mexErrMsgTxt("Input must be a real uint64 scalar.");
-    class_handle<base> *ptr = reinterpret_cast<class_handle<base> *>(*(static_cast<uint64_t *>(mxGetData(in))));
-    if (!ptr->isValid())
+    }
+    class_handle<base> *ptr = reinterpret_cast<class_handle<base> *>(*
+                              (static_cast<uint64_t *>(mxGetData(in))));
+    if (!ptr->isValid()) {
         mexErrMsgTxt("Handle not valid.");
+    }
     return ptr;
 }
 

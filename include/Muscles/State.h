@@ -6,12 +6,14 @@
 #include "Muscles/MusclesEnums.h"
 #include "Utils/Scalar.h"
 
-namespace biorbd {
+namespace biorbd
+{
 
-namespace muscles {
-    ///
-    /// \brief EMG holder to interact with the muscle
-    ///
+namespace muscles
+{
+///
+/// \brief EMG holder to interact with the muscle
+///
 class BIORBD_API State
 {
 public:
@@ -21,15 +23,15 @@ public:
     /// \param activation The muscle activation
     ///
     State(
-            const biorbd::utils::Scalar& excitation = 0,
-            const biorbd::utils::Scalar& activation = 0);
+        const biorbd::utils::Scalar& excitation = 0,
+        const biorbd::utils::Scalar& activation = 0);
 
     ///
     /// \brief Construct a muscle state from another state
     /// \param other The other state
     ///
     State(
-            const biorbd::muscles::State& other);
+        const biorbd::muscles::State& other);
 
     ///
     /// \brief Destroy class properly
@@ -47,7 +49,7 @@ public:
     /// \param other The state to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::State& other);
+        const biorbd::muscles::State& other);
 
     ///
     /// \brief Set the muscle excitation
@@ -58,8 +60,8 @@ public:
     /// it changes it to 0 anyway, but doesn't send a warning saying it.
     ///
     virtual void setExcitation(
-            const biorbd::utils::Scalar& val,
-            bool turnOffWarnings = false);
+        const biorbd::utils::Scalar& val,
+        bool turnOffWarnings = false);
 
     ///
     /// \brief Return the muscle excitation
@@ -76,15 +78,15 @@ public:
     /// Even when the warning is ON, the computation is performed anyway
     ///
     const biorbd::utils::Scalar& normalizeExcitation(
-            const biorbd::muscles::State &emgMax,
-            bool turnOffWarnings = false);
+        const biorbd::muscles::State &emgMax,
+        bool turnOffWarnings = false);
 
     ///
     /// \brief Force set the normalized excitation
     /// \param val Value of the normalized excitation to set
     ///
     void setExcitationNorm(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
     /// \brief Return the previously normalized excitation
@@ -104,8 +106,8 @@ public:
     /// it changes it to 1 anyway, but doesn't send a warning saying it.
     ///
     virtual void setActivation(
-            const biorbd::utils::Scalar& val,
-            bool turnOffWarnings = false);
+        const biorbd::utils::Scalar& val,
+        bool turnOffWarnings = false);
 
     ///
     /// \brief Return the muscle activation
@@ -126,11 +128,13 @@ protected:
 
     std::shared_ptr<biorbd::muscles::STATE_TYPE> m_stateType;///< The state type
     std::shared_ptr<biorbd::utils::Scalar> m_excitation;///< The muscle excitation
-    std::shared_ptr<biorbd::utils::Scalar> m_excitationNorm; ///< The normalized excitation
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_excitationNorm; ///< The normalized excitation
     std::shared_ptr<biorbd::utils::Scalar> m_activation;///< The muscle activation
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_STATE_H

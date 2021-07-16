@@ -30,9 +30,9 @@
 #include "Muscles/WrappingSphere.h"
 
 #ifdef MODULE_STATIC_OPTIM
-#include "Muscles/StaticOptimization.h"
-#include "Muscles/StaticOptimizationIpopt.h"
-#include "Muscles/StaticOptimizationIpoptLinearized.h"
+    #include "Muscles/StaticOptimization.h"
+    #include "Muscles/StaticOptimizationIpopt.h"
+    #include "Muscles/StaticOptimizationIpoptLinearized.h"
 #endif
 
 #endif // BIORBD_MUSCLES_ALL_H

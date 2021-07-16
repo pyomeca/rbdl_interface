@@ -5,8 +5,10 @@
 
 #include <memory>
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 
 ///
 /// \brief Class Range
@@ -17,10 +19,10 @@ public:
 
     ///
     /// \brief Construct generalized coordinates range
-    /// 
+    ///
     Range(
-            double min = -M_PI,
-            double max = M_PI);
+        double min = -M_PI,
+        double max = M_PI);
 
     ///
     /// \brief Deep copy of the Range
@@ -63,6 +65,7 @@ protected:
     std::shared_ptr<double> m_max; ///< The maximal value allowed by the range
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_RANGE_H

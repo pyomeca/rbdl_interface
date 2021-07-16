@@ -7,16 +7,19 @@
 #include "processArguments.h"
 
 void Matlab_muscleLengthJacobian( int, mxArray *plhs[],
-                                int nrhs, const mxArray*prhs[] ){
+                                  int nrhs, const mxArray*prhs[] )
+{
     // Verifier les arguments d'entrée
-    checkNombreInputParametres(nrhs, 3, 3, "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
+    checkNombreInputParametres(nrhs, 3, 3,
+                               "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
 
     // Recevoir le model
     biorbd::Model * model = convertMat2Ptr<biorbd::Model>(prhs[1]);
     unsigned int nQ = model->nbQ(); // Get the number of DoF
 
     // Recevoir Q
-    biorbd::rigidbody::GeneralizedCoordinates Q = *getParameterQ(prhs, 2, nQ).begin();
+    biorbd::rigidbody::GeneralizedCoordinates Q = *getParameterQ(prhs, 2,
+            nQ).begin();
 
     // Create a matrix for the return argument
     plhs[0] = mxCreateDoubleMatrix( model->nbMuscleTotal(), nQ, mxREAL);
@@ -25,7 +28,7 @@ void Matlab_muscleLengthJacobian( int, mxArray *plhs[],
     biorbd::utils::Matrix jaco(model->musclesLengthJacobian(Q));
     int cmp(0);
     for (unsigned int j=0; j<jaco.cols(); ++j)
-        for (unsigned int i=0; i<jaco.rows(); ++i){
+        for (unsigned int i=0; i<jaco.rows(); ++i) {
             Jac[cmp] = jaco(i,j);
             ++cmp;
         }

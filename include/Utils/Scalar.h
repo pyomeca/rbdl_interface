@@ -2,10 +2,12 @@
 #define BIORBD_UTILS_SCALAR_H
 
 #include "biorbdConfig.h"
-#include "rbdl_math.h"
+#include "rbdl/rbdl_math.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 
 
 #ifdef BIORBD_USE_CASADI_MATH
@@ -14,9 +16,11 @@ namespace utils {
 /// \brief Wrapper of scalar
 ///
 #ifdef SWIG
-class Scalar {
+class Scalar
+{
 #else
-class Scalar : public RigidBodyDynamics::Math::Scalar {
+class Scalar : public RigidBodyDynamics::Math::Scalar
+{
 #endif
 
 public:
@@ -30,27 +34,28 @@ public:
     /// \param val The value to copy
     ///
     Scalar(
-            double val);
+        double val);
 
     ///
     /// \brief Constructor for a casadi::MX scalar
     /// \param val The value to copy. A test is performed to ensure val is 1x1
     ///
     Scalar(
-            const casadi::MX& val);
+        const casadi::MX& val);
 
 };
 
 #else
 
 #ifdef SWIG
-typedef double Scalar;
+    typedef double Scalar;
 #else
-typedef RigidBodyDynamics::Math::Scalar Scalar;
+    typedef RigidBodyDynamics::Math::Scalar Scalar;
 #endif
 
 #endif
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_SCALAR_H

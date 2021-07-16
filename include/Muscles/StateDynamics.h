@@ -4,8 +4,10 @@
 #include "biorbdConfig.h"
 #include "Muscles/State.h"
 
-namespace biorbd {
-namespace muscles {
+namespace biorbd
+{
+namespace muscles
+{
 class Characteristics;
 ///
 /// \brief EMG with the capability to compute the time derivative
@@ -19,15 +21,15 @@ public:
     /// \param activation The muscle activation
     ///
     StateDynamics(
-            const biorbd::utils::Scalar& excitation = 0,
-            const biorbd::utils::Scalar& activation = 0);
+        const biorbd::utils::Scalar& excitation = 0,
+        const biorbd::utils::Scalar& activation = 0);
 
     ///
     /// \brief Construct a state dynamics from another state dynamics
     /// \param other The other state dynamics
     ///
     StateDynamics(
-            const biorbd::muscles::State& other);
+        const biorbd::muscles::State& other);
 
     ///
     /// \brief Destroy class properly
@@ -45,7 +47,7 @@ public:
     /// \param other The state dynamics to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::StateDynamics& other);
+        const biorbd::muscles::StateDynamics& other);
 
     ///
     /// \brief Set the muscle excitation
@@ -56,8 +58,8 @@ public:
     /// it changes it to 0 anyway, but doesn't send a warning saying it.
     ///
     virtual void setExcitation(
-            const biorbd::utils::Scalar& val,
-            bool turnOffWarnings = false);
+        const biorbd::utils::Scalar& val,
+        bool turnOffWarnings = false);
 
     ///
     /// \brief Return the previous activation
@@ -77,8 +79,8 @@ public:
     /// it changes it to 1 anyway, but doesn't send a warning saying it.
     ///
     virtual void setActivation(
-            const biorbd::utils::Scalar& val,
-            bool turnOffWarnings = false);
+        const biorbd::utils::Scalar& val,
+        bool turnOffWarnings = false);
 
     ///
     /// \brief Return the previous activation
@@ -95,10 +97,10 @@ public:
     /// \return The activation time derivative
     ///
     virtual const biorbd::utils::Scalar& timeDerivativeActivation(
-            const biorbd::utils::Scalar& excitation,
-            const biorbd::utils::Scalar& activation,
-            const Characteristics& characteristics,
-            bool alreadyNormalized = false); 
+        const biorbd::utils::Scalar& excitation,
+        const biorbd::utils::Scalar& activation,
+        const Characteristics& characteristics,
+        bool alreadyNormalized = false);
 
     ///
     /// \brief Compute and return the activation time derivative
@@ -108,9 +110,9 @@ public:
     /// \return The activation time derivative
     ///
     virtual const biorbd::utils::Scalar& timeDerivativeActivation(
-            const biorbd::muscles::State& emg,
-            const biorbd::muscles::Characteristics& characteristics,
-            bool alreadyNormalized = false);
+        const biorbd::muscles::State& emg,
+        const biorbd::muscles::Characteristics& characteristics,
+        bool alreadyNormalized = false);
 
     ///
     /// \brief Compute and return the activation time derivative
@@ -119,23 +121,27 @@ public:
     /// \return The activation time derivative
     ///
     virtual const biorbd::utils::Scalar& timeDerivativeActivation(
-            const biorbd::muscles::Characteristics& characteristics,
-            bool alreadyNormalized = false);
+        const biorbd::muscles::Characteristics& characteristics,
+        bool alreadyNormalized = false);
 
     ///
     /// \brief Return the previously computed activation time derivative
     /// \return The activation time derivative
-    ///   
+    ///
     virtual const biorbd::utils::Scalar& timeDerivativeActivation();
 
 protected:
     virtual void setType();
-    std::shared_ptr<biorbd::utils::Scalar> m_previousExcitation; ///< The previous excitation
-    std::shared_ptr<biorbd::utils::Scalar> m_previousActivation; ///<The previous activation
-    std::shared_ptr<biorbd::utils::Scalar> m_activationDot;///< The activation velocity
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_previousExcitation; ///< The previous excitation
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_previousActivation; ///<The previous activation
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_activationDot;///< The activation velocity
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_STATE_DYNAMICS_H

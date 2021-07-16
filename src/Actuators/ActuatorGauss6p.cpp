@@ -26,7 +26,7 @@ biorbd::actuator::ActuatorGauss6p::ActuatorGauss6p() :
 }
 
 biorbd::actuator::ActuatorGauss6p::ActuatorGauss6p(
-        const biorbd::actuator::ActuatorGauss6p &other) :
+    const biorbd::actuator::ActuatorGauss6p &other) :
     biorbd::actuator::Actuator(other),
     m_k(other.m_k),
     m_Tmax(other.m_Tmax),
@@ -46,20 +46,20 @@ biorbd::actuator::ActuatorGauss6p::ActuatorGauss6p(
 
 }
 biorbd::actuator::ActuatorGauss6p::ActuatorGauss6p(
-        int direction,
-        const biorbd::utils::Scalar& Tmax,
-        const biorbd::utils::Scalar& T0,
-        const biorbd::utils::Scalar& wmax,
-        const biorbd::utils::Scalar& wc,
-        const biorbd::utils::Scalar& amin,
-        const biorbd::utils::Scalar& wr,
-        const biorbd::utils::Scalar& w1,
-        const biorbd::utils::Scalar& r,
-        const biorbd::utils::Scalar& qopt,
-        const biorbd::utils::Scalar& facteur,
-        const biorbd::utils::Scalar& r2,
-        const biorbd::utils::Scalar& qopt2,
-        unsigned int dofIdx) :
+    int direction,
+    const biorbd::utils::Scalar& Tmax,
+    const biorbd::utils::Scalar& T0,
+    const biorbd::utils::Scalar& wmax,
+    const biorbd::utils::Scalar& wc,
+    const biorbd::utils::Scalar& amin,
+    const biorbd::utils::Scalar& wr,
+    const biorbd::utils::Scalar& w1,
+    const biorbd::utils::Scalar& r,
+    const biorbd::utils::Scalar& qopt,
+    const biorbd::utils::Scalar& facteur,
+    const biorbd::utils::Scalar& r2,
+    const biorbd::utils::Scalar& qopt2,
+    unsigned int dofIdx) :
     Actuator(direction, dofIdx),
     m_k(std::make_shared<biorbd::utils::Scalar>(4.3)),
     m_Tmax(std::make_shared<biorbd::utils::Scalar>(Tmax)),
@@ -80,21 +80,21 @@ biorbd::actuator::ActuatorGauss6p::ActuatorGauss6p(
 }
 
 biorbd::actuator::ActuatorGauss6p::ActuatorGauss6p(
-        int direction,
-        const biorbd::utils::Scalar& Tmax,
-        const biorbd::utils::Scalar& T0,
-        const biorbd::utils::Scalar& wmax,
-        const biorbd::utils::Scalar& wc,
-        const biorbd::utils::Scalar& amin,
-        const biorbd::utils::Scalar& wr,
-        const biorbd::utils::Scalar& w1,
-        const biorbd::utils::Scalar& r,
-        const biorbd::utils::Scalar& qopt,
-        const biorbd::utils::Scalar& facteur,
-        const biorbd::utils::Scalar& r2,
-        const biorbd::utils::Scalar& qopt2,
-        unsigned int dofIdx,
-        const biorbd::utils::String &jointName) :
+    int direction,
+    const biorbd::utils::Scalar& Tmax,
+    const biorbd::utils::Scalar& T0,
+    const biorbd::utils::Scalar& wmax,
+    const biorbd::utils::Scalar& wc,
+    const biorbd::utils::Scalar& amin,
+    const biorbd::utils::Scalar& wr,
+    const biorbd::utils::Scalar& w1,
+    const biorbd::utils::Scalar& r,
+    const biorbd::utils::Scalar& qopt,
+    const biorbd::utils::Scalar& facteur,
+    const biorbd::utils::Scalar& r2,
+    const biorbd::utils::Scalar& qopt2,
+    unsigned int dofIdx,
+    const biorbd::utils::String &jointName) :
     Actuator(direction, dofIdx, jointName),
     m_k(std::make_shared<biorbd::utils::Scalar>(4.3)),
     m_Tmax(std::make_shared<biorbd::utils::Scalar>(Tmax)),
@@ -119,7 +119,8 @@ biorbd::actuator::ActuatorGauss6p::~ActuatorGauss6p()
 
 }
 
-biorbd::actuator::ActuatorGauss6p biorbd::actuator::ActuatorGauss6p::DeepCopy() const
+biorbd::actuator::ActuatorGauss6p biorbd::actuator::ActuatorGauss6p::DeepCopy()
+const
 {
     biorbd::actuator::ActuatorGauss6p copy;
     copy.DeepCopy(*this);
@@ -127,7 +128,7 @@ biorbd::actuator::ActuatorGauss6p biorbd::actuator::ActuatorGauss6p::DeepCopy() 
 }
 
 void biorbd::actuator::ActuatorGauss6p::DeepCopy(
-        const biorbd::actuator::ActuatorGauss6p &other)
+    const biorbd::actuator::ActuatorGauss6p &other)
 {
     biorbd::actuator::Actuator::DeepCopy(other);
     *m_k = *other.m_k;
@@ -152,37 +153,42 @@ biorbd::utils::Scalar biorbd::actuator::ActuatorGauss6p::torqueMax()
 }
 
 biorbd::utils::Scalar biorbd::actuator::ActuatorGauss6p::torqueMax(
-        const biorbd::rigidbody::GeneralizedCoordinates &Q,
-        const biorbd::rigidbody::GeneralizedVelocity &Qdot){
+    const biorbd::rigidbody::GeneralizedCoordinates &Q,
+    const biorbd::rigidbody::GeneralizedVelocity &Qdot)
+{
     biorbd::utils::Scalar pos(Q[*m_dofIdx] * 180/M_PI);
     biorbd::utils::Scalar speed(Qdot[*m_dofIdx] * 180/M_PI);
 
     // Tetanic torque max
     biorbd::utils::Scalar Tc = *m_T0 * *m_wc / *m_wmax;
     biorbd::utils::Scalar C = Tc*(*m_wmax + *m_wc); // concentric
-    biorbd::utils::Scalar we = ( (*m_Tmax - *m_T0) * *m_wmax * *m_wc )   /    ( *m_k * *m_T0 * (*m_wmax + *m_wc) );
+    biorbd::utils::Scalar we = ( (*m_Tmax - *m_T0) * *m_wmax * *m_wc )   /
+                               ( *m_k * *m_T0 * (*m_wmax + *m_wc) );
     biorbd::utils::Scalar E = -( *m_Tmax - *m_T0 ) * we; // eccentric
 
     biorbd::utils::Scalar Tw;
 #ifdef BIORBD_USE_CASADI_MATH
     Tw = casadi::MX::if_else(casadi::MX::ge(speed, 0),
-                C / ( *m_wc + speed )  - Tc,
-                E / ( we - speed ) + *m_Tmax);
+                             C / ( *m_wc + speed )  - Tc,
+                             E / ( we - speed ) + *m_Tmax);
 #else
-    if (speed >= 0)
-        Tw = C / ( *m_wc + speed )  - Tc; // For the concentric
-    else
-        Tw = E / ( we - speed ) + *m_Tmax; // For the eccentric
+    if (speed >= 0) {
+        Tw = C / ( *m_wc + speed )  - Tc;    // For the concentric
+    } else {
+        Tw = E / ( we - speed ) + *m_Tmax;    // For the eccentric
+    }
 #endif
 
     // Differential activation
     biorbd::utils::Scalar A =
-            *m_amin + ( *m_amax - *m_amin )
-            / ( 1 + biorbd::utils::Scalar(exp( -(speed - *m_w1) / *m_wr   )) );
+        *m_amin + ( *m_amax - *m_amin )
+        / ( 1 + biorbd::utils::Scalar(exp( -(speed - *m_w1) / *m_wr   )) );
 
     // Torque angle
-    biorbd::utils::Scalar Ta = biorbd::utils::Scalar(exp( -(*m_qopt - pos) * (*m_qopt - pos)  /  (2* *m_r * *m_r )   ))
-            + *m_facteur * biorbd::utils::Scalar(exp( -(*m_qopt2 - pos) * (*m_qopt2 - pos)  /  (2 * *m_r2 * *m_r2)   ));
+    biorbd::utils::Scalar Ta = biorbd::utils::Scalar(exp( -(*m_qopt - pos) *
+                               (*m_qopt - pos)  /  (2* *m_r * *m_r )   ))
+                               + *m_facteur * biorbd::utils::Scalar(exp( -(*m_qopt2 - pos) *
+                                       (*m_qopt2 - pos)  /  (2 * *m_r2 * *m_r2)   ));
 
     // Calculation of the max torque
     return Tw * A * Ta;

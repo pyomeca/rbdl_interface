@@ -5,17 +5,21 @@
 #include "Utils/Scalar.h"
 #include "Utils/Vector3d.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 class Joints;
 class GeneralizedCoordinates;
 }
 
-namespace muscles {
+namespace muscles
+{
 ///
 /// \brief Base class for the wrapping objects
 ///
@@ -34,9 +38,9 @@ public:
     /// \param z Z-Component of the wrapping object
     ///
     WrappingObject(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z);
     ///
     /// \brief Construct a wrapping object
     /// \param x X-Component of the wrapping object
@@ -46,18 +50,18 @@ public:
     /// \param parentName Name of the parent segment
     ///
     WrappingObject(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z,
-            const biorbd::utils::String &name,  
-            const biorbd::utils::String &parentName);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName);
 
     ///
     /// \brief Construct a wrapping object
     /// \param other Eigen vector
     ///
     WrappingObject(
-            const biorbd::utils::Vector3d& other);
+        const biorbd::utils::Vector3d& other);
 
     ///
     /// \brief Construct a wrapping object
@@ -66,16 +70,16 @@ public:
     /// \param parentName Name of the parent segment
     ///
     WrappingObject(
-            const biorbd::utils::Vector3d& other,
-            const biorbd::utils::String& name,
-            const biorbd::utils::String& parentName);
+        const biorbd::utils::Vector3d& other,
+        const biorbd::utils::String& name,
+        const biorbd::utils::String& parentName);
 
     ///
     /// \brief Deep copy of the wrapping ibject in another wrapping object
     /// \param other The wrapping object to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::WrappingObject& other);
+        const biorbd::muscles::WrappingObject& other);
 
     ///
     /// \brief From the position of the wrapping object, return the 2 locations where the muscle leaves the wrapping object
@@ -87,12 +91,13 @@ public:
     /// \param muscleLength Length of the muscle (ignored if no value is provided)
     ///
     virtual void wrapPoints(
-            const biorbd::utils::RotoTrans& rt,
-            const biorbd::utils::Vector3d& p1_bone,
-            const biorbd::utils::Vector3d& p2_bone,
-            biorbd::utils::Vector3d& p1,
-            biorbd::utils::Vector3d& p2,
-            biorbd::utils::Scalar* muscleLength = nullptr) = 0 ; // Premier et dernier points musculaire
+        const biorbd::utils::RotoTrans& rt,
+        const biorbd::utils::Vector3d& p1_bone,
+        const biorbd::utils::Vector3d& p2_bone,
+        biorbd::utils::Vector3d& p1,
+        biorbd::utils::Vector3d& p2,
+        biorbd::utils::Scalar* muscleLength = nullptr) = 0
+                ; // Premier et dernier points musculaire
 
     ///
     /// \brief From the position of the wrapping object, return the 2 locations where the muscle leaves the wrapping object
@@ -105,13 +110,14 @@ public:
     /// \param muscleLength Length of the muscle (ignored if no value is provided)
     ///
     virtual void wrapPoints(
-            biorbd::rigidbody::Joints& model,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::utils::Vector3d& p1_bone,
-            const biorbd::utils::Vector3d& p2_bone,
-            biorbd::utils::Vector3d& p1,
-            biorbd::utils::Vector3d& p2,
-            biorbd::utils::Scalar* muscleLength = nullptr) = 0; // Premier et dernier points musculaire
+        biorbd::rigidbody::Joints& model,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::utils::Vector3d& p1_bone,
+        const biorbd::utils::Vector3d& p2_bone,
+        biorbd::utils::Vector3d& p1,
+        biorbd::utils::Vector3d& p2,
+        biorbd::utils::Scalar* muscleLength = nullptr) =
+            0; // Premier et dernier points musculaire
 
     ///
     /// \brief Returns the previously computed 2 locations where the muscle leaves the wrapping object
@@ -120,9 +126,10 @@ public:
     /// \param muscleLength Length of the muscle (ignored if no value is provided)
     ///
     virtual void wrapPoints(
-            biorbd::utils::Vector3d& p1,
-            biorbd::utils::Vector3d& p2,
-            biorbd::utils::Scalar* muscleLength = nullptr) = 0; // Assume un appel déja faits
+        biorbd::utils::Vector3d& p1,
+        biorbd::utils::Vector3d& p2,
+        biorbd::utils::Scalar* muscleLength = nullptr) =
+            0; // Assume un appel déja faits
 
     ///
     /// \brief Return the RotoTrans matrix of the wrapping object
@@ -132,9 +139,9 @@ public:
     /// \return The RotoTrans matrix of the wrapping object
     ///
     virtual const biorbd::utils::RotoTrans& RT(
-            biorbd::rigidbody::Joints &model,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            bool updateKin = true) = 0;
+        biorbd::rigidbody::Joints &model,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        bool updateKin = true) = 0;
 
     ///
     /// \brief Return the RotoTrans matrix of the wrapping object
@@ -144,17 +151,20 @@ public:
 
 #ifndef SWIG
     ///
-    /// \brief To be able to use the equal "=" operator to define wrapping object 
+    /// \brief To be able to use the equal "=" operator to define wrapping object
     /// \param other The 3d node to define the wrapping object
-    biorbd::muscles::WrappingObject& operator=(const biorbd::utils::Vector3d& other){
+    biorbd::muscles::WrappingObject& operator=(const biorbd::utils::Vector3d& other)
+    {
         this->biorbd::utils::Vector3d::operator=(other);
         return *this;
     }
 #endif
 protected:
-    std::shared_ptr<biorbd::utils::RotoTrans> m_RT; ///< RotoTrans matrix of the wrapping object
+    std::shared_ptr<biorbd::utils::RotoTrans>
+    m_RT; ///< RotoTrans matrix of the wrapping object
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_WRAPPING_OBJECT_H

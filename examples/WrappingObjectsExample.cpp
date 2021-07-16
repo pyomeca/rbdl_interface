@@ -25,7 +25,7 @@ int main()
 
     // Set all muscles to half of their maximal activation
     std::vector<std::shared_ptr<biorbd::muscles::State>> states;
-    for (unsigned int i=0; i<model.nbMuscles(); ++i){
+    for (unsigned int i=0; i<model.nbMuscles(); ++i) {
         states.push_back(std::make_shared<biorbd::muscles::State>(0, 0.5));
     }
 

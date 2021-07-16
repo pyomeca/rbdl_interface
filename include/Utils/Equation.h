@@ -6,8 +6,10 @@
 #include "biorbdConfig.h"
 #include "Utils/String.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 
 ///
 /// \brief Strings that are to be interpreted as equation that can be evaluated
@@ -45,8 +47,8 @@ public:
     /// \return The split equation
     ///
     static std::vector<biorbd::utils::Equation> splitIntoEquation(
-            biorbd::utils::Equation wholeEq,
-            const std::map<biorbd::utils::Equation, double>& variables);
+        biorbd::utils::Equation wholeEq,
+        const std::map<biorbd::utils::Equation, double>& variables);
 
     ///
     /// \brief Evaluate and return an equation
@@ -54,7 +56,7 @@ public:
     /// \return The evaluated equation
     ///
     static double evaluateEquation(
-            std::vector<biorbd::utils::Equation> wholeEq);
+        std::vector<biorbd::utils::Equation> wholeEq);
 
     ///
     /// \brief Evaluate and return an equation
@@ -62,7 +64,7 @@ public:
     /// \return The evaluated equation
     ///
     static double evaluateEquation(
-            biorbd::utils::Equation wholeEq);
+        biorbd::utils::Equation wholeEq);
 
     ///
     /// \brief Evaluate and return an equation
@@ -71,8 +73,8 @@ public:
     /// \return The evaluated equation
     ///
     static double evaluateEquation(
-            biorbd::utils::Equation wholeEq,
-            const std::map<biorbd::utils::Equation, double>& variables);
+        biorbd::utils::Equation wholeEq,
+        const std::map<biorbd::utils::Equation, double>& variables);
 
     ///
     /// \brief Replace constants in the split equation by a number
@@ -84,7 +86,7 @@ public:
     ///
     ///
     static void replaceCste(
-            std::vector<biorbd::utils::Equation> &eq);
+        std::vector<biorbd::utils::Equation> &eq);
 
     ///
     /// \brief Replace the varirables in the equation by their values
@@ -92,18 +94,18 @@ public:
     /// \param variables The variable set
     ///
     static void replaceVar(
-            biorbd::utils::Equation &eq,
-            const std::map<biorbd::utils::Equation, double>& variables);
+        biorbd::utils::Equation &eq,
+        const std::map<biorbd::utils::Equation, double>& variables);
 
 protected:
     ///
     /// \brief Resolve the equation
     /// \param eq The equation to resolve
     /// \param math The mathematical symbol that is being evaluated now
-    /// 
+    ///
     static double evaluateEquation(
-            std::vector<biorbd::utils::Equation> eq,
-            unsigned int math);
+        std::vector<biorbd::utils::Equation> eq,
+        unsigned int math);
 
     ///
     /// \brief Prepare the mathematical symbols
@@ -122,6 +124,7 @@ protected:
     static std::vector<biorbd::utils::Equation> prepareMathSymbols();
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_EQUATION_H

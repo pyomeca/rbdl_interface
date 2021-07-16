@@ -5,8 +5,10 @@
 #include <map>
 #include "biorbdConfig.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 class Timer;
 
@@ -24,28 +26,28 @@ public:
     ///
     Benchmark();
 
-    /// 
+    ///
     /// \brief Start the timer of a specified name
     /// \param name The name to associate with timer
     /// \param force If force is true, the timer starts even though it is already started
     ///
     void startTimer(
-            const biorbd::utils::String& name,
-            bool force = false);
+        const biorbd::utils::String& name,
+        bool force = false);
 
-    /// 
+    ///
     /// \brief Pause a timer of a specified name
     /// \param name Name of the timer to pause
     ///
     void pauseTimer(
-            const biorbd::utils::String& name);
+        const biorbd::utils::String& name);
 
-    /// 
+    ///
     /// \brief Resume a timer of a specified name
     /// \param name Name of the timer to resume
     ///
     void resumeTimer(
-            const biorbd::utils::String& name);
+        const biorbd::utils::String& name);
 
     ///
     /// \brief Get lap time of a specified timer
@@ -53,7 +55,7 @@ public:
     /// \return The lap time of a specified timer
     ///
     double getLap(
-            const biorbd::utils::String& name);
+        const biorbd::utils::String& name);
 
     ///
     /// \brief Stop the timer of a specified name and get lap time
@@ -61,7 +63,7 @@ public:
     /// \return The lap time of a specified timer
     ///
     double stopTimer(
-            const biorbd::utils::String& name);
+        const biorbd::utils::String& name);
 
     ///
     /// \brief To waste time (similar to a sleep function)
@@ -74,7 +76,7 @@ public:
     /// \param name The name of the timer to add
     ///
     void addTimer(
-            const biorbd::utils::String& name);
+        const biorbd::utils::String& name);
 
     ///
     /// \brief Get the index of the specified timer
@@ -82,7 +84,7 @@ public:
     /// \return The index of the specified timer
     ///
     int getTimerIdx(
-            const biorbd::utils::String& name);
+        const biorbd::utils::String& name);
 
 protected:
     std::map<biorbd::utils::String, biorbd::utils::Timer> m_timers;///< Timers
@@ -90,6 +92,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_BENCHMARK_H

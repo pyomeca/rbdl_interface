@@ -25,7 +25,7 @@ int main()
     auto markers = model.markers(Q);
 
     // Print them to the console
-    for (auto marker : markers){
+    for (auto marker : markers) {
         std::cout << marker.transpose() << std::endl;
     }
 

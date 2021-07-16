@@ -4,13 +4,16 @@
 #include "biorbdConfig.h"
 #include "Actuators/Actuator.h"
 
-namespace biorbd {
-namespace rigidbody {
+namespace biorbd
+{
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 class GeneralizedVelocity;
 }
 
-namespace actuator {
+namespace actuator
+{
 ///
 /// \brief Class ActuatorGauss6p is a joint actuator type which maximum is bimodal 6 parameter gaussian (Gauss6p)
 /// Please note that all parameters are given in degrees
@@ -29,7 +32,7 @@ public:
     /// \param other The other Gauss6p actuator to copy
     ///
     ActuatorGauss6p(
-            const biorbd::actuator::ActuatorGauss6p& other);
+        const biorbd::actuator::ActuatorGauss6p& other);
 
     ///
     /// \brief Construct Gauss6p actuator
@@ -49,20 +52,20 @@ public:
     /// \param dofIdx Index of the DoF associated with actuator
     ///
     ActuatorGauss6p(
-            int direction,
-            const biorbd::utils::Scalar& Tmax,
-            const biorbd::utils::Scalar& T0,
-            const biorbd::utils::Scalar& wmax,
-            const biorbd::utils::Scalar& wc,
-            const biorbd::utils::Scalar& amin,
-            const biorbd::utils::Scalar& wr,
-            const biorbd::utils::Scalar& w1,
-            const biorbd::utils::Scalar& r,
-            const biorbd::utils::Scalar& qopt,
-            const biorbd::utils::Scalar& facteur,
-            const biorbd::utils::Scalar& r2,
-            const biorbd::utils::Scalar& qopt2,
-            unsigned int dofIdx);
+        int direction,
+        const biorbd::utils::Scalar& Tmax,
+        const biorbd::utils::Scalar& T0,
+        const biorbd::utils::Scalar& wmax,
+        const biorbd::utils::Scalar& wc,
+        const biorbd::utils::Scalar& amin,
+        const biorbd::utils::Scalar& wr,
+        const biorbd::utils::Scalar& w1,
+        const biorbd::utils::Scalar& r,
+        const biorbd::utils::Scalar& qopt,
+        const biorbd::utils::Scalar& facteur,
+        const biorbd::utils::Scalar& r2,
+        const biorbd::utils::Scalar& qopt2,
+        unsigned int dofIdx);
 
     ///
     /// \brief Construct Gauss6p actuator
@@ -83,21 +86,21 @@ public:
     /// \param jointName The name of the parent joint
     ///
     ActuatorGauss6p(
-            int direction,
-            const biorbd::utils::Scalar& Tmax,
-            const biorbd::utils::Scalar& T0,
-            const biorbd::utils::Scalar& wmax,
-            const biorbd::utils::Scalar& wc,
-            const biorbd::utils::Scalar& amin,
-            const biorbd::utils::Scalar& wr,
-            const biorbd::utils::Scalar& w1,
-            const biorbd::utils::Scalar& r,
-            const biorbd::utils::Scalar& qopt,
-            const biorbd::utils::Scalar& facteur,
-            const biorbd::utils::Scalar& r2,
-            const biorbd::utils::Scalar& qopt2,
-            unsigned int dofIdx,
-            const biorbd::utils::String &jointName);
+        int direction,
+        const biorbd::utils::Scalar& Tmax,
+        const biorbd::utils::Scalar& T0,
+        const biorbd::utils::Scalar& wmax,
+        const biorbd::utils::Scalar& wc,
+        const biorbd::utils::Scalar& amin,
+        const biorbd::utils::Scalar& wr,
+        const biorbd::utils::Scalar& w1,
+        const biorbd::utils::Scalar& r,
+        const biorbd::utils::Scalar& qopt,
+        const biorbd::utils::Scalar& facteur,
+        const biorbd::utils::Scalar& r2,
+        const biorbd::utils::Scalar& qopt2,
+        unsigned int dofIdx,
+        const biorbd::utils::String &jointName);
 
     ///
     /// \brief Destroy the class properly
@@ -110,12 +113,12 @@ public:
     ///
     biorbd::actuator::ActuatorGauss6p DeepCopy() const;
 
-    /// 
+    ///
     /// \brief Deep copy of the Gauss 3p actuator from another Gauss6p actuator
     /// \param other The Gauss6p actuator to copy
     ///
     void DeepCopy(
-            const biorbd::actuator::ActuatorGauss6p& other);
+        const biorbd::actuator::ActuatorGauss6p& other);
 
     ///
     /// \brief Return the maximal torque (invalid)
@@ -131,38 +134,48 @@ public:
     /// \return The maximal torque
     ///
     virtual biorbd::utils::Scalar torqueMax(
-            const biorbd::rigidbody::GeneralizedCoordinates &Q,
-            const biorbd::rigidbody::GeneralizedVelocity &Qdot);
+        const biorbd::rigidbody::GeneralizedCoordinates &Q,
+        const biorbd::rigidbody::GeneralizedVelocity &Qdot);
 
 protected:
     ///
     /// \brief Set the type of actuator
     ///
-    virtual void setType();             
+    virtual void setType();
 
     // For informations on these parameters, see Monique Iris Jackson's these from page 54
     // Angular/velocity relationship
-    std::shared_ptr<biorbd::utils::Scalar> m_k;         ///< Ratio of slope of the eccentric and concentric phases
-    std::shared_ptr<biorbd::utils::Scalar> m_Tmax;      ///< Maximum torque in the eccentric phase
-    std::shared_ptr<biorbd::utils::Scalar> m_T0;        ///< Maximum torque isometric
-    std::shared_ptr<biorbd::utils::Scalar> m_wmax;      ///< Maximum angular velocity above which torque cannot be produced
-    std::shared_ptr<biorbd::utils::Scalar> m_wc;        ///< Angular velocity of the vertical asymptote of the concentric hyperbola
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_k;         ///< Ratio of slope of the eccentric and concentric phases
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_Tmax;      ///< Maximum torque in the eccentric phase
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_T0;        ///< Maximum torque isometric
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_wmax;      ///< Maximum angular velocity above which torque cannot be produced
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_wc;        ///< Angular velocity of the vertical asymptote of the concentric hyperbola
 
     // Activation/velocity relationship
-    std::shared_ptr<biorbd::utils::Scalar> m_amax;      ///< Maximum activation level (set to 1)
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_amax;      ///< Maximum activation level (set to 1)
     std::shared_ptr<biorbd::utils::Scalar> m_amin;      ///< Low plateau level
-    std::shared_ptr<biorbd::utils::Scalar> m_wr;        ///< 1/10 of the distance amax/amin
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_wr;        ///< 1/10 of the distance amax/amin
     std::shared_ptr<biorbd::utils::Scalar> m_w1;        ///< Mid point plateau
 
     // Torque/angle relationship
-    std::shared_ptr<biorbd::utils::Scalar> m_r;         ///< width of the 1st gaussian curve
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_r;         ///< width of the 1st gaussian curve
     std::shared_ptr<biorbd::utils::Scalar> m_qopt;      ///< 1st Optimal position
     std::shared_ptr<biorbd::utils::Scalar> m_facteur;   ///< Factor of the 6p
-    std::shared_ptr<biorbd::utils::Scalar> m_r2;        ///< width of the 2nd gaussian curve
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_r2;        ///< width of the 2nd gaussian curve
     std::shared_ptr<biorbd::utils::Scalar> m_qopt2;     ///< 2nd Optimal position
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_ACTUATORS_ACTUATOR_GAUSS_6P_H

@@ -7,10 +7,12 @@
 #include "processArguments.h"
 
 void Matlab_nGeneralizedTorque(int, mxArray *plhs[],
-                  int nrhs, const mxArray*prhs[] ){
+                               int nrhs, const mxArray*prhs[] )
+{
 
     // Verifier les arguments d'entrée
-    checkNombreInputParametres(nrhs, 2, 2, "2 arguments are required where the 2nd is the handler on the model");
+    checkNombreInputParametres(nrhs, 2, 2,
+                               "2 arguments are required where the 2nd is the handler on the model");
     biorbd::Model * model = convertMat2Ptr<biorbd::Model>(prhs[1]);
 
     // Create a matrix for the return argument

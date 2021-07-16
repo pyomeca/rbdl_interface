@@ -13,13 +13,14 @@
 #include "RigidBody/Segment.h"
 #include "RigidBody/IMU.h"
 #ifndef SKIP_KALMAN
-#include "RigidBody/KalmanReconsIMU.h"
+    #include "RigidBody/KalmanReconsIMU.h"
 #endif
 
 static double requiredPrecision(1e-10);
 
 static std::string modelPathForGeneralTesting("models/pyomecaman.bioMod");
-static std::string modelPathForIMUTesting("models/IMUandCustomRT/pyomecaman_withIMUs.bioMod");
+static std::string
+modelPathForIMUTesting("models/IMUandCustomRT/pyomecaman_withIMUs.bioMod");
 
 TEST(BinderC, OpenCloseModel)
 {
@@ -45,7 +46,7 @@ TEST(BinderC, markers)
     // Markers in global reference frame
     biorbd::rigidbody::GeneralizedCoordinates Q(*model);
     double *dQ = new double[model->nbQ()];
-    for (unsigned int i=0; i<model->nbQ(); ++i){
+    for (unsigned int i=0; i<model->nbQ(); ++i) {
         Q[i] = 0.1;
         dQ[i] = 0.1;
     }
@@ -53,14 +54,16 @@ TEST(BinderC, markers)
     c_markers(model, dQ, dMarkersInGlobal);
     std::vector<biorbd::rigidbody::NodeSegment> markersInGlobal(model->markers(Q));
     for (unsigned int i=0; i<model->nbMarkers(); ++i)
-        for (unsigned int j=0; j<3; ++j)
+        for (unsigned int j=0; j<3; ++j) {
             EXPECT_NEAR(dMarkersInGlobal[i*3+j], markersInGlobal[i][j], requiredPrecision);
+        }
     delete[] dMarkersInGlobal;
 
     // Add a marker
     double newMarkerPosition[3] = {1, 2, 3};
     unsigned int nMarkersBeforeAdding(model->nbMarkers());
-    c_addMarker(model, newMarkerPosition, "MyNewMarker", model->segment(1).name().c_str(), false, true, "x");
+    c_addMarker(model, newMarkerPosition, "MyNewMarker",
+                model->segment(1).name().c_str(), false, true, "x");
     EXPECT_EQ(model->nbMarkers(), nMarkersBeforeAdding + 1);
     biorbd::rigidbody::NodeSegment newMarker(model->marker(nMarkersBeforeAdding));
     EXPECT_STREQ(newMarker.name().c_str(), "MyNewMarker");
@@ -74,8 +77,9 @@ TEST(BinderC, markers)
     c_markersInLocal(model, dMarkersInLocal);
     std::vector<biorbd::rigidbody::NodeSegment> markersInLocal(model->markers());
     for (unsigned int i=0; i<model->nbMarkers(); ++i)
-        for (unsigned int j=0; j<3; ++j)
+        for (unsigned int j=0; j<3; ++j) {
             EXPECT_NEAR(dMarkersInLocal[i*3+j], markersInLocal[i][j], requiredPrecision);
+        }
     delete[] dMarkersInLocal;
 
     delete[] dQ;
@@ -87,7 +91,7 @@ TEST(BinderC, jcs)
     biorbd::Model* model(c_biorbdModel(modelPathForGeneralTesting.c_str()));
 
     // Get angle sequence of some bodies
-    for (unsigned int i=0; i<model->nbSegment(); ++i){
+    for (unsigned int i=0; i<model->nbSegment(); ++i) {
         char sequence[4];
         c_boneRotationSequence(model, model->segment(i).name().c_str(), sequence);
         EXPECT_STREQ(sequence, model->segment(i).seqR().c_str());
@@ -96,7 +100,7 @@ TEST(BinderC, jcs)
     // JCS in global reference frame
     biorbd::rigidbody::GeneralizedCoordinates Q(*model);
     double *dQ = new double[model->nbQ()];
-    for (unsigned int i=0; i<model->nbQ(); ++i){
+    for (unsigned int i=0; i<model->nbQ(); ++i) {
         Q[i] = 0.1;
         dQ[i] = 0.1;
     }
@@ -105,8 +109,10 @@ TEST(BinderC, jcs)
     std::vector<biorbd::utils::RotoTrans> jcsInGlobal(model->allGlobalJCS(Q));
     for (unsigned int i=0; i<model->nbSegment(); ++i)
         for (unsigned int row=0; row<4; ++row)
-            for (unsigned int col=0; col<4; ++col)
-                EXPECT_NEAR(dRtInGlobal[i*16+col*4+row], jcsInGlobal[i](row, col), requiredPrecision);
+            for (unsigned int col=0; col<4; ++col) {
+                EXPECT_NEAR(dRtInGlobal[i*16+col*4+row], jcsInGlobal[i](row, col),
+                            requiredPrecision);
+            }
     delete[] dRtInGlobal;
 
     // JCS in local reference frame
@@ -115,8 +121,10 @@ TEST(BinderC, jcs)
     std::vector<biorbd::utils::RotoTrans> jcsInLocal(model->allGlobalJCS());
     for (unsigned int i=0; i<model->nbSegment(); ++i)
         for (unsigned int row=0; row<4; ++row)
-            for (unsigned int col=0; col<4; ++col)
-                EXPECT_NEAR(dRtInLocal[i*16+col*4+row], jcsInLocal[i](row, col), requiredPrecision);
+            for (unsigned int col=0; col<4; ++col) {
+                EXPECT_NEAR(dRtInLocal[i*16+col*4+row], jcsInLocal[i](row, col),
+                            requiredPrecision);
+            }
     delete[] dRtInLocal;
 
     delete[] dQ;
@@ -129,13 +137,14 @@ TEST(BinderC, imu)
     EXPECT_EQ(c_nIMUs(model), model->nbIMUs());
 
     biorbd::utils::RotoTrans RT(
-                biorbd::utils::RotoTrans::fromEulerAngles(
-                    Eigen::Vector3d(0.1, 0.1, 0.1),
-                    Eigen::Vector3d(0.1, 0.1, 0.1), "xyz"));
+        biorbd::utils::RotoTrans::fromEulerAngles(
+            Eigen::Vector3d(0.1, 0.1, 0.1),
+            Eigen::Vector3d(0.1, 0.1, 0.1), "xyz"));
     double rt[16];
     for (unsigned int i=0; i<4; ++i)
-        for (unsigned int j=0; j<4; ++j)
+        for (unsigned int j=0; j<4; ++j) {
             rt[j*4 + i] = RT(i, j);
+        }
 
     // Add an imu
     unsigned int nImuBeforeAdding(model->nbIMUs());
@@ -160,11 +169,11 @@ TEST(BinderC, kalmanImu)
 
     // Compute reference
     std::vector<biorbd::rigidbody::IMU> targetImus;
-    for (unsigned int i=0; i<model->nbIMUs(); ++i){
+    for (unsigned int i=0; i<model->nbIMUs(); ++i) {
         biorbd::utils::RotoTrans rt(
-                    biorbd::utils::RotoTrans::fromEulerAngles(
-                        Eigen::Vector3d(0.1*i, 0.1*i, 0.1*i),
-                        Eigen::Vector3d(0.1*i, 0.1*i, 0.1*i), "xyz"));
+            biorbd::utils::RotoTrans::fromEulerAngles(
+                Eigen::Vector3d(0.1*i, 0.1*i, 0.1*i),
+                Eigen::Vector3d(0.1*i, 0.1*i, 0.1*i), "xyz"));
         targetImus.push_back(rt);
     }
     biorbd::rigidbody::GeneralizedCoordinates Q(*model);
@@ -176,13 +185,15 @@ TEST(BinderC, kalmanImu)
     double* target = new double[model->nbIMUs()*3*3];
     for (unsigned int i=0; i<model->nbIMUs(); ++i)
         for (unsigned int row=0; row<3; ++row)
-            for (unsigned int col=0; col<3; ++col)
+            for (unsigned int col=0; col<3; ++col) {
                 target[i*9+3*col+row] = targetImus[i](row, col);
-    double* Q_c = new double[model->nbQ()], *Qdot_c = new double[model->nbQ()], *Qddot_c = new double[model->nbQ()];
+            }
+    double* Q_c = new double[model->nbQ()], *Qdot_c = new double[model->nbQ()],
+    *Qddot_c = new double[model->nbQ()];
     c_BiorbdKalmanReconsIMUstep(model, kalman_c, target, Q_c, Qdot_c, Qddot_c);
 
     // Compare results
-    for (unsigned int i=0; i<model->nbQ(); ++i){
+    for (unsigned int i=0; i<model->nbQ(); ++i) {
         EXPECT_DOUBLE_EQ(Q_c[i], Q[i]);
         EXPECT_DOUBLE_EQ(Qdot_c[i], Qdot[i]);
         EXPECT_DOUBLE_EQ(Qddot_c[i], Qddot[i]);
@@ -203,13 +214,15 @@ TEST(BinderC, math)
     // Simple matrix multiplaction (RT3 = RT1 * RT2)
     {
         biorbd::utils::RotoTrans RT1, RT2, RT3;
-        RT1 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1), Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
-        RT2 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.3, 0.3, 0.3), Eigen::Vector3d(0.2, 0.2, 0.2), "xyz");
+        RT1 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1),
+                Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
+        RT2 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.3, 0.3, 0.3),
+                Eigen::Vector3d(0.2, 0.2, 0.2), "xyz");
         RT3 = RT1.operator*(RT2);
 
         double rt1[16], rt2[16], rt3[16];
         for (unsigned int i=0; i<4; ++i) {
-            for (unsigned int j=0; j<4; ++j){
+            for (unsigned int j=0; j<4; ++j) {
                 rt1[j*4 + i] = RT1(i, j);
                 rt2[j*4 + i] = RT2(i, j);
             }
@@ -227,9 +240,15 @@ TEST(BinderC, math)
     {
         std::vector<biorbd::utils::RotoTrans> allRT(3);
         biorbd::utils::RotoTrans meanRT;
-        allRT[0] = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1), Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
-        allRT[1] = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.2, 0.2, 0.2), Eigen::Vector3d(0.2, 0.2, 0.2), "xyz");
-        allRT[2] = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.3, 0.3, 0.3), Eigen::Vector3d(0.3, 0.3, 0.3), "xyz");
+        allRT[0] = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1,
+                   0.1), Eigen::Vector3d(0.1, 0.1, 0.1),
+                   "xyz");
+        allRT[1] = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.2, 0.2,
+                   0.2), Eigen::Vector3d(0.2, 0.2, 0.2),
+                   "xyz");
+        allRT[2] = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.3, 0.3,
+                   0.3), Eigen::Vector3d(0.3, 0.3, 0.3),
+                   "xyz");
         meanRT = biorbd::utils::RotoTrans::mean(allRT);
 
         double* rt = new double[meanRT.size()*16];
@@ -254,13 +273,15 @@ TEST(BinderC, math)
     // Project jcs onto another (RT3 = RT1.tranpose() * RT2)
     {
         biorbd::utils::RotoTrans RT1, RT2, RT3;
-        RT1 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1), Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
-        RT2 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.3, 0.3, 0.3), Eigen::Vector3d(0.2, 0.2, 0.2), "xyz");
+        RT1 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1),
+                Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
+        RT2 = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.3, 0.3, 0.3),
+                Eigen::Vector3d(0.2, 0.2, 0.2), "xyz");
         RT3 = RT1.transpose().operator*(RT2);
 
         double rt1[16], rt2[16], rt3[16];
         for (unsigned int i=0; i<4; ++i) {
-            for (unsigned int j=0; j<4; ++j){
+            for (unsigned int j=0; j<4; ++j) {
                 rt1[j*4 + i] = RT1(i, j);
                 rt2[j*4 + i] = RT2(i, j);
             }
@@ -277,8 +298,10 @@ TEST(BinderC, math)
     // Get the cardan angles from a matrix
     {
         biorbd::utils::RotoTrans RT;
-        RT = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1), Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
-        biorbd::utils::Vector realCardan(biorbd::utils::RotoTrans::toEulerAngles(RT, "xyz"));
+        RT = biorbd::utils::RotoTrans::fromEulerAngles(Eigen::Vector3d(0.1, 0.1, 0.1),
+                Eigen::Vector3d(0.1, 0.1, 0.1), "xyz");
+        biorbd::utils::Vector realCardan(biorbd::utils::RotoTrans::toEulerAngles(RT,
+                                         "xyz"));
 
         double rt[16];
         for (unsigned int i=0; i<4; ++i) {
@@ -298,19 +321,18 @@ TEST(BinderC, math)
 
 TEST(BinderC, solveLinearSystem)
 {
-	//Solve matrix system Ax=b using Eigen : HouseholderQR decomposition
-	//Matrix A is 3x3 , cols after cols
-	double matrixA[9] = { 1, 4, 7, 2, 5, 8, 3, 6, 10 };
-	double vectorB[3] = { 3, 3, 4 };
-	double solX[3];
+    //Solve matrix system Ax=b using Eigen : HouseholderQR decomposition
+    //Matrix A is 3x3 , cols after cols
+    double matrixA[9] = { 1, 4, 7, 2, 5, 8, 3, 6, 10 };
+    double vectorB[3] = { 3, 3, 4 };
+    double solX[3];
 
-	c_solveLinearSystem(matrixA, 3, 3, vectorB, solX);
+    c_solveLinearSystem(matrixA, 3, 3, vectorB, solX);
 
-	//Value of the real solution
-	double solutionExacteX[3] = {-2, 1, 1};
+    //Value of the real solution
+    double solutionExacteX[3] = {-2, 1, 1};
 
-	for (int i = 0; i < 3; ++i)
-	{
-		EXPECT_NEAR(solX[i], solutionExacteX[i], requiredPrecision);
-	}
+    for (int i = 0; i < 3; ++i) {
+        EXPECT_NEAR(solX[i], solutionExacteX[i], requiredPrecision);
+    }
 }

@@ -16,22 +16,23 @@
 #include "RigidBody/GeneralizedTorque.h"
 #include "RigidBody/NodeSegment.h"
 #ifndef SKIP_KALMAN
-#include "RigidBody/KalmanReconsIMU.h"
+    #include "RigidBody/KalmanReconsIMU.h"
 #endif
 
 biorbd::Model* c_biorbdModel(
-        const char* pathToModel)
+    const char* pathToModel)
 {
-    return new biorbd::Model(biorbd::Reader::readModelFile(biorbd::utils::String(pathToModel)));
+    return new biorbd::Model(biorbd::Reader::readModelFile(biorbd::utils::String(
+                                 pathToModel)));
 }
 void c_deleteBiorbdModel(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
-     delete model;
+    delete model;
 }
 void c_writeBiorbdModel(
-        biorbd::Model* model,
-        const char * path)
+    biorbd::Model* model,
+    const char * path)
 {
     biorbd::Writer::writeModel(*model, biorbd::utils::Path(path));
 }
@@ -40,26 +41,27 @@ void c_writeBiorbdModel(
 
 // Joints functions
 void c_boneRotationSequence(
-        biorbd::Model* m,
-        const char* segName,
-        char* seq)
+    biorbd::Model* m,
+    const char* segName,
+    char* seq)
 {
     // Memory for seq must be already allocated
     biorbd::utils::String sequence(m->segment(segName).seqR());
     snprintf(seq, sequence.length() + 1, "%s", sequence.c_str());
 }
 void c_localJCS(
-        biorbd::Model* m,
-        int i,
-        double* rt_out)
+    biorbd::Model* m,
+    int i,
+    double* rt_out)
 {
-    biorbd::utils::RotoTrans RT(m->segment(static_cast<unsigned int>(i)).localJCS());
+    biorbd::utils::RotoTrans RT(m->segment(static_cast<unsigned int>
+                                           (i)).localJCS());
     dispatchRToutput(RT, rt_out);
 }
 void c_globalJCS(
-        biorbd::Model* m,
-        const double* Q,
-        double* jcs)
+    biorbd::Model* m,
+    const double* Q,
+    double* jcs)
 {
     // Dispatch des données d'entrée
     biorbd::rigidbody::GeneralizedCoordinates eQ(dispatchQinput(m, Q));
@@ -71,17 +73,18 @@ void c_globalJCS(
     dispatchRToutput(pre_jcs, jcs);
 }
 void c_inverseDynamics(
-        biorbd::Model *model,
-        const double *q,
-        const double *qdot,
-        const double *qddot,
-        double *tau) {
+    biorbd::Model *model,
+    const double *q,
+    const double *qdot,
+    const double *qddot,
+    double *tau)
+{
     biorbd::rigidbody::GeneralizedCoordinates Q(
-                dispatchQinput(model, q));
+        dispatchQinput(model, q));
     biorbd::rigidbody::GeneralizedVelocity Qdot(
-                dispatchQinput(model, qdot));
+        dispatchQinput(model, qdot));
     biorbd::rigidbody::GeneralizedAcceleration Qddot(
-                dispatchQinput(model, qddot));
+        dispatchQinput(model, qddot));
 
     biorbd::rigidbody::GeneralizedTorque Tau(*model);
     RigidBodyDynamics::InverseDynamics(*model, Q, Qdot, Qddot, Tau);
@@ -89,25 +92,28 @@ void c_inverseDynamics(
     dispatchTauOutput(Tau, tau);
 }
 void c_massMatrix(
-        biorbd::Model* model,
-        const double* q,
-        double* massMatrix) {
+    biorbd::Model* model,
+    const double* q,
+    double* massMatrix)
+{
     unsigned int nQ(model->nbQ());
     biorbd::rigidbody::GeneralizedCoordinates Q(
-                dispatchQinput(model, q));
+        dispatchQinput(model, q));
 
     RigidBodyDynamics::Math::MatrixNd Mass(nQ, nQ);
     Mass.setZero();
     RigidBodyDynamics::CompositeRigidBodyAlgorithm(*model, Q, Mass);
 
     // Remplir l'output
-    for (unsigned int i=0; i<nQ*nQ; ++i)
+    for (unsigned int i=0; i<nQ*nQ; ++i) {
         massMatrix[i] = Mass(i);
+    }
 }
 void c_CoM(
-        biorbd::Model* model,
-        const double* q,
-        double *com) {
+    biorbd::Model* model,
+    const double* q,
+    double *com)
+{
     biorbd::rigidbody::GeneralizedCoordinates Q(dispatchQinput(model, q));
 
     biorbd::utils::Vector3d CoM(model->CoM(Q));
@@ -118,22 +124,22 @@ void c_CoM(
 
 // dof functions
 int c_nQ(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
     return static_cast<int>(model->nbQ());
 }
 int c_nQDot(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
     return static_cast<int>(model->nbQdot());
 }
 int c_nQDDot(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
     return static_cast<int>(model->nbQddot());
 }
 int c_nGeneralizedTorque(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
     return static_cast<int>(model->nbGeneralizedTorque());
 }
@@ -141,61 +147,64 @@ int c_nGeneralizedTorque(
 
 // Markers functions
 int c_nMarkers(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
     return static_cast<int>(model->nbMarkers());
 }
 void c_markersInLocal(
-        biorbd::Model* model,
-        double* markPos)
+    biorbd::Model* model,
+    double* markPos)
 {
     // Prepare output
     dispatchMarkersOutput(model->markers(), markPos);
 }
 void c_markers(
-        biorbd::Model* model,
-        const double* Q,
-        double* markPos,
-        bool removeAxis,
-        bool updateKin)
+    biorbd::Model* model,
+    const double* Q,
+    double* markPos,
+    bool removeAxis,
+    bool updateKin)
 {
     // Prepare parameters
     biorbd::rigidbody::GeneralizedCoordinates eQ(dispatchQinput(model, Q));
 
     // Call the main function
-    std::vector<biorbd::rigidbody::NodeSegment> pos(model->markers(eQ, removeAxis, updateKin));
+    std::vector<biorbd::rigidbody::NodeSegment> pos(model->markers(eQ, removeAxis,
+            updateKin));
 
     // Prepare output
     dispatchMarkersOutput(pos, markPos);
 }
 void c_addMarker(
-        biorbd::Model *model,
-        const double *markPos,
-        const char* name,
-        const char* parentName,
-        bool technical,
-        bool anatomical,
-        const char* axesToRemove)
+    biorbd::Model *model,
+    const double *markPos,
+    const char* name,
+    const char* parentName,
+    bool technical,
+    bool anatomical,
+    const char* axesToRemove)
 {
     int parent_int = static_cast<int>(model->GetBodyId(parentName));
-    biorbd::utils::Vector3d pos(dispatchMarkersInput(markPos)); // Position du marker dans le repère local
-    model->addMarker(pos, name, parentName, technical, anatomical, axesToRemove, parent_int);
+    biorbd::utils::Vector3d pos(dispatchMarkersInput(
+                                    markPos)); // Position du marker dans le repère local
+    model->addMarker(pos, name, parentName, technical, anatomical, axesToRemove,
+                     parent_int);
 }
 
 
 // IMUs functions
 int c_nIMUs(
-        biorbd::Model* model)
+    biorbd::Model* model)
 {
     return static_cast<int>(model->nbIMUs());
 }
 void c_addIMU(
-        biorbd::Model *model,
-        const double *imuRT,
-        const char *name,
-        const char *parentName,
-        bool technical,
-        bool anatomical)
+    biorbd::Model *model,
+    const double *imuRT,
+    const char *name,
+    const char *parentName,
+    bool technical,
+    bool anatomical)
 {
     biorbd::utils::RotoTransNode pos(dispatchRTinput(imuRT), name, parentName);
     model->addIMU(pos, technical, anatomical);
@@ -205,41 +214,44 @@ void c_addIMU(
 // Kalman IMU
 #ifndef SKIP_KALMAN
 biorbd::rigidbody::KalmanReconsIMU* c_BiorbdKalmanReconsIMU(
-        biorbd::Model* model,
-        double* QinitialGuess,
-        double freq,
-        double noiseF,
-        double errorF)
+    biorbd::Model* model,
+    double* QinitialGuess,
+    double freq,
+    double noiseF,
+    double errorF)
 {
     // Créer un pointeur sur un filtre de kalman
-    biorbd::rigidbody::KalmanReconsIMU* kalman = new biorbd::rigidbody::KalmanReconsIMU(
-                *model, biorbd::rigidbody::KalmanParam(freq, noiseF, errorF));
+    biorbd::rigidbody::KalmanReconsIMU* kalman = new
+    biorbd::rigidbody::KalmanReconsIMU(
+        *model, biorbd::rigidbody::KalmanParam(freq, noiseF, errorF));
 
     // Mettre le initial guess
     biorbd::rigidbody::GeneralizedCoordinates e_QinitialGuess(*model);
-    if (QinitialGuess != nullptr){
-        for (size_t i = 0; i<model->nbQ(); ++i)
+    if (QinitialGuess != nullptr) {
+        for (size_t i = 0; i<model->nbQ(); ++i) {
             e_QinitialGuess[static_cast<int>(i)] = QinitialGuess[i];
+        }
         kalman->setInitState(&e_QinitialGuess);
     }
 
     return kalman;
 }
-void c_deleteBiorbdKalmanReconsIMU(biorbd::rigidbody::KalmanReconsIMU* model){
+void c_deleteBiorbdKalmanReconsIMU(biorbd::rigidbody::KalmanReconsIMU* model)
+{
     delete model;
 }
 void c_BiorbdKalmanReconsIMUstep(
-        biorbd::Model* model,
-        biorbd::rigidbody::KalmanReconsIMU* kalman,
-        double* imu,
-        double* Q,
-        double* QDot,
-        double* QDDot)
+    biorbd::Model* model,
+    biorbd::rigidbody::KalmanReconsIMU* kalman,
+    double* imu,
+    double* Q,
+    double* QDot,
+    double* QDDot)
 {
     // Copier les valeurs des matrices de rotation des IMUs dans un stl Vector
     biorbd::utils::Vector T(3*3*model->nbIMUs()); // Matrice 3*3 * nIMU
     for (unsigned int i=0; i<model->nbIMUs(); ++i)
-        for (unsigned int j=0; j<9; ++j){ // matrice 3*3
+        for (unsigned int j=0; j<9; ++j) { // matrice 3*3
             T[9*i+j] = imu[9*i+j];
         }
     // Se faire des entrés sur Q, QDot et QDDot
@@ -259,9 +271,9 @@ void c_BiorbdKalmanReconsIMUstep(
 
 // Math functions
 void c_matrixMultiplication(
-        const double* M1,
-        const double* M2,
-        double* Mout)
+    const double* M1,
+    const double* M2,
+    double* Mout)
 {
     // Recueillir les données d'entrée
     biorbd::utils::RotoTrans mM1(dispatchRTinput(M1));
@@ -271,15 +283,16 @@ void c_matrixMultiplication(
     dispatchRToutput(mM1.operator*(mM2), Mout);
 }
 void c_meanRT(
-        const double *imuRT,
-        unsigned int nFrame,
-        double* imuRT_mean)
+    const double *imuRT,
+    unsigned int nFrame,
+    double* imuRT_mean)
 {
     std::vector<biorbd::utils::RotoTrans> m;
 
     // Dispatch des données d'entrée
-    for (unsigned int i=0; i<nFrame; ++i) // Pour tous les instants
+    for (unsigned int i=0; i<nFrame; ++i) { // Pour tous les instants
         m.push_back(dispatchRTinput(&imuRT[i*16]));
+    }
 
     // Calcul de la moyenne
     biorbd::utils::RotoTrans mMean = biorbd::utils::RotoTrans::mean(m);
@@ -288,9 +301,9 @@ void c_meanRT(
     dispatchRToutput(mMean, imuRT_mean);
 }
 void c_projectJCSinParentBaseCoordinate(
-        const double* parent,
-        const double* jcs,
-        double * out)
+    const double* parent,
+    const double* jcs,
+    double * out)
 {
     // Recueillir les données d'entrée
     biorbd::utils::RotoTrans aParent(dispatchRTinput(parent));
@@ -300,15 +313,15 @@ void c_projectJCSinParentBaseCoordinate(
     dispatchRToutput(aParent.transpose().operator*(aJcs), out);
 }
 void c_transformMatrixToCardan(
-        const double *M,
-        const char *sequence,
-        double* cardanOut)
+    const double *M,
+    const char *sequence,
+    double* cardanOut)
 {
     biorbd::utils::RotoTrans mM(dispatchRTinput(M));
     biorbd::utils::String seq(sequence);
 
     biorbd::utils::Vector cardan(
-                biorbd::utils::RotoTrans::toEulerAngles(mM, seq));
+        biorbd::utils::RotoTrans::toEulerAngles(mM, seq));
 
     // On assume que la mémoire pour cardanOut a déjà été octroyée
     dispatchDoubleOutput(cardan, cardanOut);
@@ -316,11 +329,12 @@ void c_transformMatrixToCardan(
 
 
 void c_solveLinearSystem (
-        const double* A,
-        int nCols,
-        int nRows,
-        const double* b,
-        double* x) {
+    const double* A,
+    int nCols,
+    int nRows,
+    const double* b,
+    double* x)
+{
     biorbd::utils::Matrix matA(dispatchMatrixInput(A, nRows,  nCols));
     biorbd::utils::Vector vecB(dispatchVectorInput(b, nRows));
 
@@ -333,104 +347,109 @@ void c_solveLinearSystem (
 
 // Fonctions de dispatch des données d'entré ou de sortie
 biorbd::utils::Vector3d dispatchMarkersInput(
-        const double * pos)
+    const double * pos)
 {
     return biorbd::utils::Vector3d(pos[0], pos[1], pos[2]);
 }
 void dispatchMarkersOutput(
-        const std::vector<biorbd::rigidbody::NodeSegment> &allMarkers,
-        double* markers)
+    const std::vector<biorbd::rigidbody::NodeSegment> &allMarkers,
+    double* markers)
 {
     // Warning markers must already be allocated!
-    for (size_t i = 0; i<allMarkers.size(); ++i){
-        for (size_t j = 0; j<3; ++j){
+    for (size_t i = 0; i<allMarkers.size(); ++i) {
+        for (size_t j = 0; j<3; ++j) {
             markers[i*3+j] = allMarkers[i][static_cast<int>(j)];
         }
     }
 }
 
 biorbd::rigidbody::GeneralizedCoordinates dispatchQinput(
-        biorbd::Model* model,
-        const double* Q)
+    biorbd::Model* model,
+    const double* Q)
 {
     biorbd::rigidbody::GeneralizedCoordinates eQ(*model);
-    for (int i = 0; i < static_cast<int>(model->nbQ()); ++i){
+    for (int i = 0; i < static_cast<int>(model->nbQ()); ++i) {
         eQ[i] = Q[i];
     }
     return eQ;
 }
-void dispatchQoutput(const biorbd::rigidbody::GeneralizedCoordinates &eQ, double*Q){
+void dispatchQoutput(const biorbd::rigidbody::GeneralizedCoordinates &eQ,
+                     double*Q)
+{
     // Warnging Q must already be allocated
-    for (unsigned int i=0; i<eQ.size(); ++i){
+    for (unsigned int i=0; i<eQ.size(); ++i) {
         Q[i] = eQ[i];
     }
 }
 void dispatchTauOutput(
-        const biorbd::rigidbody::GeneralizedTorque &eTau,
-        double* Tau) {
+    const biorbd::rigidbody::GeneralizedTorque &eTau,
+    double* Tau)
+{
     // Warnging Q must already be allocated
     for (unsigned int i = 0; i < eTau.size(); ++i) {
         Tau[i] = eTau[i];
     }
 }
 void dispatchDoubleOutput(
-        const biorbd::utils::Vector& e,
-        double* d)
+    const biorbd::utils::Vector& e,
+    double* d)
 {
     // Warning output must already be allocated
-    for (unsigned int i=0; i<e.size(); ++i){
+    for (unsigned int i=0; i<e.size(); ++i) {
         d[i] = e[i];
     }
 }
 biorbd::utils::RotoTrans dispatchRTinput(
-        const double* rt)
+    const double* rt)
 {
     biorbd::utils::RotoTrans pos;
     pos <<  rt[0], rt[4], rt[8], rt[12],
-            rt[1], rt[5], rt[9], rt[13],
-            rt[2], rt[6], rt[10], rt[14],
-            rt[3], rt[7], rt[11], rt[15];
+        rt[1], rt[5], rt[9], rt[13],
+        rt[2], rt[6], rt[10], rt[14],
+        rt[3], rt[7], rt[11], rt[15];
     return pos;
 }
 void dispatchRToutput(
-        const biorbd::utils::RotoTrans& rt_in,
-        double* rt_out)
+    const biorbd::utils::RotoTrans& rt_in,
+    double* rt_out)
 {
     // Attention la mémoire doit déjà être allouée pour rt_out
-    for (unsigned int i=0; i<16; ++i){
+    for (unsigned int i=0; i<16; ++i) {
         rt_out[i] = rt_in(i%4, i/4);
     }
 }
 void dispatchRToutput(
-        const std::vector<biorbd::utils::RotoTrans>& rt_in,
-        double* rt_out)
+    const std::vector<biorbd::utils::RotoTrans>& rt_in,
+    double* rt_out)
 {
     // Attention la mémoire doit déjà être allouée pour rt_out
-    for (unsigned int i=0; i<rt_in.size(); ++i){
-        for (unsigned int j=0; j<16; ++j){
+    for (unsigned int i=0; i<rt_in.size(); ++i) {
+        for (unsigned int j=0; j<16; ++j) {
             rt_out[i*16+j] = rt_in[i](j%4, j/4);
         }
     }
 }
 
 biorbd::utils::Matrix dispatchMatrixInput(
-        const double* matXd, 
-        int nRows,
-        int nCols) {
+    const double* matXd,
+    int nRows,
+    int nCols)
+{
     biorbd::utils::Matrix res(
-                static_cast<unsigned int>(nRows),
-                static_cast<unsigned int>(nCols));
+        static_cast<unsigned int>(nRows),
+        static_cast<unsigned int>(nCols));
     for (int i = 0; i < nCols; ++i) {
         for (int j = 0; j < nRows; ++j) {
             res(j, i) = matXd[j + i * nCols];
         }
-    } 
+    }
     return res;
 }
 
 biorbd::utils::Vector dispatchVectorInput(
-        const double* vecXd, 
-        int nElements) {
+    const double* vecXd,
+    int nElements)
+{
     biorbd::utils::Vector res(static_cast<unsigned int>(nElements));
     for (int i = 0; i < nElements; ++i) {
         res(i) = vecXd[i];
@@ -438,8 +457,9 @@ biorbd::utils::Vector dispatchVectorInput(
     return res;
 }
 void dispatchVectorOutput(
-        const biorbd::utils::Vector& vect, 
-        double* vect_out) {
+    const biorbd::utils::Vector& vect,
+    double* vect_out)
+{
     // Warnging vect_out must already be allocated
     for (int i = 0; i < vect.size(); i++) {
         vect_out[i] = vect[i];

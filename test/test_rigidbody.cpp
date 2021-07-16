@@ -18,19 +18,21 @@
 #include "RigidBody/Segment.h"
 #include "RigidBody/IMU.h"
 #ifdef MODULE_KALMAN
-#include "RigidBody/KalmanReconsMarkers.h"
-#include "RigidBody/KalmanReconsIMU.h"
+    #include "RigidBody/KalmanReconsMarkers.h"
+    #include "RigidBody/KalmanReconsIMU.h"
 #endif
 
 
 static double requiredPrecision(1e-10);
 #ifdef MODULE_ACTUATORS
-static std::string modelPathForGeneralTesting("models/pyomecaman_withActuators.bioMod");
+    static std::string
+    modelPathForGeneralTesting("models/pyomecaman_withActuators.bioMod");
 #else // MODULE_ACTUATORS
-static std::string modelPathForGeneralTesting("models/pyomecaman.bioMod");
+    static std::string modelPathForGeneralTesting("models/pyomecaman.bioMod");
 #endif // MODULE_ACTUATORS
 static std::string modelPathMeshEqualsMarker("models/meshsEqualMarkers.bioMod");
-static std::string modelPathForLoopConstraintTesting("models/loopConstrainedModel.bioMod");
+static std::string
+modelPathForLoopConstraintTesting("models/loopConstrainedModel.bioMod");
 static std::string modelNoRoot("models/pyomecaman_freeFall.bioMod");
 static std::string modelSimple("models/cube.bioMod");
 
@@ -50,8 +52,9 @@ TEST(Gravity, change)
 
         std::vector<double> QDDot_expected(13);
         QDDot_expected[1] = -9.81;
-        for (unsigned int i = 0; i<model.nbQddot(); ++i){
-            EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], requiredPrecision);
+        for (unsigned int i = 0; i<model.nbQddot(); ++i) {
+            EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i],
+                        requiredPrecision);
         }
     }
 
@@ -60,8 +63,9 @@ TEST(Gravity, change)
         CALL_BIORBD_FUNCTION_3ARGS(QDDot, model, ForwardDynamics, Q, QDot, Tau);
         std::vector<double> QDDot_expected(13);
         QDDot_expected[0] = -2.2;
-        for (unsigned int i = 0; i<model.nbQddot(); ++i){
-            EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], requiredPrecision);
+        for (unsigned int i = 0; i<model.nbQddot(); ++i) {
+            EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i],
+                        requiredPrecision);
         }
     }
 }
@@ -137,7 +141,8 @@ TEST(Contacts, DeepCopy)
 }
 
 static std::vector<double> Qtest = { 0.1, 0.1, 0.1, 0.3, 0.3, 0.3,
-                                     0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3 };
+                                     0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3
+                                   };
 
 TEST(GeneralizedCoordinates, unitTest)
 {
@@ -151,7 +156,8 @@ TEST(GeneralizedCoordinates, unitTest)
         biorbd::rigidbody::GeneralizedCoordinates newQ(Q);
 
         std::vector<double> Q_expected = { 0.1, 0.1, 0.1, 0.3, 0.3, 0.3,
-                                     0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3 };
+                                           0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3
+                                         };
 
         for (unsigned int i = 0; i < model.nbQ(); ++i) {
             SCALAR_TO_DOUBLE(q, newQ[i]);
@@ -170,7 +176,8 @@ TEST(GeneralizedVelocity, unitTest)
         }
 
         std::vector<double> Qdot_expected = { 1., 1., 1., 3., 3., 3.,
-                                     3., 3., 3., 3., 3., 4., 3.};
+                                              3., 3., 3., 3., 3., 4., 3.
+                                            };
 
         biorbd::rigidbody::GeneralizedVelocity newQdot(Qdot);
 
@@ -183,7 +190,7 @@ TEST(GeneralizedVelocity, unitTest)
         biorbd::rigidbody::GeneralizedVelocity Qdot;
         SCALAR_TO_DOUBLE(qdotNorm, Qdot.norm());
         EXPECT_NEAR(qdotNorm, 0., requiredPrecision);
-   
+
         biorbd::rigidbody::GeneralizedVelocity newQdot(Qdot);
         SCALAR_TO_DOUBLE(newQdotNorm, newQdot.norm());
         EXPECT_NEAR(newQdotNorm, 0., requiredPrecision);
@@ -200,12 +207,13 @@ TEST(GeneralizedAcceleration, unitTest)
     {
         biorbd::Model model(modelPathForGeneralTesting);
         biorbd::rigidbody::GeneralizedAcceleration Qddot(model);
-        for (unsigned int i = 0; i < model.nbQ(); ++i){
+        for (unsigned int i = 0; i < model.nbQ(); ++i) {
             Qddot[i] = Qtest[i] * 100;
         }
 
         std::vector<double> Qddot_expected = { 10., 10., 10., 30., 30., 30.,
-                             30., 30., 30., 30., 30., 40., 30. };
+                                               30., 30., 30., 30., 30., 40., 30.
+                                             };
 
         biorbd::rigidbody::GeneralizedAcceleration newQddot(Qddot);
 
@@ -224,7 +232,7 @@ TEST(GeneralizedTorque, unitTest)
 
 #ifdef BIORBD_USE_EIGEN3_MATH
         Tau << 0.1, 0.1, 0.1, 0.3, 0.3, 0.3,
-            0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3; 
+            0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3;
 #else
         Tau(0, 0) = 0.1;
         Tau(1, 0) = 0.1;
@@ -242,7 +250,8 @@ TEST(GeneralizedTorque, unitTest)
 #endif
 
         std::vector<double> Tau_expected = { 0.1, 0.1, 0.1, 0.3, 0.3, 0.3,
-            0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3 };
+                                             0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.3
+                                           };
 
         for (unsigned int i = 0; i < 12; ++i) {
             SCALAR_TO_DOUBLE(tau, Tau[i]);
@@ -282,7 +291,8 @@ TEST(IMU, DeepCopy)
     EXPECT_EQ(deepCopyLater.isTechnical(), false);
 }
 
-static std::string modelPathForPyomecaman_withIMUs("models/IMUandCustomRT/pyomecaman_withIMUs.bioMod");
+static std::string
+modelPathForPyomecaman_withIMUs("models/IMUandCustomRT/pyomecaman_withIMUs.bioMod");
 TEST(IMUs, unitTest)
 {
     {
@@ -298,7 +308,8 @@ TEST(IMUs, unitTest)
         imu.setName("imuName");
         imus.addIMU(imu);
 
-        EXPECT_STREQ(imus.technicalIMU()[0].biorbd::utils::Node::name().c_str(), "imuName");
+        EXPECT_STREQ(imus.technicalIMU()[0].biorbd::utils::Node::name().c_str(),
+                     "imuName");
     }
     {
         biorbd::Model model(modelPathForPyomecaman_withIMUs);
@@ -353,9 +364,10 @@ TEST(Joints, copy)
             10, biorbd::utils::Vector3d(0.5, 0.5, 0.5),
             RigidBodyDynamics::Math::Matrix3d(1, 0, 0, 0, 1, 0, 0, 0, 1));
         std::vector<biorbd::utils::Range> ranges(6);
-   
-        joints.AddSegment("segmentName", "parentName", "zyx", "yzx", ranges, ranges, ranges,
-            characteristics, RigidBodyDynamics::Math::SpatialTransform());
+
+        joints.AddSegment("segmentName", "parentName", "zyx", "yzx", ranges, ranges,
+                          ranges,
+                          characteristics, RigidBodyDynamics::Math::SpatialTransform());
 
         {
             SCALAR_TO_DOUBLE(jointsMass, joints.mass());
@@ -379,9 +391,10 @@ TEST(Joints, unitTest)
 
         std::vector<biorbd::utils::String> expectedNames(joints.nbDof());
         expectedNames = { "Pelvis_TransY", "Pelvis_TransZ", "Pelvis_RotX",
-            "BrasD_RotZ", "BrasD_RotX", "BrasG_RotZ", "BrasG_RotX",
-            "CuisseD_RotX", "JambeD_RotX", "PiedD_RotX", "CuisseG_RotX",
-            "JambeG_RotX", "PiedG_RotX" };
+                          "BrasD_RotZ", "BrasD_RotX", "BrasG_RotZ", "BrasG_RotX",
+                          "CuisseD_RotX", "JambeD_RotX", "PiedD_RotX", "CuisseG_RotX",
+                          "JambeG_RotX", "PiedG_RotX"
+                        };
 
 
         for (unsigned int i = 0; i < joints.nbDof(); ++i) {
@@ -400,7 +413,7 @@ TEST(Joints, unitTest)
         biorbd::rigidbody::Joints joints(model);
         biorbd::rigidbody::GeneralizedCoordinates Q(model);
         biorbd::rigidbody::GeneralizedVelocity Qdot(model);
-        for (size_t i=0; i<model.nbQ(); ++i){
+        for (size_t i=0; i<model.nbQ(); ++i) {
             Q[i] = static_cast<double>(i) * 0.2;
             Qdot[i] = static_cast<double>(i) * 1.2;
         }
@@ -434,7 +447,7 @@ TEST(Markers, copy)
 
         biorbd::rigidbody::NodeSegment nodeSegment;
         markers.addMarker(nodeSegment,
-            "markerName", "parentName", true, true, "x", 98);
+                          "markerName", "parentName", true, true, "x", 98);
 
         EXPECT_EQ(markers.nbMarkers(), 98);
         EXPECT_EQ(shallowCopy.nbMarkers(), 98);
@@ -460,12 +473,18 @@ TEST(Segment, nameDof)
 }
 
 static std::string modelPathForRTsane("models/IMUandCustomRT/RT_sane.bioMod");
-static std::string modelPathForRTwrong1("models/IMUandCustomRT/RT_wrong1.bioMod");
-static std::string modelPathForRTwrong2("models/IMUandCustomRT/RT_wrong2.bioMod");
-static std::string modelPathForRTwrong3("models/IMUandCustomRT/RT_wrong3.bioMod");
-static std::string modelPathForRTwrong4("models/IMUandCustomRT/RT_wrong4.bioMod");
-static std::string modelPathForRTwrong5("models/IMUandCustomRT/RT_wrong5.bioMod");
-static std::string modelPathForRTwrong6("models/IMUandCustomRT/RT_wrong6.bioMod");
+static std::string
+modelPathForRTwrong1("models/IMUandCustomRT/RT_wrong1.bioMod");
+static std::string
+modelPathForRTwrong2("models/IMUandCustomRT/RT_wrong2.bioMod");
+static std::string
+modelPathForRTwrong3("models/IMUandCustomRT/RT_wrong3.bioMod");
+static std::string
+modelPathForRTwrong4("models/IMUandCustomRT/RT_wrong4.bioMod");
+static std::string
+modelPathForRTwrong5("models/IMUandCustomRT/RT_wrong5.bioMod");
+static std::string
+modelPathForRTwrong6("models/IMUandCustomRT/RT_wrong6.bioMod");
 TEST(RotoTransNode, Read)
 {
     {
@@ -491,7 +510,7 @@ TEST(RotoTransNode, copy)
     biorbd::rigidbody::RotoTransNodes rtNode(model);
     biorbd::utils::RotoTransNode rt(
         biorbd::utils::RotoTrans(biorbd::utils::Vector3d(2, 3, 4),
-                biorbd::utils::Vector3d(), "xyz"), "", "" );
+                                 biorbd::utils::Vector3d(), "xyz"), "", "" );
     rtNode.addRT(rt);
 
     biorbd::rigidbody::RotoTransNodes shallowCopy(rtNode);
@@ -516,7 +535,7 @@ TEST(RotoTransNode, unitTest)
         biorbd::rigidbody::RotoTransNodes rtNode;
         biorbd::utils::RotoTransNode rt(
             biorbd::utils::RotoTrans(biorbd::utils::Vector3d(2, 3, 4),
-                    biorbd::utils::Vector3d(), "xyz"), "", "" );
+                                     biorbd::utils::Vector3d(), "xyz"), "", "" );
         rtNode.addRT(rt);
         auto rt_vector(rtNode.RTs());
 #ifndef BIORBD_USE_CASADI_MATH
@@ -528,15 +547,15 @@ TEST(RotoTransNode, unitTest)
         biorbd::rigidbody::RotoTransNodes rtNode;
         biorbd::utils::RotoTransNode rt(
             biorbd::utils::RotoTrans(biorbd::utils::Vector3d(2, 3, 4),
-                    biorbd::utils::Vector3d(), "xyz"), "", "" );
+                                     biorbd::utils::Vector3d(), "xyz"), "", "" );
         rtNode.addRT(rt);
         std::vector<biorbd::utils::RotoTransNode> rt_vector(rtNode.RTs());
         rt_vector[0].setParent("parentName");
         rt_vector[0].setName("nameSet");
         std::vector<biorbd::utils::String> expectedNames = { "nameSet" };
-        for (unsigned int i = 0; i < rt_vector.size(); ++i)
-        {
-            EXPECT_STREQ(rtNode.RTs("parentName")[i].biorbd::utils::Node::name().c_str(), expectedNames[i].c_str());
+        for (unsigned int i = 0; i < rt_vector.size(); ++i) {
+            EXPECT_STREQ(rtNode.RTs("parentName")[i].biorbd::utils::Node::name().c_str(),
+                         expectedNames[i].c_str());
             EXPECT_STREQ(rtNode.RTsNames()[i].c_str(), expectedNames[i].c_str());
         }
     }
@@ -562,33 +581,33 @@ TEST(NodeSegment, unitTests)
     }
     {
         biorbd::rigidbody::NodeSegment nodeSegment(biorbd::utils::Vector3d(2, 3, 4),
-            "nodeSegmentName", "parentName", true, true, "z", 8);
+                "nodeSegmentName", "parentName", true, true, "z", 8);
         EXPECT_STREQ(nodeSegment.parent().c_str(), "parentName");
     }
     {
         biorbd::rigidbody::NodeSegment nodeSegment(biorbd::utils::Vector3d(2, 3, 4),
-            "nodeSegmentName", "parentName", true, true, "z", 8);
+                "nodeSegmentName", "parentName", true, true, "z", 8);
 
         EXPECT_EQ(nodeSegment.isAxisKept(2), false);
         EXPECT_EQ(nodeSegment.isAxisRemoved(2), true);
     }
     {
         biorbd::rigidbody::NodeSegment nodeSegment(biorbd::utils::Vector3d(2, 3, 4),
-            "nodeSegmentName", "parentName", true, true, "z", 8);
+                "nodeSegmentName", "parentName", true, true, "z", 8);
         std::vector<biorbd::utils::String> vector = { "x", "y" };
         nodeSegment.addAxesToRemove(vector);
         EXPECT_STREQ(nodeSegment.axesToRemove().c_str(), "xyz");
     }
     {
         biorbd::rigidbody::NodeSegment nodeSegment(biorbd::utils::Vector3d(2, 3, 4),
-            "nodeSegmentName", "parentName", true, true, "z", 8);
+                "nodeSegmentName", "parentName", true, true, "z", 8);
         std::vector<unsigned int> vector = {0, 1};
         nodeSegment.addAxesToRemove(vector);
         EXPECT_STREQ(nodeSegment.axesToRemove().c_str(), "xyz");
     }
     {
         biorbd::rigidbody::NodeSegment nodeSegment(biorbd::utils::Vector3d(2, 3, 4),
-            "nodeSegmentName", "parentName", true, true, "z", 8);
+                "nodeSegmentName", "parentName", true, true, "z", 8);
         EXPECT_THROW(nodeSegment.addAxesToRemove(4), std::runtime_error);
         biorbd::utils::String string("m");
         EXPECT_THROW(nodeSegment.addAxesToRemove(string), std::runtime_error);
@@ -599,7 +618,7 @@ TEST(NodeSegment, unitTests)
 TEST(NodeSegment, copy)
 {
     biorbd::rigidbody::NodeSegment nodeSegment(biorbd::utils::Vector3d(2, 3, 4),
-        "nodeSegmentName", "parentName", true, true, "z", 8);
+            "nodeSegmentName", "parentName", true, true, "z", 8);
 
     biorbd::rigidbody::NodeSegment deepCopyNow(nodeSegment.DeepCopy());
     biorbd::rigidbody::NodeSegment deepCopyLater;
@@ -630,7 +649,8 @@ TEST(DegreesOfFreedom, count)
     }
 }
 
-TEST(DegressOfFreedom, ranges) {
+TEST(DegressOfFreedom, ranges)
+{
     biorbd::Model model(modelPathForGeneralTesting);
     std::vector<biorbd::utils::Range> QRanges;
     std::vector<biorbd::utils::Range> QDotRanges;
@@ -721,7 +741,8 @@ TEST(DegressOfFreedom, ranges) {
 }
 
 static std::vector<double> QtestPyomecaman = {0.1, 0.1, 0.1, 0.3, 0.3, 0.3,
-                                             0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
+                                              0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3
+                                             };
 static std::vector<double> QtestEqualsMarker = {0.1, 0.1, 0.1, 0.3, 0.3, 0.3};
 
 TEST(CoM, kinematics)
@@ -731,7 +752,7 @@ TEST(CoM, kinematics)
     DECLARE_GENERALIZED_VELOCITY(Qdot, model);
     DECLARE_GENERALIZED_ACCELERATION(Qddot, model);
 
-    for (unsigned int i=0; i<model.nbQ(); ++i){
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Q(i, 0) = QtestPyomecaman[i];
         Qdot(i, 0) = QtestPyomecaman[i]*10;
         Qddot(i, 0) = QtestPyomecaman[i]*100;
@@ -747,8 +768,10 @@ TEST(CoM, kinematics)
 
     for (unsigned int i=0; i<3; ++i) {
         EXPECT_NEAR(static_cast<double>(com(i, 0)), expectedCom[i], requiredPrecision);
-        EXPECT_NEAR(static_cast<double>(comDot(i, 0)), expectedComDot[i], requiredPrecision);
-        EXPECT_NEAR(static_cast<double>(comDdot(i, 0)), expectedComDdot[i], requiredPrecision);
+        EXPECT_NEAR(static_cast<double>(comDot(i, 0)), expectedComDot[i],
+                    requiredPrecision);
+        EXPECT_NEAR(static_cast<double>(comDdot(i, 0)), expectedComDdot[i],
+                    requiredPrecision);
     }
 }
 
@@ -756,12 +779,12 @@ TEST(Segment, copy)
 {
     biorbd::Model model(modelPathForGeneralTesting);
     biorbd::rigidbody::SegmentCharacteristics characteristics(
-                10, biorbd::utils::Vector3d(0.5, 0.5, 0.5),
-                RigidBodyDynamics::Math::Matrix3d(1, 0, 0, 0, 1, 0, 0, 0, 1));
+        10, biorbd::utils::Vector3d(0.5, 0.5, 0.5),
+        RigidBodyDynamics::Math::Matrix3d(1, 0, 0, 0, 1, 0, 0, 0, 1));
     std::vector<biorbd::utils::Range> ranges(6);
     biorbd::rigidbody::Segment MasterSegment(
-                model, "MasterSegment", "NoParent", "zyx", "yzx", ranges, ranges, ranges,
-                characteristics, RigidBodyDynamics::Math::SpatialTransform());
+        model, "MasterSegment", "NoParent", "zyx", "yzx", ranges, ranges, ranges,
+        characteristics, RigidBodyDynamics::Math::SpatialTransform());
     biorbd::rigidbody::Segment ShallowCopy(MasterSegment);
     biorbd::rigidbody::Segment ShallowCopyEqual = MasterSegment;
     biorbd::rigidbody::Segment DeepCopyNow(MasterSegment.DeepCopy());
@@ -814,13 +837,15 @@ TEST(Markers, allPositions)
     EXPECT_EQ(model.nbMarkers(), 4);
 
     biorbd::rigidbody::GeneralizedCoordinates Q(model);
-    for (unsigned int i=0; i<model.nbQ(); ++i)
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Q[i] = QtestEqualsMarker[i];
+    }
 
     // All markers at once
-    std::vector<biorbd::rigidbody::NodeSegment> markers(model.markers(Q, true, true));
-    for (unsigned int i=0; i<model.nbMarkers(); ++i){
-        for (unsigned int j=0; j<3; ++j){
+    std::vector<biorbd::rigidbody::NodeSegment> markers(model.markers(Q, true,
+            true));
+    for (unsigned int i=0; i<model.nbMarkers(); ++i) {
+        for (unsigned int j=0; j<3; ++j) {
             SCALAR_TO_DOUBLE(mark, markers[i][j]);
             EXPECT_NEAR(mark, expectedMarkers[i][j], requiredPrecision);
         }
@@ -834,17 +859,19 @@ TEST(Markers, individualPositions)
     EXPECT_EQ(model.nbMarkers(), 4);
 
     biorbd::rigidbody::GeneralizedCoordinates Q(model);
-    for (unsigned int i=0; i<model.nbQ(); ++i)
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Q[i] = QtestEqualsMarker[i];
+    }
 
     // One marker at a time, only update Q once
-    for (unsigned int i=0; i<model.nbMarkers(); ++i){
+    for (unsigned int i=0; i<model.nbMarkers(); ++i) {
         biorbd::rigidbody::NodeSegment marker;
-        if (i==0)
+        if (i==0) {
             marker = model.marker(Q, i, true, true);
-        else
+        } else {
             marker = model.marker(Q, i, true, false);
-        for (unsigned int j=0; j<3; ++j){
+        }
+        for (unsigned int j=0; j<3; ++j) {
             SCALAR_TO_DOUBLE(mark, marker[j]);
             EXPECT_NEAR(mark, expectedMarkers[i][j], requiredPrecision);
         }
@@ -859,13 +886,14 @@ TEST(Markers, individualPositions)
         std::vector<double>({1.2905320401699185, 1.2989551971389397, 1.310413178608594})
     };
     // One marker at a time, only update Q once
-    for (unsigned int i=0; i<model.nbMarkers(); ++i){
+    for (unsigned int i=0; i<model.nbMarkers(); ++i) {
         biorbd::rigidbody::NodeSegment marker;
-        if (i==0)
+        if (i==0) {
             marker = model.marker(Q, i, true, true);
-        else
+        } else {
             marker = model.marker(Q, i, true, false);
-        for (unsigned int j=0; j<3; ++j){
+        }
+        for (unsigned int j=0; j<3; ++j) {
             SCALAR_TO_DOUBLE(mark, marker[j]);
             EXPECT_NEAR(mark, expectedMarkers2[i][j], requiredPrecision);
         }
@@ -876,13 +904,13 @@ TEST(Mesh, position)
 {
     biorbd::Model model(modelPathMeshEqualsMarker);
     biorbd::rigidbody::GeneralizedCoordinates Q(model);
-    for (unsigned int q=0; q<model.nbQ(); ++q){
+    for (unsigned int q=0; q<model.nbQ(); ++q) {
         Q.setZero();
         Q[q] = 1;
         std::vector<std::vector<biorbd::utils::Vector3d>> mesh(model.meshPoints(Q));
         std::vector<biorbd::rigidbody::NodeSegment> markers(model.markers(Q));
-        for (unsigned int idx=0; idx<markers.size(); ++idx){
-            for (unsigned int xyz =0; xyz<3; ++xyz){
+        for (unsigned int idx=0; idx<markers.size(); ++idx) {
+            for (unsigned int xyz =0; xyz<3; ++xyz) {
                 SCALAR_TO_DOUBLE(meshDouble, mesh[0][idx][xyz]);
                 SCALAR_TO_DOUBLE(markerDouble, markers[idx][xyz]);
                 EXPECT_NEAR(meshDouble, markerDouble, requiredPrecision);
@@ -893,8 +921,8 @@ TEST(Mesh, position)
         Q.setOnes();
         std::vector<std::vector<biorbd::utils::Vector3d>> mesh(model.meshPoints(Q));
         std::vector<biorbd::rigidbody::NodeSegment> markers(model.markers(Q));
-        for (unsigned int idx=0; idx<markers.size(); ++idx){
-            for (unsigned int xyz =0; xyz<3; ++xyz){
+        for (unsigned int idx=0; idx<markers.size(); ++idx) {
+            for (unsigned int xyz =0; xyz<3; ++xyz) {
                 SCALAR_TO_DOUBLE(meshDouble, mesh[0][idx][xyz]);
                 SCALAR_TO_DOUBLE(markerDouble, markers[idx][xyz]);
                 EXPECT_NEAR(meshDouble, markerDouble, requiredPrecision);
@@ -912,23 +940,25 @@ TEST(Dynamics, Forward)
 
     // Set to random values
     std::vector<double> val(model.nbQ());
-    for (size_t i=0; i<val.size(); ++i){
+    for (size_t i=0; i<val.size(); ++i) {
         val[i] = static_cast<double>(i) * 1.1;
     }
     FILL_VECTOR(Q, val);
     FILL_VECTOR(QDot, val);
     FILL_VECTOR(Tau, val);
 
-    std::vector<double> QDDot_expected =
-    {20.554883896960259, -22.317642013324736, -77.406439058256126, 17.382961188212313,
-     -63.426361095191858, 93.816468824985876, 106.46105024484631, 95.116641811710167,
-     -268.1961283528546, 2680.3632159799949, -183.4582596257801, 755.89411812405604,
-     163.60239754283589};
+    std::vector<double> QDDot_expected = {
+        20.554883896960259, -22.317642013324736, -77.406439058256126, 17.382961188212313,
+        -63.426361095191858, 93.816468824985876, 106.46105024484631, 95.116641811710167,
+        -268.1961283528546, 2680.3632159799949, -183.4582596257801, 755.89411812405604,
+        163.60239754283589
+    };
 
     CALL_BIORBD_FUNCTION_3ARGS(QDDot, model, ForwardDynamics, Q, QDot, Tau);
 
-    for (unsigned int i = 0; i<model.nbQddot(); ++i){
-        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], requiredPrecision);
+    for (unsigned int i = 0; i<model.nbQddot(); ++i) {
+        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i],
+                    requiredPrecision);
     }
 }
 
@@ -941,7 +971,7 @@ TEST(Dynamics, ForwardChangingMass)
 
     // Set to random values
     std::vector<double> val(model.nbQ());
-    for (size_t i=0; i<val.size(); ++i){
+    for (size_t i=0; i<val.size(); ++i) {
         val[i] = static_cast<double>(i) * 1.1;
     }
     FILL_VECTOR(Q, val);
@@ -956,8 +986,9 @@ TEST(Dynamics, ForwardChangingMass)
 
     CALL_BIORBD_FUNCTION_3ARGS(QDDot, model, ForwardDynamics, Q, QDot, Tau);
 
-    for (unsigned int i = 0; i<model.nbQddot(); ++i){
-        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], requiredPrecision);
+    for (unsigned int i = 0; i<model.nbQddot(); ++i) {
+        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i],
+                    requiredPrecision);
     }
 
 
@@ -970,7 +1001,7 @@ TEST(Dynamics, ForwardDynAndExternalForces)
     DECLARE_GENERALIZED_VELOCITY(QDot, model);
     DECLARE_GENERALIZED_TORQUE(Tau, model);
     std::vector<biorbd::utils::SpatialVector> f_ext;
-    for (size_t i=0; i<2; ++i){
+    for (size_t i=0; i<2; ++i) {
         double di = static_cast<double>(i);
         f_ext.push_back(biorbd::utils::SpatialVector(
                             (di+1)*11.1, (di+1)*22.2, (di+1)*33.3, (di+1)*44.4, (di+1)*55.5, (di+1)*66.6));
@@ -978,23 +1009,26 @@ TEST(Dynamics, ForwardDynAndExternalForces)
 
     // Set to random values
     std::vector<double> val(model.nbQ());
-    for (size_t i=0; i<val.size(); ++i){
+    for (size_t i=0; i<val.size(); ++i) {
         val[i] = static_cast<double>(i) * 1.1;
     }
     FILL_VECTOR(Q, val);
     FILL_VECTOR(QDot, val);
     FILL_VECTOR(Tau, val);
 
-    std::vector<double> QDDot_expected =
-    {8.8871711208009998, -13.647827029817943, -33.606145294752132, 16.922669487341341,
-     -21.882821189868423, 41.15364990805439, 68.892537246574463, -324.59756885799197,
-     -447.99217990207387, 18884.241415786601, -331.24622725851572, 1364.7620674666462,
-     3948.4748602722384};
+    std::vector<double> QDDot_expected = {
+        8.8871711208009998, -13.647827029817943, -33.606145294752132, 16.922669487341341,
+        -21.882821189868423, 41.15364990805439, 68.892537246574463, -324.59756885799197,
+        -447.99217990207387, 18884.241415786601, -331.24622725851572, 1364.7620674666462,
+        3948.4748602722384
+    };
 
-    CALL_BIORBD_FUNCTION_3ARGS1PARAM(QDDot, model, ForwardDynamics, Q, QDot, Tau, &f_ext);
+    CALL_BIORBD_FUNCTION_3ARGS1PARAM(QDDot, model, ForwardDynamics, Q, QDot, Tau,
+                                     &f_ext);
 
-    for (unsigned int i = 0; i<model.nbQddot(); ++i){
-        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], requiredPrecision);
+    for (unsigned int i = 0; i<model.nbQddot(); ++i) {
+        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i],
+                    requiredPrecision);
     }
 }
 
@@ -1007,26 +1041,30 @@ TEST(QDot, ComputeConstraintImpulsesDirect)
 
     // Set to random values
     std::vector<double> val(model.nbQ());
-    for (size_t i=0; i<val.size(); ++i){
+    for (size_t i=0; i<val.size(); ++i) {
         val[i] = static_cast<double>(i) * 1.1;
     }
     FILL_VECTOR(Q, val);
     FILL_VECTOR(QDot, val);
 
-    CALL_BIORBD_FUNCTION_2ARGS(QDotPost, model, ComputeConstraintImpulsesDirect, Q, QDot);
+    CALL_BIORBD_FUNCTION_2ARGS(QDotPost, model, ComputeConstraintImpulsesDirect, Q,
+                               QDot);
 
-    std::vector<double> QDotPost_expected =
-    {0.92034698076739008, 0.4542331948818259, -1.1747551666658667, 3.3396871279100031,
-     1.1143307751232683, 9.5534681791265204, 9.5313390358865036, 2.5590424787426884,
-     -3.0502066043856577, 1.6659192923088271, 1.3562999563073794, -3.4457346325708458,
-     3.2641898429292815};
-    for (unsigned int i = 0; i<model.nbQdot(); ++i){
-        EXPECT_NEAR(static_cast<double>(QDotPost(i, 0)), QDotPost_expected[i], requiredPrecision);
+    std::vector<double> QDotPost_expected = {
+        0.92034698076739008, 0.4542331948818259, -1.1747551666658667, 3.3396871279100031,
+        1.1143307751232683, 9.5534681791265204, 9.5313390358865036, 2.5590424787426884,
+        -3.0502066043856577, 1.6659192923088271, 1.3562999563073794, -3.4457346325708458,
+        3.2641898429292815
+    };
+    for (unsigned int i = 0; i<model.nbQdot(); ++i) {
+        EXPECT_NEAR(static_cast<double>(QDotPost(i, 0)), QDotPost_expected[i],
+                    requiredPrecision);
     }
 }
 
 
-TEST(Dynamics, ForwardLoopConstraint){
+TEST(Dynamics, ForwardLoopConstraint)
+{
     biorbd::Model model(modelPathForLoopConstraintTesting);
     DECLARE_GENERALIZED_COORDINATES(Q, model);
     DECLARE_GENERALIZED_VELOCITY(QDot, model);
@@ -1034,25 +1072,28 @@ TEST(Dynamics, ForwardLoopConstraint){
 
     // Set to random values
     std::vector<double> val(model.nbQ());
-    for (size_t i=0; i<val.size(); ++i){
+    for (size_t i=0; i<val.size(); ++i) {
         val[i] = static_cast<double>(i) * 1.1;
     }
     FILL_VECTOR(Q, val);
     FILL_VECTOR(QDot, val);
     FILL_VECTOR(Tau, val);
 
-    std::vector<double> QDDot_expected =
-    {4357.563983223662,  -1980.272417081602, -4132.170113875329, 34854.96630091612,
-     -5939.1875609623385, 20005.793234188295, -33019.84433234081, 5044.593964065896,
-     76960.9024224599, 13949749.797541305, 29056.19402773685, 13957133.384121455};
+    std::vector<double> QDDot_expected = {
+        4357.563983223662,  -1980.272417081602, -4132.170113875329, 34854.96630091612,
+        -5939.1875609623385, 20005.793234188295, -33019.84433234081, 5044.593964065896,
+        76960.9024224599, 13949749.797541305, 29056.19402773685, 13957133.384121455
+    };
 
-    CALL_BIORBD_FUNCTION_3ARGS(QDDot, model, ForwardDynamicsConstraintsDirect, Q, QDot, Tau);
-    for (unsigned int i = 0; i<model.nbQddot(); ++i){
+    CALL_BIORBD_FUNCTION_3ARGS(QDDot, model, ForwardDynamicsConstraintsDirect, Q,
+                               QDot, Tau);
+    for (unsigned int i = 0; i<model.nbQddot(); ++i) {
         EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], 1e-2);
     }
 }
 
-TEST(Dynamics, ForwardAccelerationConstraint){
+TEST(Dynamics, ForwardAccelerationConstraint)
+{
     biorbd::Model model(modelPathForGeneralTesting);
     DECLARE_GENERALIZED_COORDINATES(Q, model);
     DECLARE_GENERALIZED_VELOCITY(QDot, model);
@@ -1060,7 +1101,7 @@ TEST(Dynamics, ForwardAccelerationConstraint){
     DECLARE_GENERALIZED_TORQUE(Tau, model);
 
     std::vector<double> val(model.nbQ());
-    for (size_t i=0; i<val.size(); ++i){
+    for (size_t i=0; i<val.size(); ++i) {
         val[i] = 1.0;
     }
     FILL_VECTOR(Q, val);
@@ -1068,22 +1109,28 @@ TEST(Dynamics, ForwardAccelerationConstraint){
     FILL_VECTOR(Tau, val);
 
     std::vector<double> QDDot_expected = {1.9402069774422919,  -9.1992692111538243,  2.9930159570454702,
-            5.2738378853554133, 8.9387539396273699, 6.0938738229550751, 9.9560407885164217,
-            38.6297746304162, -52.159023390563554, 36.702385054876714, 38.629774630416208, -52.159023390563561,
-            36.70238505487675};
+                                          5.2738378853554133, 8.9387539396273699, 6.0938738229550751, 9.9560407885164217,
+                                          38.6297746304162, -52.159023390563554, 36.702385054876714, 38.629774630416208, -52.159023390563561,
+                                          36.70238505487675
+                                         };
     std::vector<double> forces_expected = {-16.344680827308579, -30.485214214095951, 112.8234134576031, -16.344680827308611,
-            -30.485214214095965, 112.82341345760311};
+                                           -30.485214214095965, 112.82341345760311
+                                          };
 
     biorbd::rigidbody::Contacts cs(model.getConstraints());
-    CALL_BIORBD_FUNCTION_3ARGS1PARAM(QDDot, model, ForwardDynamicsConstraintsDirect, Q, QDot, Tau, cs);
-    for (unsigned int i = 0; i<model.nbQddot(); ++i){
-        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i], requiredPrecision);
+    CALL_BIORBD_FUNCTION_3ARGS1PARAM(QDDot, model, ForwardDynamicsConstraintsDirect,
+                                     Q, QDot, Tau, cs);
+    for (unsigned int i = 0; i<model.nbQddot(); ++i) {
+        EXPECT_NEAR(static_cast<double>(QDDot(i, 0)), QDDot_expected[i],
+                    requiredPrecision);
     }
     EXPECT_EQ(cs.nbContacts(), forces_expected.size());
 
-    CALL_BIORBD_FUNCTION_3ARGS(forces, model, ContactForcesFromForwardDynamicsConstraintsDirect, Q, QDot, Tau);
-    for (unsigned int i=0; i<forces_expected.size(); ++i){
-        EXPECT_NEAR(static_cast<double>(forces(i, 0)), forces_expected[i], requiredPrecision);
+    CALL_BIORBD_FUNCTION_3ARGS(forces, model,
+                               ContactForcesFromForwardDynamicsConstraintsDirect, Q, QDot, Tau);
+    for (unsigned int i=0; i<forces_expected.size(); ++i) {
+        EXPECT_NEAR(static_cast<double>(forces(i, 0)), forces_expected[i],
+                    requiredPrecision);
     }
 }
 
@@ -1108,7 +1155,8 @@ TEST(Kinematics, computeQdot)
 
         CALL_BIORBD_FUNCTION_2ARGS(QDot_quat, m, computeQdot, Q_quat, QDot);
         for (unsigned int i=0; i<m.nbQ(); ++i) {
-            EXPECT_NEAR(static_cast<double>(QDot_quat(i, 0)), QDot_quat_expected[i], requiredPrecision);
+            EXPECT_NEAR(static_cast<double>(QDot_quat(i, 0)), QDot_quat_expected[i],
+                        requiredPrecision);
         }
     }
     {
@@ -1119,11 +1167,14 @@ TEST(Kinematics, computeQdot)
         DECLARE_GENERALIZED_COORDINATES(Q_quat, m);
         FILL_VECTOR(Q_quat, std::vector<double>({x, y, z, w}));
         std::vector<double> QDot_quat_expected = {1.0202164398589233, -0.9498566853858941,
-                0.45733840407468973,-1.1609359488049815};
+                                                  0.45733840407468973,-1.1609359488049815
+                                                 };
         CALL_BIORBD_FUNCTION_2ARGS(QDot_quat, m, computeQdot, Q_quat, QDot);
 
-        for (unsigned int i=0; i<m.nbQ(); ++i)
-            EXPECT_NEAR(static_cast<double>(QDot_quat(i, 0)), QDot_quat_expected[i], requiredPrecision);
+        for (unsigned int i=0; i<m.nbQ(); ++i) {
+            EXPECT_NEAR(static_cast<double>(QDot_quat(i, 0)), QDot_quat_expected[i],
+                        requiredPrecision);
+        }
     }
 }
 
@@ -1142,7 +1193,7 @@ TEST(Kalman, markers)
 
     // Compute reference
     biorbd::rigidbody::GeneralizedCoordinates Qref(model);
-    for (unsigned int i=0; i<model.nbQ(); ++i){
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Qref(i, 0) = 0.2;
     }
     std::vector<biorbd::rigidbody::NodeSegment> targetMarkers(model.markers(Qref));
@@ -1153,7 +1204,7 @@ TEST(Kalman, markers)
     kalman.reconstructFrame(model, targetMarkers, &Q, &Qdot, &Qddot);
 
     // Compare results (since the initialization of the filter is done 50X, it is expected to have converged)
-    for (unsigned int i=0; i<nQToTest; ++i){
+    for (unsigned int i=0; i<nQToTest; ++i) {
         SCALAR_TO_DOUBLE(q, Q[i]);
         SCALAR_TO_DOUBLE(qdot, Qdot[i]);
         SCALAR_TO_DOUBLE(qddot, Qddot[i]);
@@ -1163,14 +1214,14 @@ TEST(Kalman, markers)
         EXPECT_NEAR(qddot, 0, 1e-6);
     }
 
-    for (unsigned int i=0; i<model.nbQ(); ++i){
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Qref(i, 0) = 0.3;
     }
     targetMarkers = model.markers(Qref);
     kalman.reconstructFrame(model, targetMarkers, &Q, &Qdot, &Qddot);
 
     // Compare results (Here the filter should not have the time to converge)
-    for (unsigned int i=0; i<nQToTest; ++i){
+    for (unsigned int i=0; i<nQToTest; ++i) {
         SCALAR_TO_DOUBLE(q, Q[i]);
         SCALAR_TO_DOUBLE(qdot, Qdot[i]);
         SCALAR_TO_DOUBLE(qddot, Qddot[i]);
@@ -1181,11 +1232,12 @@ TEST(Kalman, markers)
     }
 
     // Force the filter to converge
-    for (unsigned int i=0; i<100; ++i)
+    for (unsigned int i=0; i<100; ++i) {
         kalman.reconstructFrame(model, targetMarkers, &Q, &Qdot, &Qddot);
+    }
 
     // Now it should be more or less equal
-    for (unsigned int i=0; i<nQToTest; ++i){
+    for (unsigned int i=0; i<nQToTest; ++i) {
         SCALAR_TO_DOUBLE(q, Q[i]);
         SCALAR_TO_DOUBLE(qdot, Qdot[i]);
         SCALAR_TO_DOUBLE(qddot, Qddot[i]);
@@ -1214,7 +1266,7 @@ TEST(Kalman, imu)
 
     // Compute reference
     biorbd::rigidbody::GeneralizedCoordinates Qref(model);
-    for (unsigned int i=0; i<model.nbQ(); ++i){
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Qref(i, 0) = 0.2;
     }
     std::vector<biorbd::rigidbody::IMU> targetImus(model.IMU(Qref));
@@ -1225,37 +1277,36 @@ TEST(Kalman, imu)
     kalman.reconstructFrame(model, targetImus, &Q, &Qdot, &Qddot);
 
     // Compare results (since the initialization of the filter is done 50X, it is expected to have converged)
-    for (unsigned int i=0; i<nQToTest; ++i){
+    for (unsigned int i=0; i<nQToTest; ++i) {
         SCALAR_TO_DOUBLE(q, Q[i]);
         SCALAR_TO_DOUBLE(qdot, Qdot[i]);
         SCALAR_TO_DOUBLE(qddot, Qddot[i]);
         SCALAR_TO_DOUBLE(qref, Qref[i]);
-        if (i < 2){
+        if (i < 2) {
             // Translations are not reconstructed from IMU
             EXPECT_EQ(q, 0);
             EXPECT_EQ(qdot, 0);
             EXPECT_EQ(qddot, 0);
-        }
-        else {
+        } else {
             EXPECT_NEAR(q, qref, 1e-6);
             EXPECT_NEAR(qdot, 0, 1e-6);
             EXPECT_NEAR(qddot, 0, 1e-6);
         }
     }
 
-    for (unsigned int i=0; i<model.nbQ(); ++i){
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         Qref(i, 0) = 0.3;
     }
     targetImus = model.IMU(Qref);
     kalman.reconstructFrame(model, targetImus, &Q, &Qdot, &Qddot);
 
     // Compare results (Here the filter should not have the time to converge)
-    for (unsigned int i=0; i<nQToTest; ++i){
+    for (unsigned int i=0; i<nQToTest; ++i) {
         SCALAR_TO_DOUBLE(q, Q[i]);
         SCALAR_TO_DOUBLE(qdot, Qdot[i]);
         SCALAR_TO_DOUBLE(qddot, Qddot[i]);
         SCALAR_TO_DOUBLE(qref, Qref[i]);
-        if (i<2){
+        if (i<2) {
             EXPECT_EQ(q, 0);
             EXPECT_EQ(qdot, 0);
             EXPECT_EQ(qddot, 0);
@@ -1267,22 +1318,22 @@ TEST(Kalman, imu)
     }
 
     // Force the filter to converge
-    for (unsigned int i=0; i<1000; ++i)
+    for (unsigned int i=0; i<1000; ++i) {
         kalman.reconstructFrame(model, targetImus, &Q, &Qdot, &Qddot);
+    }
 
     // Now it should be more or less equal
-    for (unsigned int i=0; i<model.nbQ(); ++i){
+    for (unsigned int i=0; i<model.nbQ(); ++i) {
         SCALAR_TO_DOUBLE(q, Q[i]);
         SCALAR_TO_DOUBLE(qdot, Qdot[i]);
         SCALAR_TO_DOUBLE(qddot, Qddot[i]);
         SCALAR_TO_DOUBLE(qref, Qref[i]);
-        if (i < 2){
+        if (i < 2) {
             // Translations are not reconstructed from IMU
             EXPECT_EQ(q, 0);
             EXPECT_EQ(qdot, 0);
             EXPECT_EQ(qddot, 0);
-        }
-        else {
+        } else {
             EXPECT_NEAR(q, qref, 1e-6);
             EXPECT_NEAR(qdot, 0, 1e-6);
             EXPECT_NEAR(qddot, 0, 1e-6);

@@ -5,15 +5,18 @@
 #include <memory>
 #include "biorbdConfig.h"
 
-namespace biorbd {
+namespace biorbd
+{
 
-namespace utils {
+namespace utils
+{
 class String;
 class Matrix;
 class RotoTransNode;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 
 ///
@@ -32,13 +35,13 @@ public:
     /// \param other The other RTs set
     ///
     RotoTransNodes(
-            const biorbd::rigidbody::RotoTransNodes& other);
-    
+        const biorbd::rigidbody::RotoTransNodes& other);
+
     ///
     /// \brief Destroy the class properly
     ///
     virtual ~RotoTransNodes();
-    
+
     ///
     /// \brief Deep copy of the RTs data
     /// \return A copy of the RTs data
@@ -50,7 +53,7 @@ public:
     /// \param other The RT data to copy
     ///
     void DeepCopy(
-            const biorbd::rigidbody::RotoTransNodes& other);
+        const biorbd::rigidbody::RotoTransNodes& other);
 
     ///
     /// \brief Add a new RT to the set
@@ -62,7 +65,7 @@ public:
     /// \param RotoTrans The RotaTrans of the RT
     ///
     void addRT(
-            const biorbd::utils::RotoTransNode &RotoTrans);
+        const biorbd::utils::RotoTransNode &RotoTrans);
 
     ///
     /// \brief Return the number of RTs in the set
@@ -94,7 +97,7 @@ public:
     /// \return All the RTs of attached to the segment
     ///
     std::vector<biorbd::utils::RotoTransNode> RTs(
-            const biorbd::utils::String& segmentName);
+        const biorbd::utils::String& segmentName);
 
     ///
     /// \brief Return the RTs of a specified index
@@ -102,7 +105,7 @@ public:
     /// \return RT of idx i
     ///
     const biorbd::utils::RotoTransNode& RT(
-            unsigned int idx);
+        unsigned int idx);
 
     ///
     /// \brief Compute and return all the RTs at the position given by Q
@@ -111,8 +114,8 @@ public:
     /// \return All the RTs at the position given by Q
     ///
     std::vector<biorbd::utils::RotoTransNode> RTs(
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            bool updateKin = true);
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        bool updateKin = true);
 
     ///
     /// \brief Compute and return the RT of index idx at the position given by Q
@@ -122,9 +125,9 @@ public:
     /// \return The RT of index idx at the position given by Q
     ///
     biorbd::utils::RotoTransNode RT(
-            const biorbd::rigidbody::GeneralizedCoordinates&Q,
-            unsigned int  idx,
-            bool updateKin = true);
+        const biorbd::rigidbody::GeneralizedCoordinates&Q,
+        unsigned int  idx,
+        bool updateKin = true);
 
     ///
     /// \brief Return all the RTs on a specified segment
@@ -134,9 +137,9 @@ public:
     /// \return All the RTs on the segment of index idx
     ///
     std::vector<biorbd::utils::RotoTransNode> segmentRTs(
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            unsigned int  idx,
-            bool updateKin = true); 
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        unsigned int  idx,
+        bool updateKin = true);
 
     ///
     /// \brief Return the jacobian of the RTs
@@ -145,14 +148,16 @@ public:
     /// \return The jacobien of the RTs
     ///
     std::vector<biorbd::utils::Matrix> RTsJacobian(
-            const biorbd::rigidbody::GeneralizedCoordinates &Q,
-            bool updateKin = true);
+        const biorbd::rigidbody::GeneralizedCoordinates &Q,
+        bool updateKin = true);
 
 protected:
-    std::shared_ptr<std::vector<biorbd::utils::RotoTransNode>> m_RTs; ///< All the RTs
+    std::shared_ptr<std::vector<biorbd::utils::RotoTransNode>>
+            m_RTs; ///< All the RTs
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_ROTOTRANSNODES_H

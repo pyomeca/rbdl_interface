@@ -23,10 +23,11 @@ biorbd::muscles::PathModifiers biorbd::muscles::PathModifiers::DeepCopy() const
     return copy;
 }
 
-void biorbd::muscles::PathModifiers::DeepCopy(const biorbd::muscles::PathModifiers &other)
+void biorbd::muscles::PathModifiers::DeepCopy(const
+        biorbd::muscles::PathModifiers &other)
 {
     m_obj->resize(other.m_obj->size());
-    for (unsigned int i=0; i<other.m_obj->size(); ++i){
+    for (unsigned int i=0; i<other.m_obj->size(); ++i) {
         (*m_obj)[i] = std::make_shared<biorbd::utils::Vector3d>();
         *(*m_obj)[i] = (*other.m_obj)[i]->DeepCopy();
     }
@@ -37,33 +38,37 @@ void biorbd::muscles::PathModifiers::DeepCopy(const biorbd::muscles::PathModifie
 
 // Private method to assing values
 void biorbd::muscles::PathModifiers::addPathChanger(
-        biorbd::utils::Vector3d &object){
+    biorbd::utils::Vector3d &object)
+{
 
     // Add a muscle to the pool of muscle depending on type
-    if (object.typeOfNode() == biorbd::utils::NODE_TYPE::WRAPPING_SPHERE){
-        biorbd::utils::Error::check(*m_nbVia == 0, "Cannot mix via points and wrapping objects yet");
+    if (object.typeOfNode() == biorbd::utils::NODE_TYPE::WRAPPING_SPHERE) {
+        biorbd::utils::Error::check(*m_nbVia == 0,
+                                    "Cannot mix via points and wrapping objects yet");
         m_obj->push_back(std::make_shared<biorbd::muscles::WrappingSphere>(
                              static_cast<biorbd::muscles::WrappingSphere&> (object)));
         ++*m_nbWraps;
-    }
-    else if (object.typeOfNode() == biorbd::utils::NODE_TYPE::WRAPPING_HALF_CYLINDER){
-        biorbd::utils::Error::check(*m_nbVia == 0, "Cannot mix via points and wrapping objects yet");
+    } else if (object.typeOfNode() ==
+               biorbd::utils::NODE_TYPE::WRAPPING_HALF_CYLINDER) {
+        biorbd::utils::Error::check(*m_nbVia == 0,
+                                    "Cannot mix via points and wrapping objects yet");
         m_obj->push_back(std::make_shared<biorbd::muscles::WrappingHalfCylinder>(
                              dynamic_cast <biorbd::muscles::WrappingHalfCylinder&> (object)));
         ++*m_nbWraps;
-    }
-    else if (object.typeOfNode() == biorbd::utils::NODE_TYPE::VIA_POINT){
-        biorbd::utils::Error::check(*m_nbWraps == 0, "Cannot mix via points and wrapping objects yet");
+    } else if (object.typeOfNode() == biorbd::utils::NODE_TYPE::VIA_POINT) {
+        biorbd::utils::Error::check(*m_nbWraps == 0,
+                                    "Cannot mix via points and wrapping objects yet");
         m_obj->push_back(std::make_shared<biorbd::muscles::ViaPoint>(
                              dynamic_cast <biorbd::muscles::ViaPoint&> (object)));
         ++*m_nbVia;
-    }
-    else
+    } else {
         biorbd::utils::Error::raise("Wrapping type not found");
+    }
     ++*m_totalObjects;
 }
 
-unsigned int biorbd::muscles::PathModifiers::nbWraps() const {
+unsigned int biorbd::muscles::PathModifiers::nbWraps() const
+{
     return *m_nbWraps;
 }
 
@@ -77,15 +82,20 @@ unsigned int biorbd::muscles::PathModifiers::nbObjects() const
     return *m_totalObjects;
 }
 
-biorbd::utils::Vector3d& biorbd::muscles::PathModifiers::object(unsigned int idx)
+biorbd::utils::Vector3d& biorbd::muscles::PathModifiers::object(
+    unsigned int idx)
 {
-    biorbd::utils::Error::check(idx<nbObjects(), "Idx asked is higher than number of wrapping objects");
+    biorbd::utils::Error::check(idx<nbObjects(),
+                                "Idx asked is higher than number of wrapping objects");
     return *(*m_obj)[idx];
 }
 
 
-const biorbd::utils::Vector3d& biorbd::muscles::PathModifiers::object(unsigned int idx) const{
-    biorbd::utils::Error::check(idx<nbObjects(), "Idx asked is higher than number of wrapping objects");
+const biorbd::utils::Vector3d& biorbd::muscles::PathModifiers::object(
+    unsigned int idx) const
+{
+    biorbd::utils::Error::check(idx<nbObjects(),
+                                "Idx asked is higher than number of wrapping objects");
     return *(*m_obj)[idx];
 }
 

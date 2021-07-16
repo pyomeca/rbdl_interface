@@ -12,70 +12,77 @@ biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType() :
     setType();
 }
 biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(
-        const biorbd::utils::String& name,
-        const biorbd::muscles::Geometry& geometry,
-        const biorbd::muscles::Characteristics& characteristics) :
+    const biorbd::utils::String& name,
+    const biorbd::muscles::Geometry& geometry,
+    const biorbd::muscles::Characteristics& characteristics) :
     biorbd::muscles::HillThelenType (name, geometry, characteristics)
 {
     setType();
 }
 
 biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(
-        const biorbd::utils::String &name,
-        const biorbd::muscles::Geometry &geometry,
-        const biorbd::muscles::Characteristics &characteristics,
-        const biorbd::muscles::State &emg) :
+    const biorbd::utils::String &name,
+    const biorbd::muscles::Geometry &geometry,
+    const biorbd::muscles::Characteristics &characteristics,
+    const biorbd::muscles::State &emg) :
     biorbd::muscles::HillThelenType (name, geometry, characteristics, emg)
 {
     setType();
 }
 
 biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(
-        const biorbd::utils::String &name,
-        const biorbd::muscles::Geometry &geometry,
-        const biorbd::muscles::Characteristics &characteristics,
-        const biorbd::muscles::PathModifiers &pathModifiers) :
+    const biorbd::utils::String &name,
+    const biorbd::muscles::Geometry &geometry,
+    const biorbd::muscles::Characteristics &characteristics,
+    const biorbd::muscles::PathModifiers &pathModifiers) :
     biorbd::muscles::HillThelenType (name, geometry, characteristics, pathModifiers)
 {
     setType();
 }
 
 biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(
-        const biorbd::utils::String& name,
-        const biorbd::muscles::Geometry& geometry,
-        const biorbd::muscles::Characteristics& characteristics,
-        const biorbd::muscles::PathModifiers &pathModifiers,
-        const biorbd::muscles::State& emg) :
-    biorbd::muscles::HillThelenType (name, geometry, characteristics, pathModifiers, emg)
+    const biorbd::utils::String& name,
+    const biorbd::muscles::Geometry& geometry,
+    const biorbd::muscles::Characteristics& characteristics,
+    const biorbd::muscles::PathModifiers &pathModifiers,
+    const biorbd::muscles::State& emg) :
+    biorbd::muscles::HillThelenType (name, geometry, characteristics, pathModifiers,
+                                     emg)
 {
     setType();
 }
 
-biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(const biorbd::muscles::Muscle &other) :
+biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(
+    const biorbd::muscles::Muscle &other) :
     biorbd::muscles::HillThelenType (other)
 {
 
 }
 
-biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(const std::shared_ptr<biorbd::muscles::Muscle> other) :
+biorbd::muscles::HillThelenActiveOnlyType::HillThelenActiveOnlyType(
+    const std::shared_ptr<biorbd::muscles::Muscle>
+    other) :
     biorbd::muscles::HillThelenType(other)
 {
 
 }
 
-biorbd::muscles::HillThelenActiveOnlyType biorbd::muscles::HillThelenActiveOnlyType::DeepCopy() const
+biorbd::muscles::HillThelenActiveOnlyType
+biorbd::muscles::HillThelenActiveOnlyType::DeepCopy() const
 {
     biorbd::muscles::HillThelenActiveOnlyType copy;
     copy.DeepCopy(*this);
     return copy;
 }
 
-void biorbd::muscles::HillThelenActiveOnlyType::DeepCopy(const biorbd::muscles::HillThelenActiveOnlyType &other)
+void biorbd::muscles::HillThelenActiveOnlyType::DeepCopy(
+    const biorbd::muscles::HillThelenActiveOnlyType &other)
 {
     biorbd::muscles::HillThelenType::DeepCopy(other);
 }
 
-void biorbd::muscles::HillThelenActiveOnlyType::computeFlPE(){
+void biorbd::muscles::HillThelenActiveOnlyType::computeFlPE()
+{
     *m_FlPE = 0;
 }
 

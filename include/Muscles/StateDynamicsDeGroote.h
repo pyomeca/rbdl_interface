@@ -4,8 +4,10 @@
 #include "biorbdConfig.h"
 #include "Muscles/StateDynamics.h"
 
-namespace biorbd {
-namespace muscles {
+namespace biorbd
+{
+namespace muscles
+{
 ///
 /// \brief EMG with the capability to compute the time derivative
 ///
@@ -18,15 +20,15 @@ public:
     /// \param activation The muscle activation
     ///
     StateDynamicsDeGroote(
-            const biorbd::utils::Scalar& excitation = 0,
-            const biorbd::utils::Scalar& activation = 0);
+        const biorbd::utils::Scalar& excitation = 0,
+        const biorbd::utils::Scalar& activation = 0);
 
     ///
     /// \brief Construct a state dynamics from another state dynamics
     /// \param other The other state dynamics
     ///
     StateDynamicsDeGroote(
-            const biorbd::muscles::StateDynamicsDeGroote& other);
+        const biorbd::muscles::StateDynamicsDeGroote& other);
 
     ///
     /// \brief Deep copy of state dynamics
@@ -39,7 +41,7 @@ public:
     /// \param other The state dynamics to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::StateDynamicsDeGroote& other);
+        const biorbd::muscles::StateDynamicsDeGroote& other);
 
     ///
     /// \brief Compute and return the activation time derivative
@@ -48,14 +50,15 @@ public:
     /// \return The activation time derivative
     ///
     virtual const biorbd::utils::Scalar& timeDerivativeActivation(
-            const Characteristics& characteristics,
-            bool alreadyNormalized = false);
+        const Characteristics& characteristics,
+        bool alreadyNormalized = false);
 
 protected:
     virtual void setType();
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_STATE_DYNAMICS_DE_GROOTE_H

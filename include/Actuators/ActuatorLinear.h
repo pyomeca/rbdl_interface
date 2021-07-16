@@ -4,12 +4,15 @@
 #include "biorbdConfig.h"
 #include "Actuators/Actuator.h"
 
-namespace biorbd {
-namespace rigidbody {
+namespace biorbd
+{
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 }
 
-namespace actuator {
+namespace actuator
+{
 
 ///
 /// \brief Class ActuatorLinear is a joint actuator type that linearly evolves
@@ -27,7 +30,7 @@ public:
     /// \param other The other linear actuator
     ///
     ActuatorLinear(
-            const biorbd::actuator::ActuatorLinear& other);
+        const biorbd::actuator::ActuatorLinear& other);
 
     ///
     /// \brief Construct a linear actuator
@@ -37,10 +40,10 @@ public:
     /// \param dofIdx Index of the DoF associated with actuator
     ///
     ActuatorLinear(
-            int direction,
-            const biorbd::utils::Scalar& T0,
-            const biorbd::utils::Scalar& slope,
-            unsigned int dofIdx);
+        int direction,
+        const biorbd::utils::Scalar& T0,
+        const biorbd::utils::Scalar& slope,
+        unsigned int dofIdx);
 
     ///
     /// \brief Construct a linear actuator
@@ -52,11 +55,11 @@ public:
     ///
 
     ActuatorLinear(
-            int direction,
-            const biorbd::utils::Scalar& T0,
-            const biorbd::utils::Scalar& slope,
-            unsigned int dofIdx,
-            const biorbd::utils::String &jointName);
+        int direction,
+        const biorbd::utils::Scalar& T0,
+        const biorbd::utils::Scalar& slope,
+        unsigned int dofIdx,
+        const biorbd::utils::String &jointName);
 
     ///
     /// \brief Destroy the class properly
@@ -69,12 +72,12 @@ public:
     ///
     biorbd::actuator::ActuatorLinear DeepCopy() const;
 
-    /// 
+    ///
     /// \brief Deep copy of the linear actuator from another linear actuator
     /// \param other The linear actuator to copy
     ///
     void DeepCopy(
-            const biorbd::actuator::ActuatorLinear& other);
+        const biorbd::actuator::ActuatorLinear& other);
 
     ///
     /// \brief Return the maximal torque (invalid)
@@ -89,14 +92,14 @@ public:
     /// \return The maximal torque
     ///
     virtual biorbd::utils::Scalar torqueMax(
-            const biorbd::rigidbody::GeneralizedCoordinates &Q) const;
+        const biorbd::rigidbody::GeneralizedCoordinates &Q) const;
 
 protected:
 
     ///
     /// \brief Set the type of actuator
     ///
-    virtual void setType();            
+    virtual void setType();
 
     // mx+b
     std::shared_ptr<biorbd::utils::Scalar> m_m; ///< Slope
@@ -104,6 +107,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_ACTUATORS_ACTUATOR_LINEAR_H

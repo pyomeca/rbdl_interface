@@ -6,8 +6,10 @@
 #include "biorbdConfig.h"
 #include "Utils/Scalar.h"
 
-namespace biorbd {
-namespace  muscles {
+namespace biorbd
+{
+namespace  muscles
+{
 class State;
 class FatigueParameters;
 ///
@@ -26,7 +28,7 @@ public:
     /// \param other The other characteristics
     ///
     Characteristics(
-            const biorbd::muscles::Characteristics& other);
+        const biorbd::muscles::Characteristics& other);
 
     ///
     /// \brief Construct characteristics
@@ -42,16 +44,16 @@ public:
     /// \param minAct Minimal activation (default: 0.01)
     ///
     Characteristics(
-            const biorbd::utils::Scalar& optLength,
-            const biorbd::utils::Scalar& fmax,
-            const biorbd::utils::Scalar& PCSA,
-            const biorbd::utils::Scalar& tendonSlackLength,
-            const biorbd::utils::Scalar& pennAngle,
-            const biorbd::muscles::State& emgMax,
-            const biorbd::muscles::FatigueParameters& fatigueParameters,
-            const biorbd::utils::Scalar& torqueAct = 0.01,
-            const biorbd::utils::Scalar& torqueDeact = 0.04,
-            const biorbd::utils::Scalar& minAct = 0.01);
+        const biorbd::utils::Scalar& optLength,
+        const biorbd::utils::Scalar& fmax,
+        const biorbd::utils::Scalar& PCSA,
+        const biorbd::utils::Scalar& tendonSlackLength,
+        const biorbd::utils::Scalar& pennAngle,
+        const biorbd::muscles::State& emgMax,
+        const biorbd::muscles::FatigueParameters& fatigueParameters,
+        const biorbd::utils::Scalar& torqueAct = 0.01,
+        const biorbd::utils::Scalar& torqueDeact = 0.04,
+        const biorbd::utils::Scalar& minAct = 0.01);
 
     ///
     /// \brief Destroy the class properly
@@ -65,11 +67,11 @@ public:
     biorbd::muscles::Characteristics DeepCopy() const;
 
     ///
-    /// \brief Deep copy of characteristics from another characteristics 
+    /// \brief Deep copy of characteristics from another characteristics
     /// \param other The characteristics to copy from
     ///
     void DeepCopy(
-            const biorbd::muscles::Characteristics& other);
+        const biorbd::muscles::Characteristics& other);
 
 
     ///
@@ -77,7 +79,7 @@ public:
     /// \param val Value of the length without tension
     ///
     void setOptimalLength(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
     /// \brief Return the optimal length at which maximal force occurs
@@ -90,12 +92,12 @@ public:
     /// \param val Value of the maximal isometric force
     ///
     virtual void setForceIsoMax(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
     /// \brief Return the maximal isometric force at optimal length
     /// \return The maximal isometric force
-    ///    
+    ///
     const biorbd::utils::Scalar& forceIsoMax() const;
 
     ///
@@ -103,11 +105,11 @@ public:
     /// \param val Value of the tendon slack length
     ///
     void setTendonSlackLength(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
     ///
     /// \brief Return the tendon slack length
     /// \return The tendon slack length
-    ///  
+    ///
     const biorbd::utils::Scalar& tendonSlackLength() const;
 
     ///
@@ -115,11 +117,11 @@ public:
     /// \param val Value of the angle of pennation
     ///
     void setPennationAngle(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
     ///
     /// \brief Return the angle of pennation
     /// \return The angle of pennation
-    /// 
+    ///
     const biorbd::utils::Scalar& pennationAngle() const;
 
     ///
@@ -127,11 +129,11 @@ public:
     /// \param val Value of the physiological cross-sectional area of the muscle
     ///
     void setPCSA(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
-    /// \brief Return the physiological cross-sectional area of the muscle 
-    /// \return The physiological cross-sectional area of the muscle 
+    /// \brief Return the physiological cross-sectional area of the muscle
+    /// \return The physiological cross-sectional area of the muscle
     ///
     const biorbd::utils::Scalar& PCSA() const;
 
@@ -140,7 +142,7 @@ public:
     /// \param val The value of the minimal activation of the muscle
     ///
     void setMinActivation(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
     /// \brief Return the minimal activation of the muscle
@@ -150,23 +152,23 @@ public:
 
     ///
     /// \brief Set the time activation constant
-    /// \param val The value of the time activation constant 
+    /// \param val The value of the time activation constant
     ///
     void setTorqueActivation(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
     /// \brief Return the time activation constant
     /// \return The time activation constant
     ///
     const biorbd::utils::Scalar& torqueActivation() const;
-    
+
     ///
     /// \brief Set the time deactivation constant
     /// \param val The value of the time deactivation constant
     ///
     void setTorqueDeactivation(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
     ///
     /// \brief Return the time deactivation constant
@@ -179,7 +181,7 @@ public:
     /// \param emgMax Value of the maximal excitation and activation of the muscle
     ///
     void setStateMax(
-            const biorbd::muscles::State &emgMax);
+        const biorbd::muscles::State &emgMax);
 
     ///
     /// \brief Return the maximal excitation and activation of the muscle
@@ -192,7 +194,7 @@ public:
     /// \param fatigueParameters The values of the fatigue parameters
     ///
     void setFatigueParameters(
-            const biorbd::muscles::FatigueParameters& fatigueParameters);
+        const biorbd::muscles::FatigueParameters& fatigueParameters);
     ///
     /// \brief Return the fatigue parameters
     /// \return The fatigue parameters
@@ -200,22 +202,31 @@ public:
     const biorbd::muscles::FatigueParameters& fatigueParameters() const;
 
 protected:
-    std::shared_ptr<biorbd::utils::Scalar> m_optimalLength; ///< Length without tension
-    std::shared_ptr<biorbd::utils::Scalar> m_fIsoMax;       ///< Maximal isometric force Force maximale isométrique
-    std::shared_ptr<biorbd::utils::Scalar> m_PCSA;          ///< Physiological cross-sectional area of the muscle
-    std::shared_ptr<biorbd::utils::Scalar> m_tendonSlackLength; ///< Tendon slack length
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_optimalLength; ///< Length without tension
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_fIsoMax;       ///< Maximal isometric force Force maximale isométrique
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_PCSA;          ///< Physiological cross-sectional area of the muscle
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_tendonSlackLength; ///< Tendon slack length
     std::shared_ptr<biorbd::utils::Scalar> m_pennationAngle; ///< Angle of pennation
-    std::shared_ptr<biorbd::muscles::State> m_stateMax; ///< Maximal excitation et activation of the muscle
+    std::shared_ptr<biorbd::muscles::State>
+    m_stateMax; ///< Maximal excitation et activation of the muscle
 
     // Parametre d'activation
     std::shared_ptr<biorbd::utils::Scalar> m_minActivation; ///< Minimal activation
-    std::shared_ptr<biorbd::utils::Scalar> m_torqueActivation; ///<  Time activation constant
-    std::shared_ptr<biorbd::utils::Scalar> m_torqueDeactivation; ///< Time deactivation constant
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_torqueActivation; ///<  Time activation constant
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_torqueDeactivation; ///< Time deactivation constant
 
     // Fatigue parameters
-    std::shared_ptr<biorbd::muscles::FatigueParameters> m_fatigueParameters; ///< Fatigue parameters
+    std::shared_ptr<biorbd::muscles::FatigueParameters>
+    m_fatigueParameters; ///< Fatigue parameters
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_CHARACTERISTICS_H

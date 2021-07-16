@@ -7,16 +7,19 @@
 #include "processArguments.h"
 
 void Matlab_CoM( int nlhs, mxArray *plhs[],
-                                int nrhs, const mxArray*prhs[] ){
+                 int nrhs, const mxArray*prhs[] )
+{
     // Verifier les arguments d'entrée
-    checkNombreInputParametres(nrhs, 3, 3, "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
+    checkNombreInputParametres(nrhs, 3, 3,
+                               "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
 
     // Recevoir le model
     biorbd::Model * model = convertMat2Ptr<biorbd::Model>(prhs[1]);
     unsigned int nQ = model->nbQ(); // Get the number of DoF
 
     // Recevoir Q
-    std::vector<biorbd::rigidbody::GeneralizedCoordinates> Q = getParameterQ(prhs, 2, nQ);
+    std::vector<biorbd::rigidbody::GeneralizedCoordinates> Q = getParameterQ(prhs,
+            2, nQ);
 
     // Create a matrix for the return argument
     mwSize dims[3];
@@ -27,10 +30,11 @@ void Matlab_CoM( int nlhs, mxArray *plhs[],
     double *com = mxGetPr(plhs[0]);
 
     // Trouver la position du CoM
-    for (unsigned int i=0; i<Q.size(); ++i){
+    for (unsigned int i=0; i<Q.size(); ++i) {
         RigidBodyDynamics::Math::Vector3d COM = model->CoM(*(Q.begin()+i));
-        for (unsigned int j=0; j<3; ++j)
+        for (unsigned int j=0; j<3; ++j) {
             com[3*i+j] = COM(j);
+        }
     }
 
     return;

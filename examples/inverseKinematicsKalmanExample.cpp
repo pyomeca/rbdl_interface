@@ -23,7 +23,8 @@ int main()
     biorbd::rigidbody::GeneralizedCoordinates targetQ(model);
     targetQ.setZero();
     std::cout << "Target Q = " << targetQ.transpose() << std::endl;
-    std::vector<biorbd::rigidbody::NodeSegment> targetMarkers = model.markers(targetQ);
+    std::vector<biorbd::rigidbody::NodeSegment> targetMarkers = model.markers(
+                targetQ);
     std::vector< std::vector<biorbd::rigidbody::NodeSegment> > markersOverFrames;
     markersOverFrames.push_back(targetMarkers);
     markersOverFrames.push_back(targetMarkers);
@@ -38,7 +39,7 @@ int main()
     biorbd::rigidbody::GeneralizedCoordinates Q(model);
     biorbd::rigidbody::GeneralizedVelocity Qdot(model);
     biorbd::rigidbody::GeneralizedAcceleration Qddot(model);
-    for (auto targetMarkers : markersOverFrames){
+    for (auto targetMarkers : markersOverFrames) {
         kalman.reconstructFrame(model, targetMarkers, &Q, &Qdot, &Qddot);
 
         // Print the kinematics to the console

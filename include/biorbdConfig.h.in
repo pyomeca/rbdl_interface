@@ -41,7 +41,7 @@ inline LINEAR_ALGEBRA_BACKEND currentLinearAlgebraBackend(){
 }
 
 // Make sure rbdl was compile according to the requested linear algebra library
-#include "rbdl_config.h"
+#include "rbdl/rbdl_config.h"
 #ifdef BIORBD_USE_CASADI_MATH
 #ifndef RBDL_USE_CASADI_MATH
 

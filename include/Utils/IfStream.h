@@ -5,10 +5,12 @@
 #include "biorbdConfig.h"
 #include "Utils/Path.h"
 #include <iostream>
-#include "rbdl_math.h"
+#include "rbdl/rbdl_math.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class Equation;
 ///
 /// \brief Wrapper for the an std::ifstream with increased capacities
@@ -16,54 +18,54 @@ class Equation;
 class BIORBD_API IfStream
 {
 public:
-    /// 
+    ///
     /// \brief Construct IfStream
     ///
     IfStream();
 
-    /// 
+    ///
     /// \brief Construct IfStream
     /// \param path The file path to open
     /// \param mode The open mode of "std::ios_base" base
     ///
     IfStream(
-            const biorbd::utils::Path& path,
-            std::ios_base::openmode mode );
+        const biorbd::utils::Path& path,
+        std::ios_base::openmode mode );
 
-    /// 
+    ///
     /// \brief Construct IfStream
     /// \param path The file path to open
     /// \param mode The open mode of "std::ios_base" base
     ///
     IfStream(
-            const char* path,
-            std::ios_base::openmode mode );
+        const char* path,
+        std::ios_base::openmode mode );
 
-    /// 
+    ///
     /// \brief Open the file
     /// \param path The file path to open
     /// \param mode The open mode of "std::ios_base" base
     /// \return True on success
     ///
     bool open(
-            const biorbd::utils::Path& path,
-            std::ios_base::openmode mode );
+        const biorbd::utils::Path& path,
+        std::ios_base::openmode mode );
 
-    /// 
+    ///
     /// \brief Read a word in the file skipping the word if it is c-like commented
     /// \param text The text read (output)
     /// \return True on success
     ///
     bool read(
-            biorbd::utils::String& text);
+        biorbd::utils::String& text);
 
-    /// 
+    ///
     /// \brief Read a word in the file
     /// \param text The text read (output)
     /// \return True on success
     ///
     bool readAWord(
-            biorbd::utils::String& text);
+        biorbd::utils::String& text);
 
     ///
     /// \brief Read an integer in the file
@@ -71,7 +73,7 @@ public:
     /// \return True on success
     ///
     bool read(
-            int& val);
+        int& val);
 
     ///
     /// \brief Read an boolean in the file
@@ -79,7 +81,7 @@ public:
     /// \return True on success
     ///
     bool read(
-            bool& val);
+        bool& val);
 
     ///
     /// \brief Read an unsigned integer in the file
@@ -87,7 +89,7 @@ public:
     /// \return True on success
     ///
     bool read(
-            unsigned int& val);
+        unsigned int& val);
 
     ///
     /// \brief Read an double in the file
@@ -95,7 +97,7 @@ public:
     /// \return True on success
     ///
     bool read(
-            double& val);
+        double& val);
 #ifdef BIORBD_USE_CASADI_MATH
     ///
     /// \brief Read an double in the file
@@ -103,7 +105,7 @@ public:
     /// \return True on success
     ///
     bool read(
-            RBDLCasadiMath::MX_Xd_SubMatrix val);
+        RBDLCasadiMath::MX_Xd_SubMatrix val);
 #endif
 
     ///
@@ -113,8 +115,8 @@ public:
     /// \return True on success
     ///
     bool read(
-            double& result,
-            const std::map<biorbd::utils::Equation, double> &variables);
+        double& result,
+        const std::map<biorbd::utils::Equation, double> &variables);
 #ifdef BIORBD_USE_CASADI_MATH
     ///
     /// \brief Read and evaluate an equation
@@ -123,8 +125,8 @@ public:
     /// \return True on success
     ///
     bool read(
-            RBDLCasadiMath::MX_Xd_SubMatrix result,
-            const std::map<biorbd::utils::Equation, double> &variables);
+        RBDLCasadiMath::MX_Xd_SubMatrix result,
+        const std::map<biorbd::utils::Equation, double> &variables);
 #endif
 
     ///
@@ -134,8 +136,8 @@ public:
     /// \return True on success
     ///
     bool readSpecificTag(
-            const biorbd::utils::String& tag,
-            biorbd::utils::String& text);
+        const biorbd::utils::String& tag,
+        biorbd::utils::String& text);
 
     ///
     /// \brief Advance in the file to a specific tag
@@ -143,7 +145,7 @@ public:
     /// \return True on success
     ///
     bool reachSpecificTag(
-            const biorbd::utils::String& tag);
+        const biorbd::utils::String& tag);
 
     ///
     /// \brief Counts the number of consecutive lines starting with the same tag and then brings it back to the initial position
@@ -151,14 +153,14 @@ public:
     /// \return The number of consecutive lines starting with the same tag
     ///
     int countTagsInAConsecutiveLines(
-            const biorbd::utils::String& tag);
+        const biorbd::utils::String& tag);
 
     ///
     /// \brief Read a whole line
     /// \param text The text read (output)
     ///
     void getline(
-            biorbd::utils::String& text);
+        biorbd::utils::String& text);
 
     ///
     /// \brief Close the file
@@ -179,7 +181,8 @@ private:
     std::shared_ptr<biorbd::utils::Path> m_path;///< The path of the file
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_IFSTREAM_H
 

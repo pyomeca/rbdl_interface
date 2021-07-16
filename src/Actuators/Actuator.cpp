@@ -5,7 +5,8 @@
 #include "Utils/String.h"
 
 biorbd::actuator::Actuator::Actuator() :
-    m_type(std::make_shared<biorbd::actuator::TYPE>(biorbd::actuator::TYPE::NO_TYPE)),
+    m_type(std::make_shared<biorbd::actuator::TYPE>
+           (biorbd::actuator::TYPE::NO_TYPE)),
     m_direction(std::make_shared<int>(0)),
     m_jointName(std::make_shared<biorbd::utils::String>("")),
     m_dofIdx(std::make_shared<unsigned int>(-1))
@@ -14,7 +15,7 @@ biorbd::actuator::Actuator::Actuator() :
 }
 
 biorbd::actuator::Actuator::Actuator(
-        const biorbd::actuator::Actuator &other) :
+    const biorbd::actuator::Actuator &other) :
     m_type(other.m_type),
     m_direction(other.m_direction),
     m_jointName(other.m_jointName),
@@ -24,9 +25,10 @@ biorbd::actuator::Actuator::Actuator(
 }
 
 biorbd::actuator::Actuator::Actuator(
-        int direction,
-        unsigned int dofIdx) :
-    m_type(std::make_shared<biorbd::actuator::TYPE>(biorbd::actuator::TYPE::NO_TYPE)),
+    int direction,
+    unsigned int dofIdx) :
+    m_type(std::make_shared<biorbd::actuator::TYPE>
+           (biorbd::actuator::TYPE::NO_TYPE)),
     m_direction(std::make_shared<int>(direction)),
     m_jointName(std::make_shared<biorbd::utils::String>("")),
     m_dofIdx(std::make_shared<unsigned int>(dofIdx))
@@ -35,10 +37,11 @@ biorbd::actuator::Actuator::Actuator(
 }
 
 biorbd::actuator::Actuator::Actuator(
-        int direction,
-        unsigned int dofIdx,
-        const biorbd::utils::String &jointName) :
-    m_type(std::make_shared<biorbd::actuator::TYPE>(biorbd::actuator::TYPE::NO_TYPE)),
+    int direction,
+    unsigned int dofIdx,
+    const biorbd::utils::String &jointName) :
+    m_type(std::make_shared<biorbd::actuator::TYPE>
+           (biorbd::actuator::TYPE::NO_TYPE)),
     m_direction(std::make_shared<int>(direction)),
     m_jointName(std::make_shared<biorbd::utils::String>(jointName)),
     m_dofIdx(std::make_shared<unsigned int>(dofIdx))
@@ -52,7 +55,8 @@ biorbd::actuator::Actuator::~Actuator()
 
 }
 
-void biorbd::actuator::Actuator::DeepCopy(const biorbd::actuator::Actuator &other)
+void biorbd::actuator::Actuator::DeepCopy(const biorbd::actuator::Actuator
+        &other)
 {
     *m_type = *other.m_type;
     *m_direction = *other.m_direction;

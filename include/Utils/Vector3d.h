@@ -3,12 +3,14 @@
 
 #include <memory>
 #include "biorbdConfig.h"
-#include "rbdl_math.h"
+#include "rbdl/rbdl_math.h"
 #include "Utils/Node.h"
 #include "Utils/Scalar.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class RotoTrans;
 class String;
 class Vector;
@@ -19,13 +21,14 @@ class Vector;
 #ifdef SWIG
 class BIORBD_API Vector3d
 #else
-class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public biorbd::utils::Node
+class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d,
+    public biorbd::utils::Node
 #endif
 {
-    public:
+public:
     ///
     /// \brief Construct 3D vector
-    /// 
+    ///
     Vector3d();
 
     ///
@@ -35,9 +38,9 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param z Z-Component of the vector
     ///
     Vector3d(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z);
 
     ///
     /// \brief Construct a 3D vector
@@ -48,11 +51,11 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param parentName Name of the parent segment
     ///
     Vector3d(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z,
-            const biorbd::utils::String &name,
-            const biorbd::utils::String &parentName);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName);
 
     ///
     /// \brief Construct a 3D vector
@@ -61,30 +64,30 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param parentName Name of the parent segment
     ///
     Vector3d(
-            const biorbd::utils::Vector3d vec,
-            const biorbd::utils::String &name,
-            const biorbd::utils::String &parentName);
+        const biorbd::utils::Vector3d vec,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName);
 
     ///
     /// \brief Construct a 3D vector from a Casadi 3D vector (drop the trailling 1)
     /// \param other The Casadi 3D vector
     ///
     Vector3d(
-            const RigidBodyDynamics::Math::Vector3d& other);
+        const RigidBodyDynamics::Math::Vector3d& other);
 
     ///
     /// \brief Construct a 3D vector from a Casadi ND vector (drop the trailling 1)
     /// \param other The Casadi ND vector
     ///
     Vector3d(
-            const RigidBodyDynamics::Math::VectorNd& other);
+        const RigidBodyDynamics::Math::VectorNd& other);
 
     ///
     /// \brief Construct a 3D vector from an eigen 4D vector (drop the trailling 1)
     /// \param other The Eigen 4D vector
     ///
     Vector3d(
-            const RigidBodyDynamics::Math::Vector4d& other);
+        const RigidBodyDynamics::Math::Vector4d& other);
 
 #ifdef BIORBD_USE_EIGEN3_MATH
     ///
@@ -92,8 +95,9 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param other The other vector
     ///
     template<typename OtherDerived> Vector3d(
-            const Eigen::MatrixBase<OtherDerived>& other) :
-        RigidBodyDynamics::Math::Vector3d(other), biorbd::utils::Node () {
+        const Eigen::MatrixBase<OtherDerived>& other) :
+        RigidBodyDynamics::Math::Vector3d(other), biorbd::utils::Node ()
+    {
     }
 
     ///
@@ -101,12 +105,13 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param other Position of the vector (eigen matrix)
     /// \param name Name of the vector
     /// \param parentName The name of the parent segment
-    /// 
+    ///
     template<typename OtherDerived> Vector3d(
-            const Eigen::MatrixBase<OtherDerived>& other, 
-            const biorbd::utils::String &name,  
-            const biorbd::utils::String &parentName) :
-        RigidBodyDynamics::Math::Vector3d(other), biorbd::utils::Node (name, parentName) {
+        const Eigen::MatrixBase<OtherDerived>& other,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName) :
+        RigidBodyDynamics::Math::Vector3d(other), biorbd::utils::Node (name, parentName)
+    {
 
     }
 #endif
@@ -117,7 +122,7 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param other The Casadi ND vector
     ///
     Vector3d(
-            const RBDLCasadiMath::MX_Xd_SubMatrix& other);
+        const RBDLCasadiMath::MX_Xd_SubMatrix& other);
 #endif
 
     ///
@@ -125,7 +130,7 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \return A deep copy of a 3D vector
     ///
     biorbd::utils::Vector3d DeepCopy() const;
-    
+
     ///
     /// \brief Deep copy of a 3D vector into another 3D vector
     /// \param other The 3D vector to copy
@@ -138,21 +143,21 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \return The transformed vector
     //
     biorbd::utils::Vector3d applyRT(
-            const RotoTrans& rt) const;
+        const RotoTrans& rt) const;
 
     ///
     /// \brief Apply a RotoTrans to the 3D vector
     /// \param rt RotoTrans to apply
     ///
     void applyRT(
-            const RotoTrans& rt);
+        const RotoTrans& rt);
 
     ///
     /// \brief Set a new position
     /// \param v The new position
     ///
     void setPosition(
-            const biorbd::utils::Vector3d& v);
+        const biorbd::utils::Vector3d& v);
 
 #ifndef SWIG
 
@@ -162,10 +167,12 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param other The eigen matrix
     ///
     template<typename OtherDerived>
-        biorbd::utils::Vector3d& operator=(const Eigen::MatrixBase <OtherDerived>& other){
-            this->Eigen::Vector3d::operator=(other);
-            return *this;
-        }
+    biorbd::utils::Vector3d& operator=(const Eigen::MatrixBase <OtherDerived>&
+                                       other)
+    {
+        this->Eigen::Vector3d::operator=(other);
+        return *this;
+    }
 #endif
 
 #ifdef BIORBD_USE_CASADI_MATH
@@ -194,7 +201,8 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     ///
     template<unsigned int i, unsigned int j>
     void operator=(
-            const MX_Xd_static<i, j>& other){
+        const MX_Xd_static<i, j>& other)
+    {
         this->block<3, 1>(0, 0) = other;
     }
 
@@ -203,14 +211,14 @@ class BIORBD_API Vector3d : public RigidBodyDynamics::Math::Vector3d, public bio
     /// \param other The matrix to copy
     ///
     void operator=(
-            const RBDLCasadiMath::MX_Xd_SubMatrix& other);
+        const RBDLCasadiMath::MX_Xd_SubMatrix& other);
 
     ///
     /// \brief operator= To copy a vector
     /// \param other The vector to copy
     ///
     void operator=(
-            const RigidBodyDynamics::Math::Vector4d& other);
+        const RigidBodyDynamics::Math::Vector4d& other);
 
 #endif
 
@@ -223,6 +231,7 @@ protected:
     void setType();
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_VECTOR3D_H

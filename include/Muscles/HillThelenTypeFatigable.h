@@ -6,12 +6,15 @@
 #include "Muscles/HillThelenType.h"
 #include "Muscles/FatigueModel.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 }
 
-namespace muscles {
+namespace muscles
+{
 
 ///
 /// \brief Add a fatigue model to the HillThelen type
@@ -21,7 +24,8 @@ namespace muscles {
 /// developFactor = 10
 /// recoverFactor = 10
 ///
-class BIORBD_API HillThelenTypeFatigable : public biorbd::muscles::HillThelenType, public biorbd::muscles::FatigueModel
+class BIORBD_API HillThelenTypeFatigable : public
+    biorbd::muscles::HillThelenType, public biorbd::muscles::FatigueModel
 {
 public:
     ///
@@ -37,10 +41,11 @@ public:
     /// \param dynamicFatigueType The muscle dynamic fatigue type
     ///
     HillThelenTypeFatigable(
-            const biorbd::utils::String& name,
-            const biorbd::muscles::Geometry& geometry,
-            const biorbd::muscles::Characteristics& characteristics,
-            biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType = biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
+        const biorbd::utils::String& name,
+        const biorbd::muscles::Geometry& geometry,
+        const biorbd::muscles::Characteristics& characteristics,
+        biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType =
+            biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
 
     ///
     /// \brief Construct a Hill-Thelen-type fatigable muscle
@@ -51,11 +56,12 @@ public:
     /// \param dynamicFatigueType The muscle dynamic fatigue model
     ///
     HillThelenTypeFatigable(
-            const biorbd::utils::String& name,
-            const biorbd::muscles::Geometry& geometry,
-            const biorbd::muscles::Characteristics& characteristics,
-            const biorbd::muscles::State& emg,
-            biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType = biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
+        const biorbd::utils::String& name,
+        const biorbd::muscles::Geometry& geometry,
+        const biorbd::muscles::Characteristics& characteristics,
+        const biorbd::muscles::State& emg,
+        biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType =
+            biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
 
     ///
     /// \brief Construct a Hill-Thelen-type fatigable muscle
@@ -66,11 +72,12 @@ public:
     /// \param dynamicFatigueType The muscle dynamic fatigue model
     ///
     HillThelenTypeFatigable(
-            const biorbd::utils::String& name,
-            const biorbd::muscles::Geometry& geometry,
-            const biorbd::muscles::Characteristics& characteristics,
-            const biorbd::muscles::PathModifiers& pathModifiers,
-            biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType = biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
+        const biorbd::utils::String& name,
+        const biorbd::muscles::Geometry& geometry,
+        const biorbd::muscles::Characteristics& characteristics,
+        const biorbd::muscles::PathModifiers& pathModifiers,
+        biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType =
+            biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
 
     ///
     /// \brief Construct a Hill-Thelen-type fatigable muscle
@@ -82,26 +89,27 @@ public:
     /// \param dynamicFatigueType The muscle dynamic fatigue model
     ///
     HillThelenTypeFatigable(
-            const biorbd::utils::String& name,
-            const biorbd::muscles::Geometry& geometry,
-            const biorbd::muscles::Characteristics& characteristics,
-            const biorbd::muscles::PathModifiers& pathModifiers,
-            const biorbd::muscles::State& emg,
-            biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType = biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
+        const biorbd::utils::String& name,
+        const biorbd::muscles::Geometry& geometry,
+        const biorbd::muscles::Characteristics& characteristics,
+        const biorbd::muscles::PathModifiers& pathModifiers,
+        const biorbd::muscles::State& emg,
+        biorbd::muscles::STATE_FATIGUE_TYPE dynamicFatigueType =
+            biorbd::muscles::STATE_FATIGUE_TYPE::SIMPLE_STATE_FATIGUE);
 
     ///
     /// \brief Construct a Hill-Thelen-type fatigable muscle from another muscle
     /// \param other The other muscle
     ///
     HillThelenTypeFatigable(
-            const biorbd::muscles::Muscle& other);
+        const biorbd::muscles::Muscle& other);
 
     ///
     /// \brief Construct a Hill-Thelen-type muscle from another muscle
     /// \param other The other muscle (pointer)
     ///
     HillThelenTypeFatigable(
-            const std::shared_ptr<biorbd::muscles::Muscle> other);
+        const std::shared_ptr<biorbd::muscles::Muscle> other);
 
     ///
     /// \brief Deep copy of a Hill-Thelen-type fatigable muscle
@@ -130,6 +138,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_HILL_THELEN_TYPE_FATIGABLE_H

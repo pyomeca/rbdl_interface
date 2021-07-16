@@ -9,10 +9,10 @@
 #include "RigidBody/Contacts.h"
 #include "RigidBody/IMUs.h"
 #ifdef MODULE_ACTUATORS
-#include "Actuators/Actuators.h"
+    #include "Actuators/Actuators.h"
 #endif
 #ifdef MODULE_MUSCLES
-#include "Muscles/Muscles.h"
+    #include "Muscles/Muscles.h"
 #endif
 
 ///
@@ -59,22 +59,23 @@
 ///
 biorbd::utils::String getVersion();
 
-namespace biorbd {
+namespace biorbd
+{
 ///
 /// \brief The actual musculoskeletal model that holds everything in biorbd
 ///
 class BIORBD_API Model :
-        public biorbd::rigidbody::Joints
-        ,public biorbd::rigidbody::Markers
-        ,public biorbd::rigidbody::IMUs
-        ,public biorbd::rigidbody::RotoTransNodes
-        ,public biorbd::rigidbody::Contacts
-        #ifdef MODULE_ACTUATORS
-        ,public biorbd::actuator::Actuators
-        #endif
-        #ifdef MODULE_MUSCLES
-        ,public biorbd::muscles::Muscles
-        #endif
+    public biorbd::rigidbody::Joints
+    ,public biorbd::rigidbody::Markers
+    ,public biorbd::rigidbody::IMUs
+    ,public biorbd::rigidbody::RotoTransNodes
+    ,public biorbd::rigidbody::Contacts
+#ifdef MODULE_ACTUATORS
+    ,public biorbd::actuator::Actuators
+#endif
+#ifdef MODULE_MUSCLES
+    ,public biorbd::muscles::Muscles
+#endif
 {
 public:
     ///
@@ -87,7 +88,7 @@ public:
     /// \param path The path of the file
     ///
     Model(
-            const biorbd::utils::Path& path);
+        const biorbd::utils::Path& path);
 
 private:
     std::shared_ptr<biorbd::utils::Path> m_path;

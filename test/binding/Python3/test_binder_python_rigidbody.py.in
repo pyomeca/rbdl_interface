@@ -2,9 +2,9 @@
 Test for file IO
 """
 import pytest
-
 import numpy as np
-import biorbd
+
+@PYTHON_TEST_IMPORT_BIORBD@
 
 
 def test_load_model():
@@ -16,57 +16,57 @@ def test_dof_ranges():
     pi = 3.14159265358979323846
 
     # Pelvis
-    QRanges = m.segment(0).QRanges()
-    assert QRanges[0].min() == -10
-    assert QRanges[0].max() == 10
-    assert QRanges[1].min() == -10
-    assert QRanges[1].max() == 10
-    assert QRanges[2].min() == -pi
-    assert QRanges[2].max() == pi
+    q_ranges = m.segment(0).QRanges()
+    assert q_ranges[0].min() == -10
+    assert q_ranges[0].max() == 10
+    assert q_ranges[1].min() == -10
+    assert q_ranges[1].max() == 10
+    assert q_ranges[2].min() == -pi
+    assert q_ranges[2].max() == pi
 
     # BrasD
-    QRanges = m.segment(3).QRanges()
-    assert QRanges[0].min() == -pi
-    assert QRanges[0].max() == pi
-    assert QRanges[1].min() == 0
-    assert QRanges[1].max() == pi
+    q_ranges = m.segment(3).QRanges()
+    assert q_ranges[0].min() == -pi
+    assert q_ranges[0].max() == pi
+    assert q_ranges[1].min() == 0
+    assert q_ranges[1].max() == pi
 
     # BrasG
-    QRanges = m.segment(4).QRanges()
-    assert QRanges[0].min() == -pi
-    assert QRanges[0].max() == pi
-    assert QRanges[1].min() == 0
-    assert QRanges[1].max() == pi
+    q_ranges = m.segment(4).QRanges()
+    assert q_ranges[0].min() == -pi
+    assert q_ranges[0].max() == pi
+    assert q_ranges[1].min() == 0
+    assert q_ranges[1].max() == pi
 
     # CuisseD
-    QRanges = m.segment(5).QRanges()
-    assert QRanges[0].min() == -pi / 12
-    assert QRanges[0].max() == pi / 2 + pi / 3
+    q_ranges = m.segment(5).QRanges()
+    assert q_ranges[0].min() == -pi / 12
+    assert q_ranges[0].max() == pi / 2 + pi / 3
 
     # JambeD
-    QRanges = m.segment(6).QRanges()
-    assert QRanges[0].min() == -pi / 2 - pi / 6
-    assert QRanges[0].max() == 0
+    q_ranges = m.segment(6).QRanges()
+    assert q_ranges[0].min() == -pi / 2 - pi / 6
+    assert q_ranges[0].max() == 0
 
     # PiedD
-    QRanges = m.segment(7).QRanges()
-    assert QRanges[0].min() == -pi / 2
-    assert QRanges[0].max() == pi / 2
+    q_ranges = m.segment(7).QRanges()
+    assert q_ranges[0].min() == -pi / 2
+    assert q_ranges[0].max() == pi / 2
 
     # CuisseG
-    QRanges = m.segment(8).QRanges()
-    assert QRanges[0].min() == -pi / 12
-    assert QRanges[0].max() == pi / 2 + pi / 3
+    q_ranges = m.segment(8).QRanges()
+    assert q_ranges[0].min() == -pi / 12
+    assert q_ranges[0].max() == pi / 2 + pi / 3
 
     # JambeG
-    QRanges = m.segment(9).QRanges()
-    assert QRanges[0].min() == -pi / 2 - pi / 6
-    assert QRanges[0].max() == 0
+    q_ranges = m.segment(9).QRanges()
+    assert q_ranges[0].min() == -pi / 2 - pi / 6
+    assert q_ranges[0].max() == 0
 
     # PiedG
-    QRanges = m.segment(10).QRanges()
-    assert QRanges[0].min() == -pi / 2
-    assert QRanges[0].max() == pi / 2
+    q_ranges = m.segment(10).QRanges()
+    assert q_ranges[0].min() == -pi / 2
+    assert q_ranges[0].max() == pi / 2
 
 
 def test_forward_dynamics():
@@ -83,9 +83,9 @@ def test_forward_dynamics():
         q_sym = MX.sym("q", m.nbQ(), 1)
         qdot_sym = MX.sym("qdot", m.nbQdot(), 1)
         tau_sym = MX.sym("tau", m.nbGeneralizedTorque(), 1)
-        ForwardDynamics = biorbd.to_casadi_func("ForwardDynamics", m.ForwardDynamics, q_sym, qdot_sym, tau_sym)
+        forward_dynamics = biorbd.to_casadi_func("ForwardDynamics", m.ForwardDynamics, q_sym, qdot_sym, tau_sym)
 
-        qddot = ForwardDynamics(q, qdot, tau)
+        qddot = forward_dynamics(q, qdot, tau)
         qddot = np.array(qddot)[:, 0]
 
     elif biorbd.currentLinearAlgebraBackend() == 0:
@@ -122,29 +122,20 @@ def test_forward_dynamics_with_external_forces():
     tau = np.array([i * 1.1 for i in range(m.nbQ())])
 
     # With external forces
+    sv1 = np.array(
+        ((11.1, 22.2, 33.3, 44.4, 55.5, 66.6), (11.1 * 2, 22.2 * 2, 33.3 * 2, 44.4 * 2, 55.5 * 2, 66.6 * 2))
+    ).T
+    f_ext = biorbd.to_spatial_vector(sv1)
+
     if biorbd.currentLinearAlgebraBackend() == 1:
         from casadi import MX
 
-        sv1 = MX((11.1, 22.2, 33.3, 44.4, 55.5, 66.6))
-        sv2 = MX((11.1 * 2, 22.2 * 2, 33.3 * 2, 44.4 * 2, 55.5 * 2, 66.6 * 2))
-    else:
-        sv1 = np.array((11.1, 22.2, 33.3, 44.4, 55.5, 66.6))
-        sv2 = np.array((11.1 * 2, 22.2 * 2, 33.3 * 2, 44.4 * 2, 55.5 * 2, 66.6 * 2))
-
-    f_ext = biorbd.VecBiorbdSpatialVector(
-        [
-            biorbd.SpatialVector(sv1),
-            biorbd.SpatialVector(sv2),
-        ]
-    )
-
-    if biorbd.currentLinearAlgebraBackend() == 1:
         q_sym = MX.sym("q", m.nbQ(), 1)
         qdot_sym = MX.sym("qdot", m.nbQdot(), 1)
         tau_sym = MX.sym("tau", m.nbGeneralizedTorque(), 1)
-        ForwardDynamics = biorbd.to_casadi_func("ForwardDynamics", m.ForwardDynamics, q_sym, qdot_sym, tau_sym, f_ext)
+        forward_dynamics = biorbd.to_casadi_func("ForwardDynamics", m.ForwardDynamics, q_sym, qdot_sym, tau_sym, f_ext)
 
-        qddot = ForwardDynamics(q, qdot, tau)
+        qddot = forward_dynamics(q, qdot, tau)
         qddot = np.array(qddot)[:, 0]
 
     elif biorbd.currentLinearAlgebraBackend() == 0:
@@ -173,16 +164,16 @@ def test_forward_dynamics_with_external_forces():
     np.testing.assert_almost_equal(qddot, qddot_expected)
 
 
-def test_CoM():
+def test_com():
     m = biorbd.Model("../../models/pyomecaman.bioMod")
 
     q = np.array([0.1, 0.1, 0.1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3])
     q_dot = np.array([1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])
     q_ddot = np.array([10, 10, 10, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30])
 
-    expected_CoM = np.array([-0.0034679564024098523, 0.15680579877453169, 0.07808112642459612])
-    expected_CoM_dot = np.array([-0.05018973433722229, 1.4166208451420528, 1.4301750486035787])
-    expected_CoM_ddot = np.array([-0.7606169667295027, 11.508107073695976, 16.58853835505851])
+    expected_com = np.array([-0.0034679564024098523, 0.15680579877453169, 0.07808112642459612])
+    expected_com_dot = np.array([-0.05018973433722229, 1.4166208451420528, 1.4301750486035787])
+    expected_com_ddot = np.array([-0.7606169667295027, 11.508107073695976, 16.58853835505851])
 
     if biorbd.currentLinearAlgebraBackend() == 1:
         # If CasADi backend is used
@@ -192,25 +183,25 @@ def test_CoM():
         q_dot_sym = MX.sym("q_dot", m.nbQdot(), 1)
         q_ddot_sym = MX.sym("q_ddot", m.nbQddot(), 1)
 
-        CoM_func = biorbd.to_casadi_func("Compute_CoM", m.CoM, q_sym)
-        CoM_dot_func = biorbd.to_casadi_func("Compute_CoM_dot", m.CoMdot, q_sym, q_dot_sym)
-        CoM_ddot_func = biorbd.to_casadi_func("Compute_CoM_ddot", m.CoMddot, q_sym, q_dot_sym, q_ddot_sym)
+        com_func = biorbd.to_casadi_func("Compute_CoM", m.CoM, q_sym)
+        com_dot_func = biorbd.to_casadi_func("Compute_CoM_dot", m.CoMdot, q_sym, q_dot_sym)
+        com_ddot_func = biorbd.to_casadi_func("Compute_CoM_ddot", m.CoMddot, q_sym, q_dot_sym, q_ddot_sym)
 
-        CoM = np.array(CoM_func(q))
-        CoM_dot = np.array(CoM_dot_func(q, q_dot))
-        CoM_ddot = np.array(CoM_ddot_func(q, q_dot, q_ddot))
+        com = np.array(com_func(q))
+        com_dot = np.array(com_dot_func(q, q_dot))
+        com_ddot = np.array(com_ddot_func(q, q_dot, q_ddot))
 
     elif not biorbd.currentLinearAlgebraBackend():
         # If Eigen backend is used
-        CoM = m.CoM(q).to_array()
-        CoM_dot = m.CoMdot(q, q_dot).to_array()
-        CoM_ddot = m.CoMddot(q, q_dot, q_ddot).to_array()
+        com = m.CoM(q).to_array()
+        com_dot = m.CoMdot(q, q_dot).to_array()
+        com_ddot = m.CoMddot(q, q_dot, q_ddot).to_array()
     else:
         raise NotImplementedError("Backend not implemented in test")
 
-    np.testing.assert_almost_equal(CoM.squeeze(), expected_CoM)
-    np.testing.assert_almost_equal(CoM_dot.squeeze(), expected_CoM_dot)
-    np.testing.assert_almost_equal(CoM_ddot.squeeze(), expected_CoM_ddot)
+    np.testing.assert_almost_equal(com.squeeze(), expected_com)
+    np.testing.assert_almost_equal(com_dot.squeeze(), expected_com_dot)
+    np.testing.assert_almost_equal(com_ddot.squeeze(), expected_com_ddot)
 
 
 def test_set_vector3d():
@@ -276,10 +267,10 @@ def test_markers():
         q_dot_sym = MX.sym("q_dot", m.nbQdot(), 1)
 
         markers_func = biorbd.to_casadi_func("Compute_Markers", m.markers, q_sym)
-        markersVelocity_func = biorbd.to_casadi_func("Compute_MarkersVelocity", m.markersVelocity, q_sym, q_dot_sym)
+        markers_velocity_func = biorbd.to_casadi_func("Compute_MarkersVelocity", m.markersVelocity, q_sym, q_dot_sym)
 
         markers = np.array(markers_func(q))
-        markers_dot = np.array(markersVelocity_func(q, q_dot))
+        markers_dot = np.array(markers_velocity_func(q, q_dot))
 
     elif not biorbd.currentLinearAlgebraBackend():
         # If Eigen backend is used
@@ -296,9 +287,9 @@ def test_markers():
 def test_forward_dynamics_constraints_direct():
     m = biorbd.Model("../../models/pyomecaman.bioMod")
 
-    q = np.array([1.0 for i in range(m.nbQ())])
-    qdot = np.array([1.0 for i in range(m.nbQ())])
-    tau = np.array([1.0 for i in range(m.nbQ())])
+    q = np.array([1.0 for _ in range(m.nbQ())])
+    qdot = np.array([1.0 for _ in range(m.nbQ())])
+    tau = np.array([1.0 for _ in range(m.nbQ())])
     cs = m.getConstraints()
 
     qddot_expected = np.array(
@@ -376,3 +367,4 @@ def test_name_to_index():
     np.testing.assert_equal(biorbd.marker_index(m, "piedg6"), 96)
     with pytest.raises(ValueError, match="dummy is not in the biorbd model"):
         biorbd.marker_index(m, "dummy")
+

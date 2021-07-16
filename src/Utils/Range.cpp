@@ -2,8 +2,8 @@
 #include "Utils/Range.h"
 
 biorbd::utils::Range::Range(
-        double min,
-        double max) :
+    double min,
+    double max) :
     m_min(std::make_shared<double>(min)),
     m_max(std::make_shared<double>(max))
 {
@@ -19,14 +19,14 @@ biorbd::utils::Range::DeepCopy() const
 }
 
 void biorbd::utils::Range::DeepCopy(
-        const biorbd::utils::Range &other)
+    const biorbd::utils::Range &other)
 {
     *m_min = *other.m_min;
     *m_max = *other.m_max;
 }
 
 void biorbd::utils::Range::setMin(
-        double min)
+    double min)
 {
     *m_min = min;
 }
@@ -37,7 +37,7 @@ double biorbd::utils::Range::min() const
 }
 
 void biorbd::utils::Range::setMax(
-        double max)
+    double max)
 {
     *m_max = max;
 }

@@ -5,12 +5,15 @@
 #include "biorbdConfig.h"
 #include "Utils/RotoTransNode.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 
 ///
 /// \brief Class IMU
@@ -29,8 +32,8 @@ public:
     /// \param isAnatomical True if the IMU is an anatomical IMU
     ///
     IMU(
-            bool isTechnical = true, 
-            bool isAnatomical = true);
+        bool isTechnical = true,
+        bool isAnatomical = true);
 
     ///
     /// \brief Construct inertial measurement unit data
@@ -39,9 +42,9 @@ public:
     /// \param isAnatomical True if the IMU is an anatomical IMU
     ///
     IMU(
-            const biorbd::utils::RotoTransNode& RotoTrans, 
-            bool isTechnical = true, 
-            bool isAnatomical = true); 
+        const biorbd::utils::RotoTransNode& RotoTrans,
+        bool isTechnical = true,
+        bool isAnatomical = true);
 
 #ifdef BIORBD_USE_EIGEN3_MATH
     ///
@@ -49,12 +52,12 @@ public:
     /// \param other The other matrix
     ///
     template<typename OtherDerived> IMU(
-            const Eigen::MatrixBase<OtherDerived>& other) :
-        biorbd::utils::RotoTransNode(other){}
+        const Eigen::MatrixBase<OtherDerived>& other) :
+        biorbd::utils::RotoTransNode(other) {}
 #endif
 #ifdef BIORBD_USE_CASADI_MATH
     IMU(
-            const biorbd::rigidbody::IMU& imu);
+        const biorbd::rigidbody::IMU& imu);
 
     biorbd::rigidbody::IMU operator*(const biorbd::rigidbody::IMU& other) const;
 #endif
@@ -92,10 +95,11 @@ public:
     /// \return The current IMU
     ///
     template<typename OtherDerived>
-        biorbd::rigidbody::IMU& operator=(const Eigen::MatrixBase <OtherDerived>& other){
-            this->biorbd::utils::RotoTransNode::operator=(other);
-            return *this;
-        }
+    biorbd::rigidbody::IMU& operator=(const Eigen::MatrixBase <OtherDerived>& other)
+    {
+        this->biorbd::utils::RotoTransNode::operator=(other);
+        return *this;
+    }
 #endif
 #endif
 
@@ -105,6 +109,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_RIGIDBODY_IMU_H

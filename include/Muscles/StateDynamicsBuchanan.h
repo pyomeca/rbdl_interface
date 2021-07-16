@@ -4,8 +4,10 @@
 #include "biorbdConfig.h"
 #include "Muscles/StateDynamics.h"
 
-namespace biorbd {
-namespace muscles {
+namespace biorbd
+{
+namespace muscles
+{
 ///
 /// \brief Time derivative of activation as described by Buchanan (https://www.sciencedirect.com/science/article/pii/S0021929003001520)
 ///
@@ -18,15 +20,15 @@ public:
     /// \param excitation The muscle excitation
     ///
     StateDynamicsBuchanan(
-            const biorbd::utils::Scalar& neuralCommand = 0,
-            const biorbd::utils::Scalar& excitation = 0);
+        const biorbd::utils::Scalar& neuralCommand = 0,
+        const biorbd::utils::Scalar& excitation = 0);
 
     ///
     /// \brief Construct a state dynamics Buchanan from another state dynamics Buchanan
     /// \param other The other state dynamics Buchanan
     ///
     StateDynamicsBuchanan(
-            const biorbd::muscles::State& other);
+        const biorbd::muscles::State& other);
 
     ///
     /// \brief Destroy class properly
@@ -44,17 +46,17 @@ public:
     /// \param other The state dynamics Buchanan to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::StateDynamicsBuchanan& other);
+        const biorbd::muscles::StateDynamicsBuchanan& other);
 
     ///
-    /// \brief Compute and return the excitation velocity 
+    /// \brief Compute and return the excitation velocity
     /// \param characteristics The muscle characteristics
     /// \param alreadyNormalized If already normalized
     /// \return The excitation time derivative
     ///
     virtual const biorbd::utils::Scalar& timeDerivativeExcitation(
-            const Characteristics &characteristics,
-            bool alreadyNormalized);
+        const Characteristics &characteristics,
+        bool alreadyNormalized);
 
     ///
     /// \brief Set the muscle excitation
@@ -62,22 +64,22 @@ public:
     /// \param turnOffWarnings If the warning should be silenced
     ///
     virtual void setExcitation(
-            const biorbd::utils::Scalar& val,
-            bool turnOffWarnings = false);
+        const biorbd::utils::Scalar& val,
+        bool turnOffWarnings = false);
 
     ///
     /// \brief Set the neural command
     /// \param val Value of the neural command
     ///
     virtual void setNeuralCommand(
-            const biorbd::utils::Scalar& val);
+        const biorbd::utils::Scalar& val);
 
-   ///
-   /// \brief Set the shape factor
-   /// \param shape_factor Value of the shape factor
-   ///
+    ///
+    /// \brief Set the shape factor
+    /// \param shape_factor Value of the shape factor
+    ///
     void shapeFactor(
-            const biorbd::utils::Scalar& shape_factor);
+        const biorbd::utils::Scalar& shape_factor);
 
     ///
     /// \brief Return the shape factor
@@ -90,8 +92,8 @@ public:
     /// \param notUsed the activation is computed from the neuralCommand and excitation
     ///
     virtual void setActivation(
-            const biorbd::utils::Scalar& notUsed,
-            bool turnOffWarnings = false);
+        const biorbd::utils::Scalar& notUsed,
+        bool turnOffWarnings = false);
 
 protected:
     ///
@@ -99,12 +101,16 @@ protected:
     ///
     virtual void setType();
 
-    std::shared_ptr<biorbd::utils::Scalar> m_neuralCommand; ///< The muscle neural command
-    std::shared_ptr<biorbd::utils::Scalar> m_shapeFactor; ///< The shape factor (Buchanan2004, march 22nd, 2018)
-    std::shared_ptr<biorbd::utils::Scalar> m_excitationDot; ///< The excitation velocity
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_neuralCommand; ///< The muscle neural command
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_shapeFactor; ///< The shape factor (Buchanan2004, march 22nd, 2018)
+    std::shared_ptr<biorbd::utils::Scalar>
+    m_excitationDot; ///< The excitation velocity
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_STATE_ACTUAL_BUCHANAN_H

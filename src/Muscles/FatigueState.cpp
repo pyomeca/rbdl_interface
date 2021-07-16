@@ -6,7 +6,8 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <sstream>
-namespace std {
+namespace std
+{
 template < typename T > std::string to_string( const T& n )
 {
     std::ostringstream stm ;
@@ -17,9 +18,9 @@ template < typename T > std::string to_string( const T& n )
 #endif
 
 biorbd::muscles::FatigueState::FatigueState(
-        const biorbd::utils::Scalar& active,
-        const biorbd::utils::Scalar& fatigued,
-        const biorbd::utils::Scalar& resting) :
+    const biorbd::utils::Scalar& active,
+    const biorbd::utils::Scalar& fatigued,
+    const biorbd::utils::Scalar& resting) :
     m_activeFibers(std::make_shared<biorbd::utils::Scalar>(active)),
     m_fatiguedFibers(std::make_shared<biorbd::utils::Scalar>(fatigued)),
     m_restingFibers(std::make_shared<biorbd::utils::Scalar>(resting)),
@@ -28,7 +29,8 @@ biorbd::muscles::FatigueState::FatigueState(
     setType();
 }
 
-biorbd::muscles::FatigueState::FatigueState(const biorbd::muscles::FatigueState &other) :
+biorbd::muscles::FatigueState::FatigueState(const biorbd::muscles::FatigueState
+        &other) :
     m_activeFibers(other.m_activeFibers),
     m_fatiguedFibers(other.m_fatiguedFibers),
     m_restingFibers(other.m_restingFibers),
@@ -37,7 +39,8 @@ biorbd::muscles::FatigueState::FatigueState(const biorbd::muscles::FatigueState 
 
 }
 
-biorbd::muscles::FatigueState::FatigueState(const std::shared_ptr<biorbd::muscles::FatigueState> other) :
+biorbd::muscles::FatigueState::FatigueState(const
+        std::shared_ptr<biorbd::muscles::FatigueState> other) :
     m_activeFibers(other->m_activeFibers),
     m_fatiguedFibers(other->m_fatiguedFibers),
     m_restingFibers(other->m_restingFibers),
@@ -58,7 +61,8 @@ biorbd::muscles::FatigueState biorbd::muscles::FatigueState::DeepCopy() const
     return copy;
 }
 
-void biorbd::muscles::FatigueState::DeepCopy(const biorbd::muscles::FatigueState &other)
+void biorbd::muscles::FatigueState::DeepCopy(const biorbd::muscles::FatigueState
+        &other)
 {
     *m_activeFibers = *other.m_activeFibers;
     *m_fatiguedFibers = *other.m_fatiguedFibers;
@@ -68,10 +72,10 @@ void biorbd::muscles::FatigueState::DeepCopy(const biorbd::muscles::FatigueState
 
 #ifndef BIORBD_USE_CASADI_MATH
 void biorbd::muscles::FatigueState::setState(
-        biorbd::utils::Scalar active,
-        biorbd::utils::Scalar fatigued,
-        biorbd::utils::Scalar resting,
-        bool turnOffWarnings)
+    biorbd::utils::Scalar active,
+    biorbd::utils::Scalar fatigued,
+    biorbd::utils::Scalar resting,
+    bool turnOffWarnings)
 {
     // Sanity check for active fibers
     //
@@ -80,21 +84,20 @@ void biorbd::muscles::FatigueState::setState(
     // Hence any exceeding because of integration can be corrected by putting back exceeding active fibers quantity
     // into resting fibers quantity.
     //
-    if (active < 0){
+    if (active < 0) {
         if (!turnOffWarnings) {
             biorbd::utils::Error::warning(0,
-            "Active Fibers Quantity can't be lower than 0, 0 is used then\n"
-            "Previous Active Fibers Quantity before set to 0:"
+                                          "Active Fibers Quantity can't be lower than 0, 0 is used then\n"
+                                          "Previous Active Fibers Quantity before set to 0:"
                                           + std::to_string(active));
         }
         resting += active;
         active = 0;
-    }
-    else if (active > 1){
+    } else if (active > 1) {
         if (!turnOffWarnings) {
             biorbd::utils::Error::warning(0,
-            "Active Fibers Quantity can't be higher than 1, 1 is used then\n"
-            "Previous Active Fibers Quantity before set to 1: "
+                                          "Active Fibers Quantity can't be higher than 1, 1 is used then\n"
+                                          "Previous Active Fibers Quantity before set to 1: "
                                           + std::to_string(active));
         }
         resting += active - 1;
@@ -103,10 +106,9 @@ void biorbd::muscles::FatigueState::setState(
     }
 
     // Sanity check for fatigued fibers
-    if (fatigued < 0){
+    if (fatigued < 0) {
         biorbd::utils::Error::raise("Fatigued Fibers Quantity can't be lower than 0");
-    }
-    else if (fatigued > 1){
+    } else if (fatigued > 1) {
         biorbd::utils::Error::raise("Fatigued Fibers Quantity can't be higher than 1");
     }
 
@@ -117,23 +119,22 @@ void biorbd::muscles::FatigueState::setState(
     // Hence any exceeding because of integration can be corrected by putting back exceeding resting fibers quantity
     // into active fibers quantity.
     //
-    if (resting < 0){
+    if (resting < 0) {
         if (!turnOffWarnings) {
             biorbd::utils::Error::warning(0,
-            "Resting Fibers Quantity can't be lower than 0, 0 is used then\n"
-            "Previous Resting Fibers Quantity before set to 0: "
+                                          "Resting Fibers Quantity can't be lower than 0, 0 is used then\n"
+                                          "Previous Resting Fibers Quantity before set to 0: "
                                           + std::to_string(resting));
         }
         active += resting;
         resting = 0;
-    }
-    else if (resting > 1){
+    } else if (resting > 1) {
         biorbd::utils::Error::raise(
-                    "Resting Fibers Quantity can't be higher than 1");
+            "Resting Fibers Quantity can't be higher than 1");
 
     }
 
-    if (fabs(active + fatigued + resting - 1.0) > 0.1){
+    if (fabs(active + fatigued + resting - 1.0) > 0.1) {
         biorbd::utils::Error::raise("Sum of the fatigued states must be equal to 1");
     }
 
@@ -148,17 +149,20 @@ const biorbd::utils::Scalar& biorbd::muscles::FatigueState::activeFibers() const
     return *m_activeFibers;
 }
 
-const biorbd::utils::Scalar& biorbd::muscles::FatigueState::fatiguedFibers() const
+const biorbd::utils::Scalar& biorbd::muscles::FatigueState::fatiguedFibers()
+const
 {
     return *m_fatiguedFibers;
 }
 
-const biorbd::utils::Scalar& biorbd::muscles::FatigueState::restingFibers() const
+const biorbd::utils::Scalar& biorbd::muscles::FatigueState::restingFibers()
+const
 {
     return *m_restingFibers;
 }
 
-biorbd::muscles::STATE_FATIGUE_TYPE biorbd::muscles::FatigueState::getType() const
+biorbd::muscles::STATE_FATIGUE_TYPE biorbd::muscles::FatigueState::getType()
+const
 {
     return *m_type;
 }

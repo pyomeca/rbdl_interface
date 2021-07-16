@@ -7,13 +7,16 @@
 #include "biorbdConfig.h"
 #include "Utils/Node.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class RotoTrans;
 class Range;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 class Joints;
 class SegmentCharacteristics;
 
@@ -23,11 +26,11 @@ class SegmentCharacteristics;
 class BIORBD_API Segment : public biorbd::utils::Node
 {
 public:
-    /// 
+    ///
     /// \brief Construct a Segment
     ///
     Segment();
-    
+
     ///
     /// \brief Construct a Segment
     /// \param model The joint model
@@ -43,17 +46,17 @@ public:
     /// \param PF Platform index attached to the body (-1 means no force platform acts on the body)
     ///
     Segment(
-            biorbd::rigidbody::Joints& model,
-            const biorbd::utils::String &name, 
-            const biorbd::utils::String &parentName, 
-            const biorbd::utils::String &seqT,
-            const biorbd::utils::String &seqR,
-            const std::vector<biorbd::utils::Range>& QRanges,
-            const std::vector<biorbd::utils::Range>& QDotRanges,
-            const std::vector<biorbd::utils::Range>& QDDotRanges,
-            const biorbd::rigidbody::SegmentCharacteristics& characteristics,
-            const RigidBodyDynamics::Math::SpatialTransform& cor,
-            int PF = -1);  
+        biorbd::rigidbody::Joints& model,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName,
+        const biorbd::utils::String &seqT,
+        const biorbd::utils::String &seqR,
+        const std::vector<biorbd::utils::Range>& QRanges,
+        const std::vector<biorbd::utils::Range>& QDotRanges,
+        const std::vector<biorbd::utils::Range>& QDDotRanges,
+        const biorbd::rigidbody::SegmentCharacteristics& characteristics,
+        const RigidBodyDynamics::Math::SpatialTransform& cor,
+        int PF = -1);
 
     ///
     /// \brief Construct a Segment
@@ -69,16 +72,16 @@ public:
     /// \param PF Platform index attached to the body (-1 means no force platform acts on the body)
     ///
     Segment(
-            biorbd::rigidbody::Joints& model,
-            const biorbd::utils::String &name, 
-            const biorbd::utils::String &parentName, 
-            const biorbd::utils::String &seqR,
-            const std::vector<biorbd::utils::Range>& QRanges,
-            const std::vector<biorbd::utils::Range>& QDotRanges,
-            const std::vector<biorbd::utils::Range>& QDDotRanges,
-            const biorbd::rigidbody::SegmentCharacteristics& characteristics, 
-            const RigidBodyDynamics::Math::SpatialTransform& cor, 
-            int PF = -1); 
+        biorbd::rigidbody::Joints& model,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName,
+        const biorbd::utils::String &seqR,
+        const std::vector<biorbd::utils::Range>& QRanges,
+        const std::vector<biorbd::utils::Range>& QDotRanges,
+        const std::vector<biorbd::utils::Range>& QDDotRanges,
+        const biorbd::rigidbody::SegmentCharacteristics& characteristics,
+        const RigidBodyDynamics::Math::SpatialTransform& cor,
+        int PF = -1);
 
     ///
     /// \brief Create a deep copy of Segment
@@ -91,7 +94,7 @@ public:
     /// \param other The Segment to copy
     ///
     void DeepCopy(
-            const biorbd::rigidbody::Segment& other);
+        const biorbd::rigidbody::Segment& other);
 
     ///
     /// \brief Destroy the class properly
@@ -110,7 +113,7 @@ public:
     ///
     int platformIdx() const;
 
-    /// 
+    ///
     /// \brief Return the translation sequence in text
     /// \return The translation sequence in text
     ///
@@ -120,7 +123,7 @@ public:
     /// \brief Return the angle sequence in text
     /// \return The angle sequence in text
     ///
-    const biorbd::utils::String& seqR() const; 
+    const biorbd::utils::String& seqR() const;
 
     ///
     /// \brief Return the ranges for all the dof, translations and rotations respectively
@@ -149,7 +152,7 @@ public:
     ///
     unsigned int nbDof() const;
 
-    /// 
+    ///
     /// \brief Return the number of translation DoF of the segment
     /// \return The number of translation DoF of the segment
     ///
@@ -161,7 +164,7 @@ public:
     ///
     unsigned int nbDofRot() const;
 
-    /// 
+    ///
     /// \brief Return the number of generalized coordinates
     /// \return The number of generalized coordinates
     ///
@@ -177,7 +180,7 @@ public:
     /// \brief Return the number of generalized accelerations
     /// \return The number of generalized accelerations
     ///
-    unsigned int nbQddot() const; 
+    unsigned int nbQddot() const;
 
     ///
     /// \brief Return the number of generalized torque
@@ -192,20 +195,20 @@ public:
     /// \return The index of a specified DoF
     ///
     unsigned int getDofIdx(
-            const biorbd::utils::String &dofName) const;
+        const biorbd::utils::String &dofName) const;
 
     ///
     /// \brief Return the name of the specified DoF
     /// \return The name of the specified DoF
     ///
     const biorbd::utils::String& nameDof(
-            const unsigned int i) const;
+        const unsigned int i) const;
 
     ///
     /// \brief Return the joint coordinate system (JCS) in the parent reference frame
     /// \return The joint coordinate system in the parent reference frame
     ///
-    biorbd::utils::RotoTrans localJCS() const; 
+    biorbd::utils::RotoTrans localJCS() const;
 
     ///
     /// \brief updateCharacteristics Change the inertia characteristics of the segment
@@ -221,8 +224,8 @@ public:
     /// inertia for these 3 segments as well.
     ///
     void updateCharacteristics(
-            biorbd::rigidbody::Joints& model,
-            const biorbd::rigidbody::SegmentCharacteristics& characteristics);
+        biorbd::rigidbody::Joints& model,
+        const biorbd::rigidbody::SegmentCharacteristics& characteristics);
 
     ///
     /// \brief Return the segment characteristics
@@ -250,9 +253,10 @@ protected:
     /// \brief Set the platform index
     ///
     void setPF(
-            int idx);
+        int idx);
 
-    std::shared_ptr<RigidBodyDynamics::Math::SpatialTransform> m_cor; ///< Attitude of the segment in parent reference frame
+    std::shared_ptr<RigidBodyDynamics::Math::SpatialTransform>
+    m_cor; ///< Attitude of the segment in parent reference frame
 
     ///
     /// \brief Set the DoF
@@ -264,12 +268,12 @@ protected:
     /// \param QDDotRanges Ranges of the translations and rotations dof acceleration. The length of QDDotRanges must be equal to length of translations and rotations
     ///
     void setDofs(
-            biorbd::rigidbody::Joints& model,
-            const biorbd::utils::String &seqT,
-            const biorbd::utils::String &seqR,
-            const std::vector<biorbd::utils::Range>& QRanges,
-            const std::vector<biorbd::utils::Range>& QDotRanges,
-            const std::vector<biorbd::utils::Range>& QDDotRanges);
+        biorbd::rigidbody::Joints& model,
+        const biorbd::utils::String &seqT,
+        const biorbd::utils::String &seqR,
+        const std::vector<biorbd::utils::Range>& QRanges,
+        const std::vector<biorbd::utils::Range>& QDotRanges,
+        const std::vector<biorbd::utils::Range>& QDDotRanges);
 
     ///
     /// \brief Set the total number of DoF
@@ -277,22 +281,31 @@ protected:
     /// \param nbRot Number of rotation DoF
     ///
     void setNumberOfDof(
-            unsigned int nbTrans,
-            unsigned int nbRot);
+        unsigned int nbTrans,
+        unsigned int nbRot);
 
     std::shared_ptr<biorbd::utils::String> m_seqT;  ///< Translation sequence
     std::shared_ptr<biorbd::utils::String> m_seqR;  ///< Euler rotation sequence
-    std::shared_ptr<std::vector<biorbd::utils::Range>> m_QRanges;  ///< Minimum and maximum coordinate values that each dof should hold. This is only prescriptive and can be ignored when setting the GeneralizedCoordinates
-    std::shared_ptr<std::vector<biorbd::utils::Range>> m_QDotRanges;  ///< Minimum and maximum velocity values that each dof should hold. This is only prescriptive and can be ignored when setting the GeneralizedVelocities
-    std::shared_ptr<std::vector<biorbd::utils::Range>> m_QDDotRanges;  ///< Minimum and maximum acceleration values that each dof should hold. This is only prescriptive and can be ignored when setting the GeneralizedAccelerations
+    std::shared_ptr<std::vector<biorbd::utils::Range>>
+            m_QRanges;  ///< Minimum and maximum coordinate values that each dof should hold. This is only prescriptive and can be ignored when setting the GeneralizedCoordinates
+    std::shared_ptr<std::vector<biorbd::utils::Range>>
+            m_QDotRanges;  ///< Minimum and maximum velocity values that each dof should hold. This is only prescriptive and can be ignored when setting the GeneralizedVelocities
+    std::shared_ptr<std::vector<biorbd::utils::Range>>
+            m_QDDotRanges;  ///< Minimum and maximum acceleration values that each dof should hold. This is only prescriptive and can be ignored when setting the GeneralizedAccelerations
     std::shared_ptr<unsigned int> m_nbDof;   ///< Number of degrees of freedom
     std::shared_ptr<unsigned int> m_nbQdot;  ///< Number of generalized velocities
-    std::shared_ptr<unsigned int> m_nbQddot;  ///< Number of generalized accelerations
-    std::shared_ptr<unsigned int> m_nbDofTrue;    ///< Number of degrees of freedom including the extra DoF when there is a quaternion
-    std::shared_ptr<unsigned int> m_nbDofTrueOutside; ///< Number of degree of freedom read from the outside (Same as nDof except if Quaternion)
-    std::shared_ptr<unsigned int> m_nbDofTrans; ///< Number of degrees of freedom in translation
-    std::shared_ptr<unsigned int> m_nbDofRot; ///< Number of degrees of freedom in rotation
-    std::shared_ptr<unsigned int> m_nbDofQuat; ///< Number of degrees of freedom in rotation if expressed in quaternion
+    std::shared_ptr<unsigned int>
+    m_nbQddot;  ///< Number of generalized accelerations
+    std::shared_ptr<unsigned int>
+    m_nbDofTrue;    ///< Number of degrees of freedom including the extra DoF when there is a quaternion
+    std::shared_ptr<unsigned int>
+    m_nbDofTrueOutside; ///< Number of degree of freedom read from the outside (Same as nDof except if Quaternion)
+    std::shared_ptr<unsigned int>
+    m_nbDofTrans; ///< Number of degrees of freedom in translation
+    std::shared_ptr<unsigned int>
+    m_nbDofRot; ///< Number of degrees of freedom in rotation
+    std::shared_ptr<unsigned int>
+    m_nbDofQuat; ///< Number of degrees of freedom in rotation if expressed in quaternion
 
     std::shared_ptr<bool> m_isQuaternion; ///< If DoF in rotation is a Quaternion
 
@@ -304,8 +317,10 @@ protected:
     ///
     void determineIfRotIsQuaternion(const biorbd::utils::String &seqR);
 
-    std::shared_ptr<std::vector<RigidBodyDynamics::Joint>> m_dof; ///< Actual DoF: t1, t2, t3, r1, r2, r3; where the order depends on seqT and seqR
-    std::shared_ptr<std::vector<unsigned int>> m_idxDof;  ///< Index of the parent segment
+    std::shared_ptr<std::vector<RigidBodyDynamics::Joint>>
+            m_dof; ///< Actual DoF: t1, t2, t3, r1, r2, r3; where the order depends on seqT and seqR
+    std::shared_ptr<std::vector<unsigned int>>
+                                            m_idxDof;  ///< Index of the parent segment
 
     ///
     /// \brief Set angle and translation sequences, adjust angle sequence and redeclare if is necessary
@@ -313,8 +328,8 @@ protected:
     /// \param seqR Angle sequence of the Euler rotations
     ///
     void setSequence(
-            const biorbd::utils::String &seqT,
-            const biorbd::utils::String &seqR);
+        const biorbd::utils::String &seqT,
+        const biorbd::utils::String &seqR);
 
     ///
     /// \brief Fill the transation and rotation sequences
@@ -329,8 +344,8 @@ protected:
     /// \param sequenceText The sequence to convert
     ///
     void str2numSequence(
-            std::vector<unsigned int> &sequenceInteger,
-            const biorbd::utils::String &sequenceText); 
+        std::vector<unsigned int> &sequenceInteger,
+        const biorbd::utils::String &sequenceText);
 
     ///
     /// \brief Store the sequences
@@ -338,25 +353,29 @@ protected:
     /// \param seqR Angle sequence of the Euler rotations
     ///
     void str2numSequence(
-            const biorbd::utils::String &seqT,
-            const biorbd::utils::String &seqR); 
+        const biorbd::utils::String &seqT,
+        const biorbd::utils::String &seqR);
 
-    std::shared_ptr<std::vector<unsigned int>> m_sequenceTrans; ///< Translation sequence
-    std::shared_ptr<std::vector<unsigned int>> m_sequenceRot; ///< Euler rotation sequence
-    std::shared_ptr<std::vector<biorbd::utils::String>> m_nameDof; ///< To store the DoF names
+    std::shared_ptr<std::vector<unsigned int>>
+                                            m_sequenceTrans; ///< Translation sequence
+    std::shared_ptr<std::vector<unsigned int>>
+                                            m_sequenceRot; ///< Euler rotation sequence
+    std::shared_ptr<std::vector<biorbd::utils::String>>
+            m_nameDof; ///< To store the DoF names
 
     ///
     /// \brief Function that adds the segment to the RBDL body set
     /// \param model The joint model
     ///
-    virtual void setJoints(biorbd::rigidbody::Joints& model); 
+    virtual void setJoints(biorbd::rigidbody::Joints& model);
 
     ///
     /// \brief Determine the rotation axis in relation to the requested sequence
     ///
     virtual void setJointAxis();
 
-    std::shared_ptr<std::vector<unsigned int>> m_dofPosition;  ///< Position in the x, y, and z sequence
+    std::shared_ptr<std::vector<unsigned int>>
+                                            m_dofPosition;  ///< Position in the x, y, and z sequence
 
     ///
     /// \brief Set the DoF segment characteristics on the last body
@@ -366,12 +385,15 @@ protected:
     ///
     void setDofCharacteristicsOnLastBody();
 
-    std::shared_ptr<biorbd::rigidbody::SegmentCharacteristics> m_characteristics;///< Non-used virtual segment; it allows to "save" the data and to avoid the use of multiple intermediate variables
-    std::shared_ptr<std::vector<biorbd::rigidbody::SegmentCharacteristics>> m_dofCharacteristics;  ///< Variable containing the inertial data and other from each segment (on a 6DoF segment, 0 to 4 should be empty and 5 filled)
+    std::shared_ptr<biorbd::rigidbody::SegmentCharacteristics>
+    m_characteristics;///< Non-used virtual segment; it allows to "save" the data and to avoid the use of multiple intermediate variables
+    std::shared_ptr<std::vector<biorbd::rigidbody::SegmentCharacteristics>>
+            m_dofCharacteristics;  ///< Variable containing the inertial data and other from each segment (on a 6DoF segment, 0 to 4 should be empty and 5 filled)
 
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_RIGIDBODY_SEGMENT_H

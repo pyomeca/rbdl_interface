@@ -20,9 +20,9 @@
 #include "RigidBody/MeshFace.h"
 #include "RigidBody/RigidBodyEnums.h"
 #ifdef MODULE_KALMAN
-#include "RigidBody/KalmanRecons.h"
-#include "RigidBody/KalmanReconsIMU.h"
-#include "RigidBody/KalmanReconsMarkers.h"
+    #include "RigidBody/KalmanRecons.h"
+    #include "RigidBody/KalmanReconsIMU.h"
+    #include "RigidBody/KalmanReconsMarkers.h"
 #endif
 
 #endif // BIORBD_RIGIDBODY_ALL_H

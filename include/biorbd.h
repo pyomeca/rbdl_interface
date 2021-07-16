@@ -11,10 +11,10 @@
 #include "Utils/all.h"
 #include "RigidBody/all.h"
 #ifdef MODULE_MUSCLES
-#include "Muscles/all.h"
+    #include "Muscles/all.h"
 #endif
 #ifdef MODULE_ACTUATORS
-#include "Actuators/all.h"
+    #include "Actuators/all.h"
 #endif
 
 #endif // BIORBD_ALL_H

@@ -6,21 +6,25 @@
 
 #include "biorbdConfig.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 class Matrix;
 class Vector;
 class Vector3d;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 class GeneralizedVelocity;
 class GeneralizedTorque;
 }
 
-namespace muscles {
+namespace muscles
+{
 class MuscleGroup;
 class State;
 class Muscle;
@@ -35,14 +39,14 @@ public:
     /// \brief Construct muscles
     ///
     Muscles();
-    
+
     ///
     /// \brief Construct muscles from other muscles
     /// \param other The other muscles
     ///
     Muscles(const biorbd::muscles::Muscles& other);
-    
-    /// 
+
+    ///
     /// \brief Destroy class properly
     ///
     virtual ~Muscles();
@@ -58,7 +62,7 @@ public:
     /// \param other The muscles to copy
     ///
     void DeepCopy(
-            const biorbd::muscles::Muscles& other);
+        const biorbd::muscles::Muscles& other);
 
     ///
     /// \brief Add a muscle group to the set
@@ -67,17 +71,17 @@ public:
     /// \param insertionName The insertion segment name where the origin lies
     ///
     void addMuscleGroup(
-            const biorbd::utils::String &name,
-            const biorbd::utils::String &originName,
-            const biorbd::utils::String &insertionName);
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &originName,
+        const biorbd::utils::String &insertionName);
 
     ///
-    /// \brief Return the group ID 
+    /// \brief Return the group ID
     /// \param name The name of the muscle group
     /// \return The group ID (returns -1 if not found)
     ///
     int getMuscleGroupId(
-            const biorbd::utils::String &name) const;
+        const biorbd::utils::String &name) const;
 
 
     ///
@@ -92,7 +96,7 @@ public:
     /// \return The muscle
     ///
     const biorbd::muscles::Muscle& muscle(
-            unsigned int idx) const;
+        unsigned int idx) const;
 
     ///
     /// \brief muscleNames Return the names for all the muscle ordered by their
@@ -119,7 +123,7 @@ public:
     /// \return A muscle group
     ///
     biorbd::muscles::MuscleGroup& muscleGroup(
-            unsigned int idx);
+        unsigned int idx);
 
     ///
     /// \brief Return the muscle group of specific index
@@ -127,7 +131,7 @@ public:
     /// \return A muscle group
     ///
     const biorbd::muscles::MuscleGroup& muscleGroup(
-            unsigned int idx) const;
+        unsigned int idx) const;
 
     ///
     /// \brief Return the muscle group of specific name
@@ -135,7 +139,7 @@ public:
     /// \return A muscle group
     ///
     const biorbd::muscles::MuscleGroup& muscleGroup(
-            const biorbd::utils::String& name) const;
+        const biorbd::utils::String& name) const;
 
     ///
     /// \brief Update all the muscles (positions, jacobian, etc.)
@@ -143,8 +147,8 @@ public:
     /// \param updateKin Update kinematics (0: don't update, 1:only muscles, [2: both kinematics and muscles])
     ///
     void updateMuscles(
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            bool updateKin); 
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        bool updateKin);
 
     ///
     /// \brief Update all the muscles (positions, jacobian, etc.)
@@ -153,9 +157,9 @@ public:
     /// \param updateKin Update kinematics (0: don't update, 1:only muscles, [2: both kinematics and muscles])
     ///
     void updateMuscles(
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity& QDot,
-            bool updateKin); 
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity& QDot,
+        bool updateKin);
 
     ///
     /// \brief Update by hand all the muscles (positions, jacobian, velocity, etc.)
@@ -163,8 +167,8 @@ public:
     /// \param jacoPointsInGlobal The jacobian points in global reference frame
     ///
     void updateMuscles(
-            std::vector<std::vector<biorbd::utils::Vector3d>>& musclePointsInGlobal,
-            std::vector<biorbd::utils::Matrix>& jacoPointsInGlobal); 
+        std::vector<std::vector<biorbd::utils::Vector3d>>& musclePointsInGlobal,
+        std::vector<biorbd::utils::Matrix>& jacoPointsInGlobal);
 
     ///
     /// \brief Update by hand all the muscles (positions, jacobian, velocity, etc.)
@@ -173,9 +177,9 @@ public:
     /// \param QDot The generalized velocities
     ///
     void updateMuscles(
-            std::vector<std::vector<biorbd::utils::Vector3d>>& musclePointsInGlobal,
-            std::vector<biorbd::utils::Matrix>& jacoPointsInGlobal,
-            const biorbd::rigidbody::GeneralizedVelocity& QDot);
+        std::vector<std::vector<biorbd::utils::Vector3d>>& musclePointsInGlobal,
+        std::vector<biorbd::utils::Matrix>& jacoPointsInGlobal,
+        const biorbd::rigidbody::GeneralizedVelocity& QDot);
 
     ///
     /// \brief Get the vector of state that must be used to update states
@@ -199,7 +203,7 @@ public:
     /// Warning: This function assumes that muscles are already updated (via `updateMuscles`)
     ///
     biorbd::rigidbody::GeneralizedTorque muscularJointTorque(
-            const biorbd::utils::Vector& F);
+        const biorbd::utils::Vector& F);
 
     ///
     /// \brief Compute the muscular joint torque
@@ -217,9 +221,9 @@ public:
     /// Warning: This function assumes that muscles are already updated (via `updateMuscles`)
     ///
     biorbd::rigidbody::GeneralizedTorque muscularJointTorque(
-            const biorbd::utils::Vector& F,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity& QDot);
+        const biorbd::utils::Vector& F,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity& QDot);
 
     ///
     /// \brief Compute the muscular joint torque
@@ -235,7 +239,7 @@ public:
     /// Warning: This function assumes that muscles are already updated (via `updateMuscles`)
     ///
     biorbd::rigidbody::GeneralizedTorque muscularJointTorque(
-            const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg);
+        const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg);
 
     ///
     /// \brief Compute the muscular joint torque
@@ -250,9 +254,9 @@ public:
     /// where \f$J\f$ is the muscle lengths jacobian and \f$F\f$ is the force vector of all the muscles
     ///
     biorbd::rigidbody::GeneralizedTorque muscularJointTorque(
-            const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity& QDot);
+        const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity& QDot);
 
     ///
     /// \brief Interface that returns in a vector all the activations dot
@@ -261,8 +265,8 @@ public:
     /// \return All the activations dot
     ///
     biorbd::utils::Vector activationDot(
-            const std::vector<std::shared_ptr<biorbd::muscles::State>>& states,
-            bool areadyNormalized = true);
+        const std::vector<std::shared_ptr<biorbd::muscles::State>>& states,
+        bool areadyNormalized = true);
 
     ///
     /// \brief Return the previously computed muscle length jacobian
@@ -276,7 +280,7 @@ public:
     /// \return The muscle length Jacobian
     ///
     biorbd::utils::Matrix musclesLengthJacobian(
-            const biorbd::rigidbody::GeneralizedCoordinates& Q);
+        const biorbd::rigidbody::GeneralizedCoordinates& Q);
 
     ///
     /// \brief Compute and return the muscle forces
@@ -286,7 +290,7 @@ public:
     /// Warning: This function assumes that muscles are already updated (via `updateMuscles`)
     ///
     biorbd::utils::Vector muscleForces(
-            const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg);
+        const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg);
 
     ///
     /// \brief Compute and return the muscle forces
@@ -296,21 +300,21 @@ public:
     /// \return The muscle forces
     ///
     biorbd::utils::Vector muscleForces(
-            const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg,
-            const biorbd::rigidbody::GeneralizedCoordinates& Q,
-            const biorbd::rigidbody::GeneralizedVelocity& QDot);
+        const std::vector<std::shared_ptr<biorbd::muscles::State>>& emg,
+        const biorbd::rigidbody::GeneralizedCoordinates& Q,
+        const biorbd::rigidbody::GeneralizedVelocity& QDot);
 
     ///
     /// \brief Return the total number of muscle groups
     /// \return The total number of muscle groups
     ///
-    unsigned int nbMuscleGroups() const; 
+    unsigned int nbMuscleGroups() const;
 
     ///
     /// \brief Return the total number of muscle
     /// \return The total number of muscles
     ///
-    unsigned int nbMuscleTotal() const; 
+    unsigned int nbMuscleTotal() const;
 
     ///
     /// \brief Return the total number of muscle
@@ -319,11 +323,13 @@ public:
     unsigned int nbMuscles() const;
 
 protected:
-    std::shared_ptr<std::vector<biorbd::muscles::MuscleGroup>> m_mus; ///< Holder for muscle groups
+    std::shared_ptr<std::vector<biorbd::muscles::MuscleGroup>>
+            m_mus; ///< Holder for muscle groups
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_MUSCLES_H
 

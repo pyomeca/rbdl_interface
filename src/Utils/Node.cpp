@@ -6,13 +6,14 @@
 biorbd::utils::Node::Node() :
     m_name(std::make_shared<biorbd::utils::String>("")),
     m_parentName(std::make_shared<biorbd::utils::String>("")),
-    m_typeOfNode(std::make_shared<biorbd::utils::NODE_TYPE>(biorbd::utils::NODE_TYPE::NO_NODE_TYPE))
+    m_typeOfNode(std::make_shared<biorbd::utils::NODE_TYPE>
+                 (biorbd::utils::NODE_TYPE::NO_NODE_TYPE))
 {
 
 }
 
 biorbd::utils::Node::Node(
-        const biorbd::utils::Node &other)
+    const biorbd::utils::Node &other)
 {
     // Shallow copy
     m_name = other.m_name;
@@ -23,17 +24,19 @@ biorbd::utils::Node::Node(
 biorbd::utils::Node::Node(const biorbd::utils::String &name) :
     m_name(std::make_shared<biorbd::utils::String>(name)),
     m_parentName(std::make_shared<biorbd::utils::String>("")),
-    m_typeOfNode(std::make_shared<biorbd::utils::NODE_TYPE>(biorbd::utils::NODE_TYPE::NO_NODE_TYPE))
+    m_typeOfNode(std::make_shared<biorbd::utils::NODE_TYPE>
+                 (biorbd::utils::NODE_TYPE::NO_NODE_TYPE))
 {
 
 }
 
 biorbd::utils::Node::Node(
-        const biorbd::utils::String &name,
-        const biorbd::utils::String &parentName) :
+    const biorbd::utils::String &name,
+    const biorbd::utils::String &parentName) :
     m_name(std::make_shared<biorbd::utils::String>(name)),
     m_parentName(std::make_shared<biorbd::utils::String>(parentName)),
-    m_typeOfNode(std::make_shared<biorbd::utils::NODE_TYPE>(biorbd::utils::NODE_TYPE::NO_NODE_TYPE))
+    m_typeOfNode(std::make_shared<biorbd::utils::NODE_TYPE>
+                 (biorbd::utils::NODE_TYPE::NO_NODE_TYPE))
 {
 
 }
@@ -44,7 +47,7 @@ biorbd::utils::Node::~Node()
 }
 
 void biorbd::utils::Node::DeepCopy(
-        const biorbd::utils::Node &other)
+    const biorbd::utils::Node &other)
 {
     *m_name = *other.m_name;
     *m_parentName = *other.m_parentName;
@@ -67,7 +70,7 @@ const biorbd::utils::String& biorbd::utils::Node::parent() const
 }
 
 void biorbd::utils::Node::setParent(
-        const biorbd::utils::String &name)
+    const biorbd::utils::String &name)
 {
     *m_parentName = name;
 }

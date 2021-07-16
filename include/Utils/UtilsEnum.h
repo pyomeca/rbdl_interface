@@ -1,8 +1,10 @@
 #ifndef BIORBD_UTILS_ENUMS_H
 #define BIORBD_UTILS_ENUMS_H
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 
 ///
 /// \brief The available node type
@@ -25,22 +27,31 @@ enum NODE_TYPE {
 /// \return The name of the type
 ///
 inline const char* NODE_TYPE_toStr(
-        biorbd::utils::NODE_TYPE type)
+    biorbd::utils::NODE_TYPE type)
 {
-    switch (type)
-    {
-    case VECTOR3D: return "Vector3d";
-    case BONE_POINT: return "NodeBone";
-    case ROTOTRANS: return "RotoTrans";
-    case SEGMENT: return "Segment";
-    case WRAPPING_OBJECT: return "WrappingObject";
-    case WRAPPING_HALF_CYLINDER: return "WrappingHalfCylinder";
-    case WRAPPING_SPHERE: return "WrappinSphere";
-    case VIA_POINT: return "ViaPoint";
-    default: return "NoType";
+    switch (type) {
+    case VECTOR3D:
+        return "Vector3d";
+    case BONE_POINT:
+        return "NodeBone";
+    case ROTOTRANS:
+        return "RotoTrans";
+    case SEGMENT:
+        return "Segment";
+    case WRAPPING_OBJECT:
+        return "WrappingObject";
+    case WRAPPING_HALF_CYLINDER:
+        return "WrappingHalfCylinder";
+    case WRAPPING_SPHERE:
+        return "WrappinSphere";
+    case VIA_POINT:
+        return "ViaPoint";
+    default:
+        return "NoType";
     }
 }
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_ENUMS_H

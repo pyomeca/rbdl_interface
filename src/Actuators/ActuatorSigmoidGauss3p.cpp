@@ -17,7 +17,7 @@ biorbd::actuator::ActuatorSigmoidGauss3p::ActuatorSigmoidGauss3p() :
 }
 
 biorbd::actuator::ActuatorSigmoidGauss3p::ActuatorSigmoidGauss3p(
-        const biorbd::actuator::ActuatorSigmoidGauss3p &other) :
+    const biorbd::actuator::ActuatorSigmoidGauss3p &other) :
     biorbd::actuator::Actuator(other),
     m_theta(other.m_theta),
     m_lambda(other.m_lambda),
@@ -29,13 +29,13 @@ biorbd::actuator::ActuatorSigmoidGauss3p::ActuatorSigmoidGauss3p(
 }
 
 biorbd::actuator::ActuatorSigmoidGauss3p::ActuatorSigmoidGauss3p(
-        int direction,
-        const biorbd::utils::Scalar& theta,
-        const biorbd::utils::Scalar& lambda,
-        const biorbd::utils::Scalar& offset,
-        const biorbd::utils::Scalar& r,
-        const biorbd::utils::Scalar& qopt,
-        unsigned int dofIdx) :
+    int direction,
+    const biorbd::utils::Scalar& theta,
+    const biorbd::utils::Scalar& lambda,
+    const biorbd::utils::Scalar& offset,
+    const biorbd::utils::Scalar& r,
+    const biorbd::utils::Scalar& qopt,
+    unsigned int dofIdx) :
     biorbd::actuator::Actuator(direction, dofIdx),
     m_theta(std::make_shared<biorbd::utils::Scalar>(theta)),
     m_lambda(std::make_shared<biorbd::utils::Scalar>(lambda)),
@@ -47,14 +47,14 @@ biorbd::actuator::ActuatorSigmoidGauss3p::ActuatorSigmoidGauss3p(
 }
 
 biorbd::actuator::ActuatorSigmoidGauss3p::ActuatorSigmoidGauss3p(
-        int direction,
-        const biorbd::utils::Scalar& theta,
-        const biorbd::utils::Scalar& lambda,
-        const biorbd::utils::Scalar& offset,
-        const biorbd::utils::Scalar& r,
-        const biorbd::utils::Scalar& qopt,
-        unsigned int dofIdx,
-        const biorbd::utils::String &jointName) :
+    int direction,
+    const biorbd::utils::Scalar& theta,
+    const biorbd::utils::Scalar& lambda,
+    const biorbd::utils::Scalar& offset,
+    const biorbd::utils::Scalar& r,
+    const biorbd::utils::Scalar& qopt,
+    unsigned int dofIdx,
+    const biorbd::utils::String &jointName) :
     biorbd::actuator::Actuator(direction, dofIdx, jointName),
     m_theta(std::make_shared<biorbd::utils::Scalar>(theta)),
     m_lambda(std::make_shared<biorbd::utils::Scalar>(lambda)),
@@ -70,7 +70,8 @@ biorbd::actuator::ActuatorSigmoidGauss3p::~ActuatorSigmoidGauss3p()
 
 }
 
-biorbd::actuator::ActuatorSigmoidGauss3p biorbd::actuator::ActuatorSigmoidGauss3p::DeepCopy() const
+biorbd::actuator::ActuatorSigmoidGauss3p
+biorbd::actuator::ActuatorSigmoidGauss3p::DeepCopy() const
 {
     biorbd::actuator::ActuatorSigmoidGauss3p copy;
     copy.DeepCopy(*this);
@@ -78,7 +79,7 @@ biorbd::actuator::ActuatorSigmoidGauss3p biorbd::actuator::ActuatorSigmoidGauss3
 }
 
 void biorbd::actuator::ActuatorSigmoidGauss3p::DeepCopy(
-        const biorbd::actuator::ActuatorSigmoidGauss3p &other)
+    const biorbd::actuator::ActuatorSigmoidGauss3p &other)
 {
     biorbd::actuator::Actuator::DeepCopy(other);
     *m_theta = *other.m_theta;
@@ -91,12 +92,13 @@ void biorbd::actuator::ActuatorSigmoidGauss3p::DeepCopy(
 biorbd::utils::Scalar biorbd::actuator::ActuatorSigmoidGauss3p::torqueMax()
 {
     biorbd::utils::Error::raise(
-                "torqueMax for ActuatorSigmoidGauss3p must be called with Q and Qdot");
+        "torqueMax for ActuatorSigmoidGauss3p must be called with Q and Qdot");
 }
 
 biorbd::utils::Scalar biorbd::actuator::ActuatorSigmoidGauss3p::torqueMax(
-        const biorbd::rigidbody::GeneralizedCoordinates &Q,
-        const biorbd::rigidbody::GeneralizedVelocity &Qdot){
+    const biorbd::rigidbody::GeneralizedCoordinates &Q,
+    const biorbd::rigidbody::GeneralizedVelocity &Qdot)
+{
     biorbd::utils::Scalar pos(Q[*m_dofIdx] * 180/M_PI);
     biorbd::utils::Scalar speed(Qdot[*m_dofIdx] * 180/M_PI);
 
@@ -107,6 +109,7 @@ biorbd::utils::Scalar biorbd::actuator::ActuatorSigmoidGauss3p::torqueMax(
     return Tmax * exp(-(*m_qopt - pos) * (*m_qopt - pos) / (2 * *m_r * *m_r));
 }
 
-void biorbd::actuator::ActuatorSigmoidGauss3p::setType(){
+void biorbd::actuator::ActuatorSigmoidGauss3p::setType()
+{
     *m_type = biorbd::actuator::TYPE::SIGMOIDGAUSS3P;
 }

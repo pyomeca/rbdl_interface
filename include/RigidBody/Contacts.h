@@ -6,16 +6,22 @@
 #include <rbdl/Constraints.h>
 #include "biorbdConfig.h"
 
-namespace biorbd { namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class RotoTrans;
 class Vector3d;
 class Vector;
 class String;
 class SpatialVector;
-}}
+}
+}
 
-namespace biorbd {
-namespace rigidbody {
+namespace biorbd
+{
+namespace rigidbody
+{
 class Joints;
 class GeneralizedCoordinates;
 
@@ -34,18 +40,18 @@ public:
     ///
     Contacts();
 
-    /// 
+    ///
     /// \brief Deep copy of contacts
     /// \return Copy of contacts
     ///
     biorbd::rigidbody::Contacts DeepCopy() const;
 
     ///
-    /// \brief Deep copy of contacts 
+    /// \brief Deep copy of contacts
     /// \param other The contacts to copy
-    /// 
+    ///
     void DeepCopy(
-            const biorbd::rigidbody::Contacts& other);
+        const biorbd::rigidbody::Contacts& other);
 
     ///
     /// \brief Add a constraint to the constraint set
@@ -56,11 +62,11 @@ public:
     /// \param acc The acceleration of the contact along the normal
     ///
     unsigned int AddConstraint(
-            unsigned int body_id,
-            const biorbd::utils::Vector3d &body_point,
-            const biorbd::utils::Vector3d &world_normal,
-            const biorbd::utils::String& name,
-            double acc = 0);
+        unsigned int body_id,
+        const biorbd::utils::Vector3d &body_point,
+        const biorbd::utils::Vector3d &world_normal,
+        const biorbd::utils::String& name,
+        double acc = 0);
 
     ///
     /// \brief Add a constraint to the constraint set
@@ -72,11 +78,11 @@ public:
     ///
 
     unsigned int AddConstraint(
-            unsigned int body_id,
-            const biorbd::utils::Vector3d &body_point,
-            const biorbd::utils::String& axis,
-            const biorbd::utils::String& name,
-            double acc = 0);
+        unsigned int body_id,
+        const biorbd::utils::Vector3d &body_point,
+        const biorbd::utils::String& axis,
+        const biorbd::utils::String& name,
+        double acc = 0);
 
     ///
     /// \brief Add a loop constraint to the constraint set
@@ -90,14 +96,14 @@ public:
     /// \param stabilizationParam The value used for stabilization
     ///
     unsigned int AddLoopConstraint(
-            unsigned int body_id_predecessor,
-            unsigned int body_id_successor,
-            const biorbd::utils::RotoTrans& X_predecessor,
-            const biorbd::utils::RotoTrans& X_successor,
-            const biorbd::utils::SpatialVector& axis,
-            const biorbd::utils::String& name,
-            bool enableStabilization = false,
-            double stabilizationParam = 0.1);
+        unsigned int body_id_predecessor,
+        unsigned int body_id_successor,
+        const biorbd::utils::RotoTrans& X_predecessor,
+        const biorbd::utils::RotoTrans& X_successor,
+        const biorbd::utils::SpatialVector& axis,
+        const biorbd::utils::String& name,
+        bool enableStabilization = false,
+        double stabilizationParam = 0.1);
 
     ///
     /// \brief Destroy the class properly
@@ -142,10 +148,10 @@ public:
     /// \return The contraints positions in the global reference
     ///
     std::vector<biorbd::utils::Vector3d> constraintsInGlobal(
-            const biorbd::rigidbody::GeneralizedCoordinates &Q,
-            bool updateKin); 
+        const biorbd::rigidbody::GeneralizedCoordinates &Q,
+        bool updateKin);
 
-    /// 
+    ///
     /// \brief Return the force acting on the contraint
     /// \return The force acting on the contraint
     ///
@@ -157,6 +163,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_RIGIDBODY_CONTACTS_H

@@ -9,16 +9,19 @@
 #include "Muscles/MuscleGroup.h"
 
 void Matlab_MusclesLength( int, mxArray *plhs[],
-                  int nrhs, const mxArray*prhs[] ){
+                           int nrhs, const mxArray*prhs[] )
+{
 
     // Verifier les arguments d'entrée
-    checkNombreInputParametres(nrhs, 3, 3, "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
+    checkNombreInputParametres(nrhs, 3, 3,
+                               "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
     // Recevoir le model
     biorbd::Model * model = convertMat2Ptr<biorbd::Model>(prhs[1]);
     unsigned int nQ = model->nbQ(); // Get the number of DoF
 
     // Recevoir Q
-    std::vector<biorbd::rigidbody::GeneralizedCoordinates> Q = getParameterQ(prhs, 2, nQ);
+    std::vector<biorbd::rigidbody::GeneralizedCoordinates> Q = getParameterQ(prhs,
+            2, nQ);
 
     // Cellules de sortie
     mwSize dims[2];
@@ -29,10 +32,10 @@ void Matlab_MusclesLength( int, mxArray *plhs[],
 
     // Aller chercher les valeurs
     unsigned int cmp(0);
-    for (unsigned int iQ=0; iQ<Q.size(); ++iQ){
+    for (unsigned int iQ=0; iQ<Q.size(); ++iQ) {
         int updateKin(2);
         for (unsigned int i=0; i<model->nbMuscleGroups(); ++i)
-            for (unsigned int j=0; j<model->muscleGroup(i).nbMuscles(); ++j){
+            for (unsigned int j=0; j<model->muscleGroup(i).nbMuscles(); ++j) {
                 // Recueillir toutes les longueurs musculaire
                 length[cmp]   = model->muscleGroup(i).muscle(j).length(*model,Q[iQ],updateKin);
                 updateKin = 1;
@@ -44,16 +47,19 @@ void Matlab_MusclesLength( int, mxArray *plhs[],
 }
 
 void Matlab_MusclesTendonLength( int, mxArray *plhs[],
-                  int nrhs, const mxArray*prhs[] ){
+                                 int nrhs, const mxArray*prhs[] )
+{
 
     // Verifier les arguments d'entrée
-    checkNombreInputParametres(nrhs, 3, 3, "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
+    checkNombreInputParametres(nrhs, 3, 3,
+                               "3 arguments are required where the 2nd is the handler on the model and 3rd is the Q");
     // Recevoir le model
     biorbd::Model * model = convertMat2Ptr<biorbd::Model>(prhs[1]);
     unsigned int nQ = model->nbQ(); // Get the number of DoF
 
     // Recevoir Q
-    std::vector<biorbd::rigidbody::GeneralizedCoordinates> Q = getParameterQ(prhs, 2, nQ);
+    std::vector<biorbd::rigidbody::GeneralizedCoordinates> Q = getParameterQ(prhs,
+            2, nQ);
 
     // Cellules de sortie
     mwSize dims[2];
@@ -64,12 +70,13 @@ void Matlab_MusclesTendonLength( int, mxArray *plhs[],
 
     // Aller chercher les valeurs
     unsigned int cmp(0);
-    for (unsigned int iQ=0; iQ<Q.size(); ++iQ){
+    for (unsigned int iQ=0; iQ<Q.size(); ++iQ) {
         int updateKin(2);
         for (unsigned int i=0; i<model->nbMuscleGroups(); ++i)
-            for (unsigned int j=0; j<model->muscleGroup(i).nbMuscles(); ++j){
+            for (unsigned int j=0; j<model->muscleGroup(i).nbMuscles(); ++j) {
                 // Recueillir toutes les longueurs musculaire
-                length[cmp]   = model->muscleGroup(i).muscle(j).musculoTendonLength(*model,Q[iQ],updateKin);
+                length[cmp]   = model->muscleGroup(i).muscle(j).musculoTendonLength(*model,
+                                Q[iQ],updateKin);
                 updateKin = 1;
                 ++cmp;
             }

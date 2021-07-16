@@ -7,10 +7,12 @@
 #include "processArguments.h"
 
 void Matlab_changeGravity   ( int, mxArray *plhs[],
-                  int nrhs, const mxArray*prhs[] ){
+                              int nrhs, const mxArray*prhs[] )
+{
 
     // Verifier les arguments d'entrée
-    checkNombreInputParametres(nrhs, 3, 3, "3 arguments are required where the 2nd is the handler on the model and 3rd is the gravity field 3d vector");
+    checkNombreInputParametres(nrhs, 3, 3,
+                               "3 arguments are required where the 2nd is the handler on the model and 3rd is the gravity field 3d vector");
     biorbd::Model * model = convertMat2Ptr<biorbd::Model>(prhs[1]);
 
     // Create a matrix for the return argument

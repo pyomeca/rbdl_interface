@@ -8,7 +8,7 @@
 ### New Feature Submissions:
 
 1. [ ] Does your submission pass the tests for both Eigen and CasADi backends (if not please explain why this is intended)?
-2. [ ] Have you linted your code locally prior to submission (Maximum 80 characters per line, used of camel cases variables and function)? 
+2. [ ] Have you linted your code locally prior to submission (using the command: `astyle -A10 -xC80 -z2 -xW --exclude="external" -n --recursive *.cpp *.h`)? 
 
 ### Changes to Core Features:
 

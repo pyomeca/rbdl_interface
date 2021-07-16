@@ -4,17 +4,20 @@
 #include <vector>
 #include <map>
 #include "biorbdConfig.h"
-#include "rbdl_math.h"
+#include "rbdl/rbdl_math.h"
 
-namespace biorbd {
+namespace biorbd
+{
 class Model;
 
-namespace rigidbody {
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 class Mesh;
 }
 
-namespace utils {
+namespace utils
+{
 class Path;
 class String;
 class Vector3d;
@@ -36,7 +39,7 @@ public:
     /// \param path The path of the file
     ///
     static biorbd::Model readModelFile(
-            const biorbd::utils::Path &path);
+        const biorbd::utils::Path &path);
 
     ///
     /// \brief Create a biorbd model from a bioMod file
@@ -45,8 +48,8 @@ public:
     /// \return Returns the model to fill
     ///
     static void readModelFile(
-            const biorbd::utils::Path &path,
-            biorbd::Model *model);
+        const biorbd::utils::Path &path,
+        biorbd::Model *model);
 
     ///
     /// \brief Read a bioMark file, containing markers data
@@ -54,15 +57,15 @@ public:
     /// \return Returns the markers
     ///
     static std::vector<std::vector<biorbd::utils::Vector3d>> readMarkerDataFile(
-            const utils::Path &path);
+                const utils::Path &path);
 
-    /// 
+    ///
     /// \brief Read a bioKin file, containing kinematics data
     /// \param path The path of the file
     /// \return Returns the kinematics
-    /// 
+    ///
     static std::vector<biorbd::rigidbody::GeneralizedCoordinates> readQDataFile(
-            const biorbd::utils::Path &path);
+        const biorbd::utils::Path &path);
 
     ///
     /// \brief Read a bioMus fine, containing muscle activations data
@@ -70,7 +73,7 @@ public:
     /// \return Returns the activations
     ///
     static std::vector<biorbd::utils::Vector> readActivationDataFile(
-            const biorbd::utils::Path &path);
+        const biorbd::utils::Path &path);
 
     ///
     /// \brief Read a bioTorque file containing generalized torques data
@@ -78,17 +81,17 @@ public:
     /// \return Returns the torque
     ///
     static std::vector<biorbd::utils::Vector> readTorqueDataFile(
-            const biorbd::utils::Path &path);
+        const biorbd::utils::Path &path);
 
     ///
     /// \brief Read a bioGRF file containing ground reaction force (GRF) data
     /// \param path The path of the file
     /// \return Returns the ground reaction force
-    /// 
+    ///
     static std::vector<biorbd::utils::Vector> readGroundReactionForceDataFile(
-            const biorbd::utils::Path &path);
+        const biorbd::utils::Path &path);
 
-    /// 
+    ///
     /// \brief Read a Vicon ASCII force file
     /// \param path The path of the file
     /// \param frame The fame vector (output)
@@ -96,14 +99,14 @@ public:
     /// \param force The linear forces (x,y,z) (output)
     /// \param moment The moments (x,y,z) (output)
     /// \param cop The center of pressure (x,y,z) (output)
-    /// 
+    ///
     static void readViconForceFile(
-            const biorbd::utils::Path &path,
-            std::vector<std::vector<unsigned int>> &frame,
-            std::vector<unsigned int> &frequency,
-            std::vector<std::vector<biorbd::utils::Vector3d>> &force,
-            std::vector<std::vector<biorbd::utils::Vector3d>> &moment,
-            std::vector<std::vector<biorbd::utils::Vector3d>> &cop);
+        const biorbd::utils::Path &path,
+        std::vector<std::vector<unsigned int>> &frame,
+        std::vector<unsigned int> &frequency,
+        std::vector<std::vector<biorbd::utils::Vector3d>> &force,
+        std::vector<std::vector<biorbd::utils::Vector3d>> &moment,
+        std::vector<std::vector<biorbd::utils::Vector3d>> &cop);
 
     ///
     /// \brief Read a Vicon ASCII force file
@@ -111,8 +114,8 @@ public:
     /// \return Returns all the data in a spatial transform format
     ///
     static std::vector<std::vector<biorbd::utils::SpatialVector>>
-    readViconForceFile(
-            const biorbd::utils::String &path);
+            readViconForceFile(
+                const biorbd::utils::String &path);
 
     ///
     /// \brief Read a Vicon ASCII marker file (CSV formated)
@@ -124,9 +127,9 @@ public:
     /// should be set to -1.
     ///
     static std::vector<std::vector<biorbd::utils::Vector3d>>
-    readViconMarkerFile(
-            const biorbd::utils::Path &path,
-            int nFramesToGet =-1);
+            readViconMarkerFile(
+                const biorbd::utils::Path &path,
+                int nFramesToGet =-1);
 
     ///
     /// \brief Read a Vicon ASCII marker file (CSV formated)
@@ -143,9 +146,9 @@ public:
     /// should be set to -1.
     ///
     static std::vector<std::vector<biorbd::utils::Vector3d>>  readViconMarkerFile(
-            const biorbd::utils::Path &path,
-            std::vector<biorbd::utils::String> &markOrder,
-            int nFramesToGet = -1);
+                const biorbd::utils::Path &path,
+                std::vector<biorbd::utils::String> &markOrder,
+                int nFramesToGet = -1);
 
     ///
     /// \brief Read a bioMesh file containing the meshing of a segment
@@ -153,7 +156,7 @@ public:
     /// \return Returns the mesh
     ///
     static biorbd::rigidbody::Mesh readMeshFileBiorbdSegments(
-            const biorbd::utils::Path& path);
+        const biorbd::utils::Path& path);
 
     ///
     /// \brief Read a PLY file containing the meshing of a segment
@@ -161,7 +164,7 @@ public:
     /// \return Returns the mesh
     ///
     static biorbd::rigidbody::Mesh readMeshFilePly(
-            const biorbd::utils::Path& path);
+        const biorbd::utils::Path& path);
 
     ///
     /// \brief Read a OBJ file containing the meshing of a segment
@@ -169,7 +172,7 @@ public:
     /// \return Returns the mesh
     ///
     static biorbd::rigidbody::Mesh readMeshFileObj(
-            const biorbd::utils::Path& path);
+        const biorbd::utils::Path& path);
 
 #ifdef MODULE_VTP_FILES_READER
     ///
@@ -178,7 +181,7 @@ public:
     /// \return Returns the mesh
     ///
     static biorbd::rigidbody::Mesh readMeshFileVtp(
-            const biorbd::utils::Path& path);
+        const biorbd::utils::Path& path);
 #endif
 
 protected:
@@ -189,9 +192,9 @@ protected:
     /// \param vector The vector to fill
     ///
     static void readVector3d(
-            biorbd::utils::IfStream& file,
-            const std::map<biorbd::utils::Equation, double>& variable,
-            biorbd::utils::Vector3d &vector);
+        biorbd::utils::IfStream& file,
+        const std::map<biorbd::utils::Equation, double>& variable,
+        biorbd::utils::Vector3d &vector);
 
     ///
     /// \brief Read a Matrix 3x3
@@ -200,9 +203,9 @@ protected:
     /// \param matrix The matrix to fill
     ///
     static void readMatrix33(
-            biorbd::utils::IfStream& file,
-            const std::map<biorbd::utils::Equation, double>& variable,
-            RigidBodyDynamics::Math::Matrix3d &matrix);
+        biorbd::utils::IfStream& file,
+        const std::map<biorbd::utils::Equation, double>& variable,
+        RigidBodyDynamics::Math::Matrix3d &matrix);
 
     ///
     /// \brief Read a RT matrix either in 4x4 format or Rot1233 seq Trans123 format
@@ -213,10 +216,10 @@ protected:
     /// \param RT_T The translation part to fill
     ///
     static void readRtMatrix(
-            biorbd::utils::IfStream& file,
-            const std::map<biorbd::utils::Equation, double>& variable,
-            bool RTinMatrix,
-            biorbd::utils::RotoTrans &RT);
+        biorbd::utils::IfStream& file,
+        const std::map<biorbd::utils::Equation, double>& variable,
+        bool RTinMatrix,
+        biorbd::utils::RotoTrans &RT);
 };
 
 }

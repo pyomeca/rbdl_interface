@@ -4,16 +4,20 @@
 #include "biorbdConfig.h"
 #include "Utils/Vector3d.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class String;
 }
 
-namespace muscles {
+namespace muscles
+{
 ///
 /// \brief Via point of a muscle
 ///
-class BIORBD_API ViaPoint : public biorbd::utils::Vector3d{
+class BIORBD_API ViaPoint : public biorbd::utils::Vector3d
+{
 public:
     ///
     /// \brief Contruct ViaPoint
@@ -27,9 +31,9 @@ public:
     /// \param z Z-Component of the ViaPoint
     ///
     ViaPoint(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z);
 
     ///
     /// \brief Construct ViaPoint
@@ -40,25 +44,25 @@ public:
     /// \param parentName The name of the parent segment
     ///
     ViaPoint(
-            const biorbd::utils::Scalar& x,
-            const biorbd::utils::Scalar& y,
-            const biorbd::utils::Scalar& z,
-            const biorbd::utils::String &name,  
-            const biorbd::utils::String &parentName);
+        const biorbd::utils::Scalar& x,
+        const biorbd::utils::Scalar& y,
+        const biorbd::utils::Scalar& z,
+        const biorbd::utils::String &name,
+        const biorbd::utils::String &parentName);
 
     ///
     /// \brief Construct ViaPoint from a vector
     /// \param other The vector
     ///
     ViaPoint(
-            const biorbd::utils::Vector3d& other);
+        const biorbd::utils::Vector3d& other);
 
     ///
     /// \brief Construct ViaPoint from another ViaPoint
     /// \param other The other ViaPoint
     ///
     ViaPoint(
-            const biorbd::muscles::ViaPoint& other);
+        const biorbd::muscles::ViaPoint& other);
 
     ///
     /// \brief Deep copy of a ViaPoint
@@ -77,12 +81,14 @@ public:
     /// \param other The 3D node to assign to ViaPoint
     ///
     template<typename OtherDerived>
-        biorbd::muscles::ViaPoint& operator=(const biorbd::utils::Vector3d& other){
-            this->biorbd::utils::Vector3d::operator=(other);
-            return *this;
-        }
+    biorbd::muscles::ViaPoint& operator=(const biorbd::utils::Vector3d& other)
+    {
+        this->biorbd::utils::Vector3d::operator=(other);
+        return *this;
+    }
 };
 
-}}
+}
+}
 
 #endif // BIORBD_MUSCLES_VIAPOINT_H

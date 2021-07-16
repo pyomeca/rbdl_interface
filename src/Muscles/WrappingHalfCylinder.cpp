@@ -18,12 +18,12 @@ biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder() :
 }
 
 biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
-        const biorbd::utils::Vector3d &other):
+    const biorbd::utils::Vector3d &other):
     biorbd::muscles::WrappingObject(other)
 {
     biorbd::muscles::WrappingHalfCylinder& otherWrap(
-                const_cast<biorbd::muscles::WrappingHalfCylinder&>(
-                    dynamic_cast<const biorbd::muscles::WrappingHalfCylinder&>(other)));
+        const_cast<biorbd::muscles::WrappingHalfCylinder&>(
+            dynamic_cast<const biorbd::muscles::WrappingHalfCylinder&>(other)));
     m_radius = otherWrap.m_radius;
     m_length = otherWrap.m_length;
     m_RTtoParent = otherWrap.m_RTtoParent;
@@ -33,12 +33,12 @@ biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
 }
 
 biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
-        const biorbd::utils::Vector3d *other):
+    const biorbd::utils::Vector3d *other):
     biorbd::muscles::WrappingObject(*other)
 {
     biorbd::muscles::WrappingHalfCylinder* otherWrap(
-                const_cast<biorbd::muscles::WrappingHalfCylinder*>(
-                    dynamic_cast<const biorbd::muscles::WrappingHalfCylinder*>(other)));
+        const_cast<biorbd::muscles::WrappingHalfCylinder*>(
+            dynamic_cast<const biorbd::muscles::WrappingHalfCylinder*>(other)));
     m_radius = otherWrap->m_radius;
     m_length = otherWrap->m_length;
     m_RTtoParent = otherWrap->m_RTtoParent;
@@ -48,9 +48,9 @@ biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
 }
 
 biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
-        const biorbd::utils::RotoTrans &rt,
-        const biorbd::utils::Scalar& radius,
-        const biorbd::utils::Scalar& length) :
+    const biorbd::utils::RotoTrans &rt,
+    const biorbd::utils::Scalar& radius,
+    const biorbd::utils::Scalar& length) :
     biorbd::muscles::WrappingObject (rt.trans()),
     m_radius(std::make_shared<biorbd::utils::Scalar>(radius)),
     m_length(std::make_shared<biorbd::utils::Scalar>(length)),
@@ -63,11 +63,11 @@ biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
 }
 
 biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
-        const biorbd::utils::RotoTrans &rt,
-        const biorbd::utils::Scalar& radius,
-        const biorbd::utils::Scalar& length,
-        const biorbd::utils::String &name,
-        const biorbd::utils::String &parentName) :
+    const biorbd::utils::RotoTrans &rt,
+    const biorbd::utils::Scalar& radius,
+    const biorbd::utils::Scalar& length,
+    const biorbd::utils::String &name,
+    const biorbd::utils::String &parentName) :
     biorbd::muscles::WrappingObject (rt.trans(), name, parentName),
     m_radius(std::make_shared<biorbd::utils::Scalar>(radius)),
     m_length(std::make_shared<biorbd::utils::Scalar>(length)),
@@ -79,14 +79,16 @@ biorbd::muscles::WrappingHalfCylinder::WrappingHalfCylinder(
     *m_typeOfNode = biorbd::utils::NODE_TYPE::WRAPPING_HALF_CYLINDER;
 }
 
-biorbd::muscles::WrappingHalfCylinder biorbd::muscles::WrappingHalfCylinder::DeepCopy() const
+biorbd::muscles::WrappingHalfCylinder
+biorbd::muscles::WrappingHalfCylinder::DeepCopy() const
 {
     biorbd::muscles::WrappingHalfCylinder copy;
     copy.DeepCopy(*this);
     return copy;
 }
 
-void biorbd::muscles::WrappingHalfCylinder::DeepCopy(const biorbd::muscles::WrappingHalfCylinder &other)
+void biorbd::muscles::WrappingHalfCylinder::DeepCopy(const
+        biorbd::muscles::WrappingHalfCylinder &other)
 {
     biorbd::muscles::WrappingObject::DeepCopy(other);
     *m_radius = *other.m_radius;
@@ -98,12 +100,12 @@ void biorbd::muscles::WrappingHalfCylinder::DeepCopy(const biorbd::muscles::Wrap
 }
 
 void biorbd::muscles::WrappingHalfCylinder::wrapPoints(
-        const biorbd::utils::RotoTrans& rt,
-        const biorbd::utils::Vector3d& p1_bone,
-        const biorbd::utils::Vector3d& p2_bone,
-        biorbd::utils::Vector3d& p1,
-        biorbd::utils::Vector3d& p2,
-        biorbd::utils::Scalar *length)
+    const biorbd::utils::RotoTrans& rt,
+    const biorbd::utils::Vector3d& p1_bone,
+    const biorbd::utils::Vector3d& p2_bone,
+    biorbd::utils::Vector3d& p1,
+    biorbd::utils::Vector3d& p2,
+    biorbd::utils::Scalar *length)
 {
     // This function takes the position of the wrapping and finds the location where muscle 1 and 2 leave the wrapping object
 
@@ -124,8 +126,9 @@ void biorbd::muscles::WrappingHalfCylinder::wrapPoints(
 
     // If asked, compute the distance distance traveled on the periphery of the cylinder
     // Apply pythagorus to the cercle arc
-    if (length != nullptr) // If it is not nullptr 
+    if (length != nullptr) { // If it is not nullptr
         *length = computeLength(tanPoints);
+    }
 
     // Reset the points in global (space)
     tanPoints.m_p1->applyRT(rt);
@@ -138,37 +141,41 @@ void biorbd::muscles::WrappingHalfCylinder::wrapPoints(
     // Store the values for a futur call
     m_p1Wrap = tanPoints.m_p1;
     m_p2Wrap = tanPoints.m_p2;
-    if (length != nullptr) // If it is not nullptr
+    if (length != nullptr) { // If it is not nullptr
         *m_lengthAroundWrap = *length;
+    }
 }
 
 void biorbd::muscles::WrappingHalfCylinder::wrapPoints(
-        biorbd::rigidbody::Joints& model,
-        const biorbd::rigidbody::GeneralizedCoordinates& Q,
-        const biorbd::utils::Vector3d& p1_bone,
-        const biorbd::utils::Vector3d& p2_bone,
-        biorbd::utils::Vector3d& p1,
-        biorbd::utils::Vector3d& p2,
-        biorbd::utils::Scalar *length) {
+    biorbd::rigidbody::Joints& model,
+    const biorbd::rigidbody::GeneralizedCoordinates& Q,
+    const biorbd::utils::Vector3d& p1_bone,
+    const biorbd::utils::Vector3d& p2_bone,
+    biorbd::utils::Vector3d& p1,
+    biorbd::utils::Vector3d& p2,
+    biorbd::utils::Scalar *length)
+{
     // This function takes a model and a position of the model and returns the location where muscle 1 et 2 leave the wrapping object
 
     wrapPoints(RT(model,Q), p1_bone, p2_bone, p1, p2, length);
 }
 
 void biorbd::muscles::WrappingHalfCylinder::wrapPoints(
-        biorbd::utils::Vector3d& p1,
-        biorbd::utils::Vector3d& p2,
-        biorbd::utils::Scalar *length){
+    biorbd::utils::Vector3d& p1,
+    biorbd::utils::Vector3d& p2,
+    biorbd::utils::Scalar *length)
+{
     p1 = *m_p1Wrap;
     p2 = *m_p2Wrap;
-    if (length != nullptr)
+    if (length != nullptr) {
         *length = *m_lengthAroundWrap;
+    }
 }
 
 const biorbd::utils::RotoTrans& biorbd::muscles::WrappingHalfCylinder::RT(
-        biorbd::rigidbody::Joints &model,
-        const biorbd::rigidbody::GeneralizedCoordinates& Q,
-        bool updateKin)
+    biorbd::rigidbody::Joints &model,
+    const biorbd::rigidbody::GeneralizedCoordinates& Q,
+    bool updateKin)
 {
 #ifdef BIORBD_USE_CASADI_MATH
     updateKin = true;
@@ -183,7 +190,7 @@ const biorbd::utils::RotoTrans& biorbd::muscles::WrappingHalfCylinder::RT(
 }
 
 void biorbd::muscles::WrappingHalfCylinder::setRadius(
-        const biorbd::utils::Scalar &val)
+    const biorbd::utils::Scalar &val)
 {
     *m_radius = val;
 }
@@ -199,28 +206,31 @@ biorbd::utils::Scalar biorbd::muscles::WrappingHalfCylinder::diameter() const
 }
 
 void biorbd::muscles::WrappingHalfCylinder::setLength(
-        const biorbd::utils::Scalar& val)
+    const biorbd::utils::Scalar& val)
 {
     *m_length = val;
 }
 
-const biorbd::utils::Scalar& biorbd::muscles::WrappingHalfCylinder::length() const
+const biorbd::utils::Scalar& biorbd::muscles::WrappingHalfCylinder::length()
+const
 {
     return *m_length;
 }
 
 void biorbd::muscles::WrappingHalfCylinder::findTangentToCircle(
-        const biorbd::utils::Vector3d& p,
-        biorbd::utils::Vector3d& p_tan) const {
+    const biorbd::utils::Vector3d& p,
+    biorbd::utils::Vector3d& p_tan) const
+{
     biorbd::utils::Scalar p_dot = p.block(0,0,2,1).dot(p.block(0,0,2,1));
 
-    const RigidBodyDynamics::Math::Vector2d& Q0(radius()*radius()/p_dot*p.block(0,0,2,1));
+    const RigidBodyDynamics::Math::Vector2d& Q0(radius()*radius()/p_dot*p.block(0,0,
+            2,1));
     RigidBodyDynamics::Math::Matrix2d tp(RigidBodyDynamics::Math::Matrix2d::Zero());
     tp(0, 1) = -1;
     tp(1, 0) = 1;
 
     const RigidBodyDynamics::Math::Vector2d& T(
-                radius()/p_dot*std::sqrt(p_dot-radius()*radius()) * tp * p.block(0,0,2,1));
+        radius()/p_dot*std::sqrt(p_dot-radius()*radius()) * tp * p.block(0,0,2,1));
 
     // GEt the tangent on both sides
     NodeMusclePair m(p,p);
@@ -232,34 +242,40 @@ void biorbd::muscles::WrappingHalfCylinder::findTangentToCircle(
 }
 
 void biorbd::muscles::WrappingHalfCylinder::selectTangents(
-        const NodeMusclePair &p1,
-        biorbd::utils::Vector3d &p_tan) const {
+    const NodeMusclePair &p1,
+    biorbd::utils::Vector3d &p_tan) const
+{
 #ifdef BIORBD_USE_CASADI_MATH
     p_tan = casadi::MX::if_else(
                 casadi::MX::ge((*p1.m_p2)(0), (*p1.m_p1)(0)),
                 *p1.m_p2, *p1.m_p1);
 #else
-    if ((*p1.m_p2)(0) >= (*p1.m_p1)(0))
+    if ((*p1.m_p2)(0) >= (*p1.m_p1)(0)) {
         p_tan = *p1.m_p2;
-    else
+    } else {
         p_tan = *p1.m_p1;
+    }
 #endif
 
 }
-bool biorbd::muscles::WrappingHalfCylinder::findVerticalNode(const NodeMusclePair &pointsInGlobal,
-        NodeMusclePair &pointsToWrap) const {
+bool biorbd::muscles::WrappingHalfCylinder::findVerticalNode(
+    const NodeMusclePair &pointsInGlobal,
+    NodeMusclePair &pointsToWrap) const
+{
     // Before everything, make sure the point wrap
 #ifdef BIORBD_USE_CASADI_MATH
     // In CASADI, we have to assume it does...
 #else
-    if (!checkIfWraps(pointsInGlobal, pointsToWrap)){ // If it doesn't pass by the wrap, put NaN and stop
-        for (unsigned int i=0; i<3; ++i){
-            (*pointsToWrap.m_p1)(i) = static_cast<biorbd::utils::Scalar>(static_cast<double>(NAN));
-            (*pointsToWrap.m_p2)(i) = static_cast<biorbd::utils::Scalar>(static_cast<double>(NAN));
+    if (!checkIfWraps(pointsInGlobal,
+                      pointsToWrap)) { // If it doesn't pass by the wrap, put NaN and stop
+        for (unsigned int i=0; i<3; ++i) {
+            (*pointsToWrap.m_p1)(i) = static_cast<biorbd::utils::Scalar>
+                                      (static_cast<double>(NAN));
+            (*pointsToWrap.m_p2)(i) = static_cast<biorbd::utils::Scalar>
+                                      (static_cast<double>(NAN));
         }
         return false;
-    }
-    else{
+    } else {
         // Make sure the z component won't cause any problem in the rotation computation
         (*pointsToWrap.m_p1)(2) = 0;
         (*pointsToWrap.m_p2)(2) = 0;
@@ -299,58 +315,75 @@ bool biorbd::muscles::WrappingHalfCylinder::findVerticalNode(const NodeMusclePai
 
     // The height depends on the relative distance
     (*pointsToWrap.m_p1)(2) = biorbd::utils::Scalar(wrapA(0)-globB(0)) /
-            biorbd::utils::Scalar(globA(0)-globB(0)) *
-            ((*pointsInGlobal.m_p1)(2)-(*pointsInGlobal.m_p2)(2)) + (*pointsInGlobal.m_p2)(2);
+                              biorbd::utils::Scalar(globA(0)-globB(0)) *
+                              ((*pointsInGlobal.m_p1)(2)-(*pointsInGlobal.m_p2)(2)) + (*pointsInGlobal.m_p2)(
+                                  2);
     (*pointsToWrap.m_p2)(2) = biorbd::utils::Scalar(wrapB(0)-globB(0)) /
-            biorbd::utils::Scalar(globA(0)-globB(0)) *
-            ((*pointsInGlobal.m_p1)(2)-(*pointsInGlobal.m_p2)(2)) + (*pointsInGlobal.m_p2)(2);
+                              biorbd::utils::Scalar(globA(0)-globB(0)) *
+                              ((*pointsInGlobal.m_p1)(2)-(*pointsInGlobal.m_p2)(2)) + (*pointsInGlobal.m_p2)(
+                                  2);
 
     return true;
 }
 
 #ifndef BIORBD_USE_CASADI_MATH
 bool biorbd::muscles::WrappingHalfCylinder::checkIfWraps(
-        const NodeMusclePair &pointsInGlobal,
-        NodeMusclePair &pointsToWrap) const {
+    const NodeMusclePair &pointsInGlobal,
+    NodeMusclePair &pointsToWrap) const
+{
     bool isWrap = 1;
     // It seems that all this function is ignored up to the last check... Once
     // it is checked, validate the Casadi implementation
 
     // First quick tests
     // if both points are on the left and we have to go left
-    if ((*pointsInGlobal.m_p1)(0) > radius() && (*pointsInGlobal.m_p2)(0) > radius())
+    if ((*pointsInGlobal.m_p1)(0) > radius()
+            && (*pointsInGlobal.m_p2)(0) > radius()) {
         isWrap = false;
+    }
 
-    // If we are on top of the wrap, it is impossible to determine because the wrap Si on est en haut du wrap*, 
+    // If we are on top of the wrap, it is impossible to determine because the wrap Si on est en haut du wrap*,
     // is not a cylinder but a half-cylinder
     // * en haut lorsque vue de dessus avec l'axe y pointant vers le haut...
-    if ( ( (*pointsInGlobal.m_p1)(1) > 0 && (*pointsInGlobal.m_p2)(1) > 0) || ( (*pointsInGlobal.m_p1)(1) < 0 && (*pointsInGlobal.m_p2)(1) < 0) )
+    if ( ( (*pointsInGlobal.m_p1)(1) > 0 && (*pointsInGlobal.m_p2)(1) > 0)
+            || ( (*pointsInGlobal.m_p1)(1) < 0
+                 && (*pointsInGlobal.m_p2)(1) < 0) ) {
         isWrap = false;
+    }
 
     // If we have a height* smaller than the radius, there is a numerical aberation
     // * en haut lorsque vue de dessus avec l'axe y pointant vers le haut...
-    if ( fabs( (*pointsInGlobal.m_p1)(1)) < radius() || fabs( (*pointsInGlobal.m_p2)(1)) < radius() )
+    if ( fabs( (*pointsInGlobal.m_p1)(1)) < radius()
+            || fabs( (*pointsInGlobal.m_p2)(1)) < radius() ) {
         isWrap = false;
+    }
 
     // If we have reached this stage, one test is left
     // If the straight line between the two points go through the cylinder,there is a wrap
-    if (    ( (*pointsToWrap.m_p1)(0) < (*pointsToWrap.m_p2)(0) && (*pointsInGlobal.m_p1)(0) > (*pointsInGlobal.m_p2)(0)) ||
-            ( (*pointsToWrap.m_p1)(0) > (*pointsToWrap.m_p2)(0) && (*pointsInGlobal.m_p1)(0) < (*pointsInGlobal.m_p2)(0))   )
+    if (    ( (*pointsToWrap.m_p1)(0) < (*pointsToWrap.m_p2)(0)
+              && (*pointsInGlobal.m_p1)(0) > (*pointsInGlobal.m_p2)(0)) ||
+            ( (*pointsToWrap.m_p1)(0) > (*pointsToWrap.m_p2)(0)
+              && (*pointsInGlobal.m_p1)(0) < (*pointsInGlobal.m_p2)(0))   ) {
         isWrap = false;
-    else
+    } else {
         isWrap = true;
+    }
 
     // Return the answer
     return isWrap;
 }
 #endif
 
-biorbd::utils::Scalar biorbd::muscles::WrappingHalfCylinder::computeLength(const NodeMusclePair &p) const {
-    biorbd::utils::Scalar arc = std::acos(    ( (*p.m_p1)(0) * (*p.m_p2)(0) + (*p.m_p1)(1) * (*p.m_p2)(1))
-                                            /
-             std::sqrt( ((*p.m_p1)(0) * (*p.m_p1)(0) + (*p.m_p1)(1) * (*p.m_p1)(1)) *
-                        ( (*p.m_p2)(0) * (*p.m_p2)(0) + (*p.m_p2)(1) * (*p.m_p2)(1))   )
-            ) * radius();
+biorbd::utils::Scalar biorbd::muscles::WrappingHalfCylinder::computeLength(
+    const NodeMusclePair &p) const
+{
+    biorbd::utils::Scalar arc = std::acos(    ( (*p.m_p1)(0) * (*p.m_p2)(0) +
+                                (*p.m_p1)(1) * (*p.m_p2)(1))
+                                /
+                                std::sqrt( ((*p.m_p1)(0) * (*p.m_p1)(0) + (*p.m_p1)(1) * (*p.m_p1)(1)) *
+                                           ( (*p.m_p2)(0) * (*p.m_p2)(0) + (*p.m_p2)(1) * (*p.m_p2)(1))   )
+                                         ) * radius();
 
-    return std::sqrt(arc*arc + ( (*p.m_p1)(2) - (*p.m_p2)(2)) * ( (*p.m_p1)(2) - (*p.m_p2)(2))  );
+    return std::sqrt(arc*arc + ( (*p.m_p1)(2) - (*p.m_p2)(2)) * ( (*p.m_p1)(2) -
+                     (*p.m_p2)(2))  );
 }

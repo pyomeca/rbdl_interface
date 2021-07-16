@@ -16,7 +16,8 @@ biorbd::rigidbody::MeshFace biorbd::rigidbody::MeshFace::DeepCopy() const
     return copy;
 }
 
-void biorbd::rigidbody::MeshFace::DeepCopy(const biorbd::rigidbody::MeshFace &other)
+void biorbd::rigidbody::MeshFace::DeepCopy(const biorbd::rigidbody::MeshFace
+        &other)
 {
     *m_face = *other.m_face;
 }
@@ -29,8 +30,8 @@ int &biorbd::rigidbody::MeshFace::operator()(unsigned int idx)
 biorbd::utils::Vector3d biorbd::rigidbody::MeshFace::faceAsDouble()
 {
     return biorbd::utils::Vector3d(static_cast<double>((*m_face)[0]),
-        static_cast<double>((*m_face)[1]),
-            static_cast<double>((*m_face)[2]));
+                                   static_cast<double>((*m_face)[1]),
+                                   static_cast<double>((*m_face)[2]));
 }
 
 std::vector<int> biorbd::rigidbody::MeshFace::face()
@@ -43,7 +44,8 @@ void biorbd::rigidbody::MeshFace::setFace(const std::vector<int> & pts)
     *m_face = pts;
 }
 
-void biorbd::rigidbody::MeshFace::setFace(const biorbd::rigidbody::MeshFace &other)
+void biorbd::rigidbody::MeshFace::setFace(const biorbd::rigidbody::MeshFace
+        &other)
 {
     m_face = other.m_face;
 }

@@ -7,7 +7,7 @@ SET(BUILD_SHARED_LIBS_C TRUE CACHE BOOL
     "Choose if the static library should be build")
 
 # Get the file to compile
-set(C_FILE ${C_BINDING_PATH}/${BIORBD_NAME}_c.cpp)
+set(C_FILE ${C_BINDING_PATH}/${BIORBD_NAME_NO_SUFFIX}_c.cpp)
 if (BUILD_SHARED_LIBS_C)
     add_library(${PROJECT_NAME} SHARED ${C_FILE})
 else()

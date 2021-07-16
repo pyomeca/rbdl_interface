@@ -5,12 +5,15 @@
 #include <vector>
 #include "biorbdConfig.h"
 
-namespace biorbd {
-namespace utils {
+namespace biorbd
+{
+namespace utils
+{
 class Vector3d;
 }
 
-namespace rigidbody {
+namespace rigidbody
+{
 
 ///
 /// \brief The face of the mesh
@@ -23,7 +26,7 @@ public:
     /// \param vertex The vertex to connect to form a face
     ///
     MeshFace(
-            const std::vector<int>& vertex= std::vector<int>(3));
+        const std::vector<int>& vertex= std::vector<int>(3));
 
     ///
     /// \brief Deep copy of a MeshFace
@@ -36,7 +39,7 @@ public:
     /// \param other The MeshFace to copy
     ///
     void DeepCopy(
-            const biorbd::rigidbody::MeshFace& other);
+        const biorbd::rigidbody::MeshFace& other);
 
     ///
     /// \brief Allows to assign/get using ()
@@ -55,7 +58,7 @@ public:
     /// \param other The other MeshFace
     ///
     void setFace(
-            const biorbd::rigidbody::MeshFace& other);
+        const biorbd::rigidbody::MeshFace& other);
 
     ///
     /// \brief convert the integer nature of the face to a double
@@ -74,6 +77,7 @@ protected:
 
 };
 
-}}
+}
+}
 
 #endif // BIORBD_RIGIDBODY_MESH_FACE_H

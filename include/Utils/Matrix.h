@@ -2,14 +2,17 @@
 #define BIORBD_UTILS_MATRIX_H
 
 #include "biorbdConfig.h"
-#include "rbdl_math.h"
+#include "rbdl/rbdl_math.h"
 
-namespace biorbd {
-namespace rigidbody {
+namespace biorbd
+{
+namespace rigidbody
+{
 class GeneralizedCoordinates;
 }
 
-namespace utils {
+namespace utils
+{
 ///
 /// \brief A wrapper for the Eigen::MatrixXd
 ///
@@ -30,8 +33,9 @@ public:
     /// \brief Construct matrix from another Eigen matrix
     /// \param other The other Eigen matrix
     ///
-    template<typename OtherDerived> Matrix(const Eigen::MatrixBase<OtherDerived>& other) :
-        Eigen::MatrixXd(other){}
+    template<typename OtherDerived> Matrix(const Eigen::MatrixBase<OtherDerived>&
+                                           other) :
+        Eigen::MatrixXd(other) {}
 #endif
 #ifdef BIORBD_USE_CASADI_MATH
 
@@ -40,21 +44,21 @@ public:
     /// \param other The matrix to copy
     ///
     Matrix(
-            const biorbd::utils::Matrix& other);
+        const biorbd::utils::Matrix& other);
 
     ///
     /// \brief Construct matrix from Casadi matrix
     /// \param other The matrix to copy
     ///
     Matrix(
-            const RigidBodyDynamics::Math::MatrixNd& other);
+        const RigidBodyDynamics::Math::MatrixNd& other);
 
     ///
     /// \brief Construct matrix from Casadi matrix
     /// \param other The matrix to copy
     ///
     Matrix(
-            const RBDLCasadiMath::MX_Xd_SubMatrix& other);
+        const RBDLCasadiMath::MX_Xd_SubMatrix& other);
 
 #endif
 
@@ -64,8 +68,8 @@ public:
     /// \param nbCols Number of columns
     ///
     Matrix(
-            unsigned int nbRows,
-            unsigned int nbCols);
+        unsigned int nbRows,
+        unsigned int nbCols);
 
 #ifndef SWIG
 
@@ -75,10 +79,11 @@ public:
     /// \param other The other Eigen matrix
     ///
     template<typename OtherDerived>
-        biorbd::utils::Matrix& operator=(const Eigen::MatrixBase <OtherDerived>& other){
-            this->Eigen::MatrixXd::operator=(other);
-            return *this;
-        }
+    biorbd::utils::Matrix& operator=(const Eigen::MatrixBase <OtherDerived>& other)
+    {
+        this->Eigen::MatrixXd::operator=(other);
+        return *this;
+    }
 #endif
 #ifdef BIORBD_USE_CASADI_MATH
 
@@ -87,19 +92,20 @@ public:
     /// \param other The matrix to copy
     ///
     void operator=(
-            const biorbd::utils::Matrix& other);
+        const biorbd::utils::Matrix& other);
 
     ///
     /// \brief operator= For submatrices
     /// \param other The matrix to copy
     ///
     void operator=(
-            const RBDLCasadiMath::MX_Xd_SubMatrix& other);
+        const RBDLCasadiMath::MX_Xd_SubMatrix& other);
 #endif
 
 #endif
 };
 
-}}
+}
+}
 
 #endif // BIORBD_UTILS_MATRIX_H
